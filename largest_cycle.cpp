@@ -1,3 +1,14 @@
+/**
+ *  This program takes in two integers and computes the longest cycle for a
+ * given integer between the two input integers to complete this algorithm:
+ * 1.  input n
+ * 2.  print n
+ * 3. if n = 1 then STOP
+ * 4. if n is odd then
+ * 5. else
+ * 6.  GOTO 2
+ */
+
 #include <iostream>
 
 using namespace std;
@@ -50,9 +61,7 @@ int findMax(int oldMax, int potentialMax) {
  * @seed
  * It returns the cycle length of the particular operation.
  */
- // Todo: what if it's not a positive int?
 int cycleLength(int seed) {
-  // Off by one error? Is 1 a corner case?
   //  1 : 1
   //  2 : 2 1
   //  8 : 3 10 5 16 8 4 2 1
