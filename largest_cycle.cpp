@@ -4,8 +4,8 @@
  * 1.  input n
  * 2.  print n
  * 3. if n = 1 then STOP
- * 4. if n is odd then
- * 5. else
+ * 4. if n is odd then n now equals 3n + 1
+ * 5. else n now equals n/2
  * 6.  GOTO 2
  */
 
@@ -25,9 +25,9 @@ int cycleLength(int seed);
 int main() {
   int rangeBottom, rangeTop, max = 0;
 
-  cout << "Please input the bottom of the range: ";
+  // cout << "Please input the bottom of the range: ";
   cin >> rangeBottom;
-  cout << "Please input the top of the range: ";
+  // cout << "Please input the top of the range: ";
   cin >> rangeTop;
 
   // iterate over the range, looking for the new max
@@ -40,7 +40,8 @@ int main() {
     }
   }
 
-  cout << "The longest cycle is this long: " << max << endl;
+  // cout << "The longest cycle is this long: " << max << endl;
+  cout << rangeBottom << " " << rangeTop << " " << max << endl;
   return max;
 }
 
