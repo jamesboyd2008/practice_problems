@@ -1,6 +1,9 @@
 # spike programs
 spikey.cpp
+testaroni.cpp
+test_driver.cpp
 
 # executables
+driver
 largeness
 spikerson
