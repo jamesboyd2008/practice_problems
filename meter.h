@@ -1,4 +1,6 @@
 // This file constains the Pedometer class and it's functions.
+#ifndef _METER_H
+#define _METER_H
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -13,7 +15,7 @@ class Pedometer
   private:
     int stepsTaken, strideLength;
   public:
-    Pedometer(); // default constructor (0 params)
+    Pedometer();
     Pedometer(int steps, int stride);
     void setSteps(int);
     int getSteps();
@@ -21,7 +23,10 @@ class Pedometer
     int getStride();
     void reset();
     void increment(int);
-    friend ostream &operator<<(ostream& outputs, const Pedometer meter);
+    friend ostream &operator<<(ostream &output, Pedometer meter);
+    friend istream &operator>>(istream &input, Pedometer &meter);
+    double getCalories();
+    double getKm();
 };
 
 /**
@@ -85,21 +90,30 @@ int Pedometer::getStride()
 // overloads the insertion operator (<<) to recognize an ostream object on the
 // left, and a Pedometer object on the right so that when one cout's a
 // Pedometer object, steps walked, km walked, and Calories burned are displayed.
-ostream &operator<<(ostream& output, const Pedometer meter)
+ostream &operator<<(ostream &output, Pedometer meter)
 {
   output << "You've taken " << meter.stepsTaken << " steps.\n";
   output << "Your stride length is " << meter.strideLength << " cm.\n";
+  output << "You've walked " << meter.getKm() << " km.\n";
+  output << "You've burned " << meter.getCalories() << " Calories.\n\n";
   return output;
 }
 
-// // inputs the steps taken and stride length returning a pedometer.
-// istream& operator >>(istream& input)
-// {
-//   int steps, stride;
-//   input >> steps >> stride;
-//   Pedometer customMeter(steps, stride);
-//   return customMeter;
-// }
+// overloads the extraction opertor (>>)
+istream &operator>>(istream &input, Pedometer &meter)
+{
+  int steps, stride;
+
+  cout << "How many steps have been taken? ";
+  input >> steps;
+  cout << "How long is your stride, in cm? ";
+  input >> stride;
+
+  meter.setSteps(steps);
+  meter.setStride(stride);
+
+  return input;
+}
 
 /**
  *  a mutator function that sets the steps to zero.
@@ -121,3 +135,22 @@ void Pedometer::increment(int steps)
     stepsTaken++;
   }
 }
+
+/**
+ *  a function that returns an integer, the Calories burned.
+ * @return an integer.
+ **/
+double Pedometer::getCalories()
+{
+  return (double)(stepsTaken) / 36.0;
+}
+
+/**
+ *  a function that returns a double, the distance walked, in kilometers.
+ *  @return a double.
+ */
+double Pedometer::getKm()
+{
+  return (double)(stepsTaken * strideLength) / 100000.0;
+}
+#endif

@@ -3,26 +3,28 @@
 
 int main()
 {
-  cout << "The driver is running.\n";
+  cout << "You just ate a Big Mac. Attempt to burn off those 560 \n"
+  << "Calories by taking 1400 steps to walk around Liliuokalani \n" << "Gardens. It takes you 36 steps to burn 1 Calorie.\n\n";
 
   Pedometer meter;
-  cout << "Your default stride length is " << meter.getStride()
-       << " centimeters.\n";
+  cin >> meter;
+  cout << meter;
 
-  Pedometer customMeter(42, 1000);
-  cout << "Your custom step count is: " << customMeter.getSteps() << endl;
-  cout << "Your custom stride length is: " << customMeter.getStride() << endl;
-
-  customMeter.reset();
-  cout << "Your custom step count, after reset, is: " <<
-       customMeter.getSteps() << endl;
-
-  cout << "How many steps are to be added? ";
+  string response = "y";
   int steps;
-  cin >> steps;
-  customMeter.increment(steps);
-  cout << "Your custom step count, after increments, is: " <<
-  customMeter.getSteps() << endl;
 
-  cout << customMeter;
+  while ((meter.getCalories() < 560) && (response == "y"))
+  {
+    cout << "Would you like to keep going? y/n: ";
+    cin >> response;
+    if (response == "n")
+    {
+      meter.reset();
+    } else {
+      cout << "How many more steps have you taken? ";
+      cin >> steps;
+      meter.increment(steps);
+      cout << meter;
+    }
+  }
 }
