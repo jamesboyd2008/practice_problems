@@ -6,7 +6,8 @@ int main()
   cout << "The driver is running.\n";
 
   Pedometer meter;
-  cout << "Your default stride length is " << meter.getStride() << " centimeters.\n";
+  cout << "Your default stride length is " << meter.getStride()
+       << " centimeters.\n";
 
   Pedometer customMeter(42, 1000);
   cout << "Your custom step count is: " << customMeter.getSteps() << endl;
@@ -16,4 +17,12 @@ int main()
   cout << "Your custom step count, after reset, is: " <<
        customMeter.getSteps() << endl;
 
+  cout << "How many steps are to be added? ";
+  int steps;
+  cin >> steps;
+  customMeter.increment(steps);
+  cout << "Your custom step count, after increments, is: " <<
+  customMeter.getSteps() << endl;
+
+  cout << customMeter;
 }

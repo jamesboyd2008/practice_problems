@@ -1,5 +1,7 @@
-// This file constains the Pedometer class and it's functions
+// This file constains the Pedometer class and it's functions.
 #include <iostream>
+#include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -19,6 +21,7 @@ class Pedometer
     int getStride();
     void reset();
     void increment(int);
+    friend ostream &operator<<(ostream& outputs, const Pedometer meter);
 };
 
 /**
@@ -79,15 +82,16 @@ int Pedometer::getStride()
   return strideLength; // centimeters
 }
 
-// // outputs the numbers of steps walked, km walked, and Calories burned,
-// // returning a string.
-// ostream& operator <<(ostream& output, const Pedometer& meter)
-// {
-//   output << "You've taken " << meter.stepsTaken << " steps.\n";
-//   output << "Your stride is " << meter.strideLength << " cm.\n";
-//   return output;
-// }
-//
+// overloads the insertion operator (<<) to recognize an ostream object on the
+// left, and a Pedometer object on the right so that when one cout's a
+// Pedometer object, steps walked, km walked, and Calories burned are displayed.
+ostream &operator<<(ostream& output, const Pedometer meter)
+{
+  output << "You've taken " << meter.stepsTaken << " steps.\n";
+  output << "Your stride length is " << meter.strideLength << " cm.\n";
+  return output;
+}
+
 // // inputs the steps taken and stride length returning a pedometer.
 // istream& operator >>(istream& input)
 // {
@@ -105,9 +109,15 @@ void Pedometer::reset()
   stepsTaken = 0;
 }
 
-// Increment – We are going to cheat a little bit and allow the pedometer to increment by any amount of steps, provided that it is a positive integer.
-
+/**
+ *  increments the steps by the amount of the singular argument, an integer.
+ *  @param steps an integer.
+ *  @return void.
+ */
 void Pedometer::increment(int steps)
 {
-  
+  for (int i = 0; i < steps; i++)
+  {
+    stepsTaken++;
+  }
 }
