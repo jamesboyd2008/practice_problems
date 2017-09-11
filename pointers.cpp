@@ -25,7 +25,7 @@ int main() {
   cout << "v1: " << v1 << endl;
   cout << "p1: " << p1 << endl;
   cout << "&v1: " << &v1 << endl;
-  cout << "*p1: " << *p1 << endl;
+  cout << "*p1: " << *p1 << "\n\n";
 
   // Add the command `p1 = new int` after your output from part 1.
   p1 = new int;
@@ -41,7 +41,7 @@ int main() {
   cout << "v1: " << v1 << endl;
   cout << "p1: " << p1 << endl;
   cout << "&v1: " << &v1 << endl;
-  cout << "*p1: " << *p1 << endl;
+  cout << "*p1: " << *p1 << "\n\n";
 
   delete p1;
   p1 = nullptr;
@@ -77,25 +77,23 @@ int main() {
   cout << "v2: " << v2 << endl;
   cout << "p2: " << p2 << endl;
   cout << "p3: " << p3 << endl;
-  cout << "&v2: " << &v1 << endl;
+  cout << "&v2: " << &v2 << endl;
   cout << "*p2: " << *p2 << endl;
-  cout << "*p3: " << *p3 << endl;
+  cout << "*p3: " << *p3 << "\n\n";
 
-  // delet p1.
-  // pickup here
-  // delete p2;
+  // delete p1.
+  p2 = new int;
+  delete p2;
   // p2 = nullptr;
-  //
-  // p3 = new int;
 
   // Output the values of v1, p1, p2, &v1, *p1 and *p2.
-  //==> throws an error.
+  cout << "After deleting p2: \n";
   cout << "v2: " << v2 << endl;
   cout << "p2: " << p2 << endl;
   cout << "p3: " << p3 << endl;
   cout << "&v2: " << &v1 << endl;
   cout << "*p2: " << *p2 << endl;
-  cout << "*p3: " << *p3 << endl;
+  cout << "*p3: " << *p3 << "\n\n";
 
   return 0;
 }
