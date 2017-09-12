@@ -3,7 +3,7 @@
 #define _Player_H
 #include <iostream>
 #include <sstream>
-// #include <string>
+#include <ctime>
 using namespace std;
 
 class Player
@@ -12,11 +12,13 @@ class Player
     string name;
     int points;
     int location[2];
+    int startTime;
   public:
     Player();
     void setName();
     string getName();
-    void setPoints(int newPoints);
+    void decrementPoints();
+    void incrementPoints();
     int getPoints();
     void setLocation(int row, int column);
     int * getLocation();
@@ -24,15 +26,17 @@ class Player
 };
 
 /**
- *  a contruscotr, initializes the player's location at [0, 0] and their
- *  points at 0.
+ *  a contructor, initializing the player's location at [0, 0],
+ *  their start time at the point of initializatoin, and their
+ *  points at 10.
  *  @return Player
  */
 Player::Player()
 {
   location[0] = 0;
   location[1] = 0;
-  points = 0;
+  startTime = time(0);
+  points = 3;
 }
 
 /**
@@ -56,13 +60,19 @@ string Player::getName()
 }
 
 /**
- *  a mutator function that sets they players points, taking an integer
- *  as an argument.
- *  @param newPoints
+ *  a mutator function that reduces the players points.
  */
-void Player::setPoints(int newPoints)
+void Player::decrementPoints()
 {
-  points += newPoints;
+  points -= 1;
+}
+
+/**
+ *  a mutator function that increases the players points.
+ */
+void Player::incrementPoints()
+{
+  points += 1;
 }
 
 /**
@@ -97,7 +107,8 @@ ostream &operator<<(ostream &output, Player player)
   output << "Your name is " << player.name << ".\n";
   output << "You have " << player.points << " points.\n";
   output << "Your location is zone ["
-         << player.location[0] << "][" << player.location[1] << "].\n";
+         << player.location[0] << "][" << player.location[1] << "].\n"
+         << "You  must reach  zone [5][5]\n\n";
   return output;
 }
 #endif
