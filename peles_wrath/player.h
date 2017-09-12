@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 // #include <string>
-using namespace.std;
+using namespace std;
 
 class Player
 {
@@ -18,9 +18,10 @@ class Player
     string getName();
     void setPoints(int newPoints);
     int getPoints();
-    void setLocation();
+    void setLocation(int row, int column);
     int * getLocation();
-}
+    friend ostream &operator<<(ostream &output, Player player);
+};
 
 /**
  *  a contruscotr, initializes the player's location at [0, 0] and their
@@ -41,7 +42,7 @@ void Player::setName()
 {
   string response;
   cout << "What's your character's name? ";
-  cin << response;
+  cin >> response;
   name = response;
 }
 
@@ -94,7 +95,7 @@ int * Player::getLocation()
 ostream &operator<<(ostream &output, Player player)
 {
   output << "Your name is " << player.name << ".\n";
-  output << "You have " player.points << ".\n";
+  output << "You have " << player.points << " points.\n";
   output << "Your location is zone ["
          << player.location[0] << "][" << player.location[1] << "].\n";
   return output;
