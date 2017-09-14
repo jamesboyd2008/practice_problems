@@ -1,4 +1,4 @@
-// This is driver for the game
+// This is the driver for the game
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -7,18 +7,21 @@
 #include "player.h"
 using namespace std;
 
+// unsigned seed;
+// seed = time(0);
+// srand(seed);
+
+// global(s) ...sorry
+Player player; // instantiates the player
+ZoneMap theMap; // instantiates the map
+
 void move();
 void challenge();
-bool handleResponse(string response);
-
-Player player; // instantiates the player
+void handleResponse(Zone zone, int ttl, int timeStart);
+void swim();
 
 int main()
 {
-  unsigned seed;
-  seed = time(0);
-  srand(seed);
-  ZoneMap theMap; // instantiates the map
 
   cout << "\x1B[2J\x1B[H"; // clears the screen
   cout << "You find yourself on a tropical island...\n";
@@ -31,25 +34,29 @@ int main()
   cout << player.getName() << ", you see a lava flow heading your way.\n";
   cin.get();
 
-  while (player.getPoints() < 10)
+  while (player.getPoints() < 99)
   {
-    // navigate
-    // get prompted for question
-    // answer question
-    // die or keep going
-    // increment score
     move(); // sets players location
-    // challenge(); // asks them a question
+    if (player.getPoints() < 99)
+      challenge(); // asks them a question
   }
 
-  cout << "Congratuations, " << player.getName()
-       << "! You swam to Maui.\n\nTHE END\n\n";
+  if (player.isAlive())
+  {
+    swim();
+    cout << "Congratuations, " << player.getName()
+         << "! You swam to Maui.\n\nTHE END\n\n";
+  }
+  else
+  {
+    cout << "You died in the lava flow.\n\nTHE END\n\n";
+  }
 
   return 0;
 }
 
 /**
- *  prompts user for input and gets their next move.
+ *  prompts user for input and gets their next move. Sets their new location.
  */
 void move()
 {
@@ -57,8 +64,9 @@ void move()
   bool validChoice = false;
   bool dry = true;
 
-  cout << "\x1B[2J\x1B[H"; // clears the screen
-  cout << player;
+  // clears the screen
+  cout << "\x1B[2J\x1B[H";
+  cout << player << "\n\n";
 
   int location[2];
   location[0] = player.getLocation()[0];
@@ -67,7 +75,7 @@ void move()
   while
   (
     (validChoice == false || dry == false) &&
-    player.getPoints() < 10
+    player.getPoints() < 99
   )
   {
     // player is in the top left corner
@@ -90,11 +98,7 @@ void move()
     else if (location[0] == 4 && location[1] == 4)
     {
       // swim to Maui!
-      cout << "\x1B[2J\x1B[H"; // clears the screen
-      cout << player;
-      cout << "You're in the ocean! Press enter to swim!\n";
-      cin.get();
-      player.incrementPoints();
+      swim();
       dry = false;
     }
     // player is in the bottom left corner
@@ -105,35 +109,40 @@ void move()
       if (choice == "N" || choice == "E")
         validChoice = true;
     }
-    else if (location[1] == 0) // player borders the left edge
+    // player borders the left edge
+    else if (location[1] == 0)
     {
       cout << "Choose a direction: N, S, or E: ";
       cin >> choice;
       if (choice == "N" || choice == "S" || choice == "E")
         validChoice = true;
     }
-    else if (location[0] == 0) // player borders the top edge
+    // player borders the top edge
+    else if (location[0] == 0)
     {
       cout << "Choose a direction: S, E, or W: ";
       cin >> choice;
       if (choice == "S" || choice == "E" || choice == "W")
         validChoice = true;
     }
-    else if (location[1] == 4) // player borders the right edge
+    // player borders the right edge
+    else if (location[1] == 4)
     {
       cout << "Choose a direction: N, S, or W: ";
       cin >> choice;
       if (choice == "N" || choice == "S" || choice == "W")
         validChoice = true;
     }
-    else if (location[0] == 4) // player borders the bottom edge
+    // player borders the bottom edge
+    else if (location[0] == 4)
     {
       cout << "Choose a direction: N, E, or W: ";
       cin >> choice;
       if (choice == "N" || choice == "E" || choice == "W")
         validChoice = true;
     }
-    else // player is in a non-edge zone
+    // player is in a non-edge zone
+    else
     {
       cout << "Choose a direction: N, S, E, or W: ";
       cin >> choice;
@@ -162,13 +171,63 @@ void move()
  */
 void challenge()
 {
+  int row, column;
+  row = player.getLocation()[0];
+  column = player.getLocation()[1];
 
+  // This is the zone in which the player is currently located.
+  Zone zone = theMap.getZone(row, column);
+
+  // prints a description of the players surroundings
+  cout << endl << zone.getDescription() << "\n";
+
+   // time to live
+  // int ttl = zone.getTtl();
+  cout << endl;
+  cout << zone.getQuestion() << endl;
+  handleResponse(zone, zone.getTtl(), time(0));
 }
 
 /**
- *  handles the user's response to the question
+ *  handles the user's response to the question takine the current zone
+ *  as an argument.
+ *  @param Zone
  */
-void handleResponse()
+void handleResponse(Zone zone, int ttl, int timeStart)
 {
+  bool correct = zone.getResponse();
+  int timesUp = time(0);
+  cin.get();
 
+  if (correct && player.getPoints() < 99)
+    player.incrementPoints();
+  else
+    player.decrementPoints();
+
+  // player is consumed by lava if they are too slow
+  if (timesUp - timeStart > ttl)
+  {
+    player.isDead();
+    cout << "You took too long to respond.\n"
+         << "Out with the old, in with the new: Pele's coming through!\n";
+  }
+
+  if (player.getPoints() < 0 || !player.isAlive())
+  {
+    player.isDead();
+    player.setPoints(100);
+  }
+}
+
+/**
+ *  the function simulates swimming
+ */
+void swim()
+{
+  // clears the screen
+  cout << "\x1B[2J\x1B[H";
+  cout << player;
+  cout << "You're in the ocean! Press enter to swim!\n";
+  cin.get();
+  player.incrementPoints();
 }
