@@ -14,22 +14,34 @@ class Zone
     string correctResponse;
     int ttl; // time to live
   public:
+    Zone();
     Zone(string describeIt, string newQuestion, string rightAnswer);
     void setDescription(string describeIt);
     string getDescription();
     void setQuestion(string newQuestion);
     string getQuestion();
+    string getRightAnswer();
     void setResponse(string rightAnswer);
     bool getResponse();
+    string getTtl();
 };
 
 /**
- *  a contructor function, taking three string arguments.
+ *  a default constructor.
+ *  @return Zone
+ */
+Zone::Zone()
+{
+
+}
+
+/**
+ *  an overloaded contructor function, taking three string arguments.
  *  @return Zone
  */
 Zone::Zone(string describeIt, string newQuestion, string rightAnswer)
 {
-  description = "You are " + describeIt;
+  description = "You are in " + describeIt;
   question = newQuestion;
   correctResponse = rightAnswer;
   ttl = (rand() % 30) + 30;
@@ -42,7 +54,7 @@ Zone::Zone(string describeIt, string newQuestion, string rightAnswer)
  */
 void Zone::setDescription(string describeIt)
 {
-  description = "You are " + describeIt;
+  description = describeIt;
 }
 
 /**
@@ -51,9 +63,18 @@ void Zone::setDescription(string describeIt)
  */
 string Zone::getDescription()
 {
+  return description;
+}
+
+/**
+ *  an accessor function that returns a string, the time to live
+ *  @return string
+ */
+string Zone::getTtl()
+{
   ostringstream ostr;
   ostr << "You must answer this question in " << ttl << " seconds or "
-       << "you will be engulfed in lava.\n" << description;
+       << "you will be engulfed in lava.\n\n";
   return ostr.str();
 }
 
@@ -68,12 +89,21 @@ void Zone::setQuestion(string newQuestion)
 }
 
 /**
- *  an accessor function that returns a string, the zone's description.
- *  @return description
+ *  an accessor function that returns a string, the question.
+ *  @return string
  */
 string Zone::getQuestion()
 {
   return question;
+}
+
+/**
+ *  an accessor function that returns a string, the correct answer.
+ *  @return string
+ */
+string Zone::getRightAnswer()
+{
+  return correctResponse;
 }
 
 /**
