@@ -23,7 +23,7 @@ class Zone
     string getRightAnswer();
     void setResponse(string rightAnswer);
     bool getResponse();
-    string getTtl();
+    int getTtl();
 };
 
 /**
@@ -44,7 +44,7 @@ Zone::Zone(string describeIt, string newQuestion, string rightAnswer)
   description = "You are in " + describeIt;
   question = newQuestion;
   correctResponse = rightAnswer;
-  ttl = (rand() % 30) + 30;
+  ttl = (rand() % 15) + 5;
 }
 
 /**
@@ -67,15 +67,16 @@ string Zone::getDescription()
 }
 
 /**
- *  an accessor function that returns a string, the time to live
- *  @return string
+ *  an accessor function that returns an int, the time to live
+ *  @return int
  */
-string Zone::getTtl()
+int Zone::getTtl()
 {
   ostringstream ostr;
   ostr << "You must answer this question in " << ttl << " seconds or "
        << "you will be engulfed in lava.\n\n";
-  return ostr.str();
+  cout << ostr.str();
+  return ttl;
 }
 
 /**
@@ -125,7 +126,7 @@ bool Zone::getResponse()
 {
   bool result = true;
   string response;
-  cout << "What say you? ";
+  // cout << "What say you? ";
   cin >> response;
   if (correctResponse != response)
   {
@@ -137,7 +138,8 @@ bool Zone::getResponse()
     cout << "\nCorrect\n\n";
   }
   cout << "The correct answer was " << correctResponse << endl;
-  cout << "You responded -------> " << response << endl;
+  cout << "You responded -------> " << response << "\n\n";
+  cin.get();
 
   return result;
 }
