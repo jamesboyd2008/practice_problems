@@ -36,7 +36,7 @@ Player::Player()
   location[0] = 0;
   location[1] = 0;
   startTime = time(0);
-  points = 3;
+  points = 0;
 }
 
 /**
@@ -45,7 +45,7 @@ Player::Player()
 void Player::setName()
 {
   string response;
-  cout << "What's your character's name? ";
+  cout << "What's your name? ";
   cin >> response;
   name = response;
 }
@@ -108,7 +108,7 @@ ostream &operator<<(ostream &output, Player player)
   output << "You have " << player.points << " points.\n";
   output << "Your location is zone ["
          << player.location[0] << "][" << player.location[1] << "].\n"
-         << "You  must reach  zone [5][5]\n\n";
+         << "You  must reach  zone [4][4]\n\n";
   return output;
 }
 #endif
