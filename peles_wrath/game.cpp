@@ -44,6 +44,8 @@ int main()
   if (player.isAlive())
   {
     swim();
+    cout << "\x1B[2J\x1B[H";
+    cout << player;
     cout << "Congratuations, " << player.getName()
          << "! You swam to Maui.\n\nTHE END\n\n";
   }
