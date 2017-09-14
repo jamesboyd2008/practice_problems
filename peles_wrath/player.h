@@ -9,16 +9,20 @@ using namespace std;
 class Player
 {
   private:
+    bool liveliness;
     string name;
     int points;
     int location[2];
     int startTime;
   public:
     Player();
+    bool isAlive();
+    void isDead();
     void setName();
     string getName();
     void decrementPoints();
     void incrementPoints();
+    void setPoints(int total);
     int getPoints();
     void setLocation(int row, int column);
     int * getLocation();
@@ -33,10 +37,27 @@ class Player
  */
 Player::Player()
 {
+  liveliness = true;
   location[0] = 0;
   location[1] = 0;
-  startTime = time(0);
   points = 0;
+}
+
+/**
+ *  an accessor function that returns whether the player is alive.
+ *  @return bool
+ */
+bool Player::isAlive()
+{
+  return liveliness;
+}
+
+/**
+ *  a mutator that kills the player.
+ */
+void Player::isDead()
+{
+  liveliness = false;
 }
 
 /**
@@ -73,6 +94,14 @@ void Player::decrementPoints()
 void Player::incrementPoints()
 {
   points += 1;
+}
+
+/**
+ *  a mutator function that sets the players points.
+ */
+void Player::setPoints(int total)
+{
+  points = total;
 }
 
 /**
