@@ -53,48 +53,48 @@ class ZoneMap
       "cinder road"
     };
     const string questions[20] = {
-      "Kilauea, a shield volcano on the island of Hawai'i, has been erupting continuously since 1983. true or false?",
-      "There are only 8 islands in the Hawaiian archipelago. true or false?",
-      "Kamehameha I conquered the Hawaiian Islands and established a unified monarchy across the archipelago. true or false?",
-      "Many wonderful macaque monkeys inhabit the Hawaiian Islands. true or false?",
-      "Hawaiian Monk Seals are endemic to the Hawaiian Islands. true or false?",
-      "Hawai'i is farther south than the Florida Keys. true or false?",
-      "Hawai'i is farther west than Alaska. true or false?",
-      "You can swim with sea turtles in Hilo and spinner dolphins in Kona. true or false?",
-      "There are only 12-13 letters in the Hawaiian alphabet. true or false?",
-      "The wind generally blows west to east in Hawai'i. true or false?",
-      "Moloka'i has the world's highest sea cliffs. true or false?",
-      "No flora is endemic to Hawai'i. true or false?",
-      "The biggest telescope in the world is on top of Mauna Kea. true or false?",
-      "Lauwiliwilinukunukuʻoiʻoi is the name of a fish. true or false?",
-      "Botswana is on the opposite side of thet world from the Big Island. true or false?",
-      "In 1946, at 16+ meter tsunami hit Hilo. true or false?",
-      "Hawai'i annually experiences more earthquakes than California. true or false?",
-      "Hawai'i annually experiences more earthquakes than Alaska. true or false?",
-      "More than one-third of the world's commercial supply of pineapples comes from Hawaii. true or false?",
-      "The Hawaiian Archipelago consists of over 130 scattered points of land. true or false?"
+      "Kilauea, a shield volcano on the island of Hawai'i, has been erupting continuously since 1983. t or f?",
+      "There are only 8 islands in the Hawaiian archipelago. t or f?",
+      "Kamehameha I conquered the Hawaiian Islands and established a unified monarchy across the archipelago. t or f?",
+      "Many wonderful macaque monkeys inhabit the Hawaiian Islands. t or f?",
+      "Hawaiian Monk Seals are endemic to the Hawaiian Islands. t or f?",
+      "Hawai'i is farther south than the Florida Keys. t or f?",
+      "Hawai'i is farther west than Alaska. t or f?",
+      "You can swim with sea turtles in Hilo and spinner dolphins in Kona. t or f?",
+      "There are only 12-13 letters in the Hawaiian alphabet. t or f?",
+      "The wind generally blows west to east in Hawai'i. t or f?",
+      "Moloka'i has the world's highest sea cliffs. t or f?",
+      "No flora is endemic to Hawai'i. t or f?",
+      "The biggest telescope in the world is on top of Mauna Kea. t or f?",
+      "Lauwiliwilinukunukuʻoiʻoi is the name of a fish. t or f?",
+      "Botswana is on the opposite side of thet world from the Big Island. t or f?",
+      "In 1946, at 16+ meter tsunami hit Hilo. t or f?",
+      "Hawai'i annually experiences more earthquakes than California. t or f?",
+      "Hawai'i annually experiences more earthquakes than Alaska. t or f?",
+      "More than one-third of the world's commercial supply of pineapples comes from Hawaii. t or f?",
+      "The Hawaiian Archipelago consists of over 130 scattered points of land. t or f?"
     };
     string answers[20] = {
-      "true",
-      "false",
-      "true",
-      "false",
-      "true",
-      "true",
-      "false",
-      "true",
-      "true",
-      "false",
-      "true",
-      "false",
-      "true",
-      "true",
-      "true",
-      "true",
-      "false",
-      "false",
-      "true",
-      "true"
+      "t",
+      "f",
+      "t",
+      "f",
+      "t",
+      "t",
+      "f",
+      "t",
+      "t",
+      "f",
+      "t",
+      "f",
+      "t",
+      "t",
+      "t",
+      "t",
+      "f",
+      "f",
+      "t",
+      "t"
     };
   public:
     ZoneMap();
@@ -107,8 +107,12 @@ class ZoneMap
  *  a constructor, initialize a ZoneMap.
  *  @return ZoneMap
  */
-ZoneMap::ZoneMap() // : Zone()
+ZoneMap::ZoneMap()
 {
+  unsigned seed;
+  seed = time(0);
+  srand(seed);
+
   // fill in the zones
   for (int i = 0; i < 5; i++) // rows
   {
