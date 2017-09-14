@@ -81,17 +81,17 @@ void move()
     // player is in the top left corner
     if (location[0] == 0 && location[1] == 0)
     {
-      cout << "Choose a direction: S, or E: ";
+      cout << "Choose a direction: s, or e: ";
       cin >> choice;
-      if (choice == "S" || choice == "E")
+      if (choice == "s" || choice == "e")
         validChoice = true;
     }
     // player is in the top right corner
     else if (location[0] == 0 && location[1] == 4)
     {
-      cout << "Choose a direction: S, or W: ";
+      cout << "Choose a direction: s, or w: ";
       cin >> choice;
-      if (choice == "S" || choice == "W")
+      if (choice == "s" || choice == "w")
         validChoice = true;
     }
     // player is in the bottom right corner
@@ -104,49 +104,49 @@ void move()
     // player is in the bottom left corner
     else if (location[0] == 4 && location[1] == 0)
     {
-      cout << "Choose a direction: N, or E: ";
+      cout << "Choose a direction: n, or e: ";
       cin >> choice;
-      if (choice == "N" || choice == "E")
+      if (choice == "n" || choice == "e")
         validChoice = true;
     }
     // player borders the left edge
     else if (location[1] == 0)
     {
-      cout << "Choose a direction: N, S, or E: ";
+      cout << "Choose a direction: n, s, or e: ";
       cin >> choice;
-      if (choice == "N" || choice == "S" || choice == "E")
+      if (choice == "n" || choice == "s" || choice == "e")
         validChoice = true;
     }
     // player borders the top edge
     else if (location[0] == 0)
     {
-      cout << "Choose a direction: S, E, or W: ";
+      cout << "Choose a direction: s, e, or w: ";
       cin >> choice;
-      if (choice == "S" || choice == "E" || choice == "W")
+      if (choice == "s" || choice == "e" || choice == "w")
         validChoice = true;
     }
     // player borders the right edge
     else if (location[1] == 4)
     {
-      cout << "Choose a direction: N, S, or W: ";
+      cout << "Choose a direction: n, s, or w: ";
       cin >> choice;
-      if (choice == "N" || choice == "S" || choice == "W")
+      if (choice == "n" || choice == "s" || choice == "w")
         validChoice = true;
     }
     // player borders the bottom edge
     else if (location[0] == 4)
     {
-      cout << "Choose a direction: N, E, or W: ";
+      cout << "Choose a direction: n, e, or w: ";
       cin >> choice;
-      if (choice == "N" || choice == "E" || choice == "W")
+      if (choice == "n" || choice == "e" || choice == "w")
         validChoice = true;
     }
     // player is in a non-edge zone
     else
     {
-      cout << "Choose a direction: N, S, E, or W: ";
+      cout << "Choose a direction: n, s, e, or w: ";
       cin >> choice;
-      if (choice == "N" || choice == "S" || choice == "E" || choice == "W")
+      if (choice == "n" || choice == "s" || choice == "e" || choice == "w")
         validChoice = true;
     }
   }
@@ -154,13 +154,13 @@ void move()
   int row = location[0];
   int column = location[1];
   // set the player's new location
-  if (choice == "N")
+  if (choice == "n")
     row--;
-  else if (choice == "S")
+  else if (choice == "s")
     row++;
-  else if (choice == "E")
+  else if (choice == "e")
     column++;
-  else // player chose W
+  else // player chose w
     column--;
 
   player.setLocation(row, column);
