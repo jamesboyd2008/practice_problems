@@ -53,9 +53,11 @@ int main( )
     cout << a[index] << " ";
   cout << endl;
 
-	system("pause");
+	// system("pause");
+  cin.get();
     delete [] a;
-	system("pause");
+	// system("pause");
+  cin.get();
 
   return 0;
 }
