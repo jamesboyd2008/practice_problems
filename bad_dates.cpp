@@ -1,6 +1,7 @@
 // This program tells how many possible dates a given date might represent
 #include <iostream>
 #include <string>
+#include <vector>
 // #include <cstdlib>
 // #include <sstring>
 using namespace std;
@@ -11,23 +12,30 @@ bool isValidDate(int month, int day, int year);
 int main()
 {
   // int numCases = 4;
+  int numCases;
+  // string stringCases;
 
   // gets number of test cases
-  // cin >> numCases;
-  // int numberOfCases = stoi(numCases);
-  // string cases[numberOfCases];
-  string cases[4];
+  cin >> numCases;
+  // int numCases = stoi(stringCases); // --> error, no matching func call.
+  // cout << "Number of cases plus six: " << numCases + 6 << endl; // works
+  // string cases[numCases];
+  // string cases[4];
+  vector<string> cases;
+  // string cases[4]; // --> works
 
   // gets the test cases
-  // for (int caseCounter = 0; caseCounter < numCases; caseCounter++)
-  for (int caseCounter = 0; caseCounter < 4; caseCounter++)
+  string oneCase;
+  for (int caseCounter = 0; caseCounter < numCases; caseCounter++)
+  // for (int caseCounter = 0; caseCounter < 4; caseCounter++)
   {
-    cin >> cases[caseCounter];
+    cin >> oneCase;
+    cases.push_back(oneCase);
   }
 
   // outputs the solution
-  // for (int focalCase = 0; focalCase < numCases; focalCase++)
-  for (int focalCase = 0; focalCase < 4; focalCase++)
+  for (int focalCase = 0; focalCase < numCases; focalCase++)
+  // for (int focalCase = 0; focalCase < 4; focalCase++)
   {
     if (cases[focalCase] == "04-05-01")
     {
