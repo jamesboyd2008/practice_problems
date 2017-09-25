@@ -50,8 +50,8 @@ class StringVar
     //Precondition: If outs is a file output stream, then outs
     //has already been connected to a file.
 
-    // void operator = (const StringVar& right_side)
     StringVar& operator=(const StringVar &right);
+    // Overloads the assignment operator
 
   private:
     char *value; //pointer to dynamic array that holds the string value.
