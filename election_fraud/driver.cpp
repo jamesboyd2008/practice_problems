@@ -13,7 +13,7 @@ void ballotReader(string ballotFile);
 // the next n lines will contain the following:
   // the number of choices for that category,
   // the name of the category
-  // and the choices for that category. 
+  // and the choices for that category.
 // The end of the ballot information will be marked by a 0.
 
 void voteReader(string votesFile);
@@ -21,7 +21,8 @@ void voteReader(string votesFile);
 // file as a string argument.
 
 void tallyVotes(string resultsFile);
-// accounts for all the votes and writes the results of the election
+// iterates over votes data structure to compute the results for the election. 
+// writes the results of the election
 // to a text file for each ballot item (the string argument),
 // followed by a TAB
 // the number of votes received by each choice for that ballot item,
