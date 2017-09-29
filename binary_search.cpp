@@ -12,7 +12,7 @@
 *
 * @author James Boyd
 * @version 1.0
-* @since September 28, 2017
+* @since September 29, 2017
 */
 #include <iostream>
 using namespace std;
@@ -70,7 +70,13 @@ int main()
        << binarySearch(nums, numsCount, target) << "\n";
 }
 
-// assumes array is in order and that the requested number is in the array.
+/**
+* This function searches through an ascending order sorted array for an element.
+* @param *nums an integer pointer to an array.
+* @param numsSize the size of the array nums.
+* @param target the element whose position in the array is to be returned.
+* @return int the position in nums of the target element.
+*/
 int binarySearch(int *nums, int numsSize, int target)
 {
   int low = 0,
