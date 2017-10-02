@@ -1,7 +1,7 @@
 // Voter class declaration
-#include <iostream>
-#include "voterMembers.cpp"
-using namespace std;
+// #include <iostream>
+// #include "voterMembers.cpp"
+// using namespace std;
 
 class Voter
 {
@@ -38,4 +38,4 @@ public:
 private:
   int id; // voter's identification number
   char *positions; // pointer to dynamic array of this voter's votes
-}
+};

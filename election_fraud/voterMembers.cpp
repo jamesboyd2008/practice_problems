@@ -1,11 +1,12 @@
 // This file contains implementations of Voter class member functions.
-#include <iostream>
-using namespace std;
+// #include <iostream>
+// #include "voter.h"
+// using namespace std;
 
 // Initializes the object with a ballot with no more than 100 questions.
 Voter::Voter()
 {
-
+  positions = new char [100];
 }
 
 
@@ -42,6 +43,8 @@ Voter::~Voter()
 int Voter::getId()
 {
 
+
+  return 0;
 }
 
 
@@ -56,6 +59,8 @@ void Voter::setId(int newId)
 char Voter::getPositions()
 {
 
+
+  return 'a';
 }
 
 
