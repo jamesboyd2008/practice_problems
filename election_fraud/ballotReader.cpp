@@ -1,12 +1,5 @@
-// This file contains the functions for reading/writing to/from files.
-// #include <fstream>
-// #include <string>
-// #include "ticketHelpers.cpp"
-// using namespace std;
-
 /**
-* Reads in the ballot from a separate file and returns a pointer to a
-* ballot structure.
+* Reads in the ballot from a separate file and returns a ballot structure.
 * The ballot file is structured thusly:
 * The first line of the file will contain the number of categories, n.
 * the next n lines will contain the following:
@@ -43,7 +36,7 @@ Ballot ballotReader(string ballotFile)
 
     inputFile >> candidateQuantity;
     inputFile.ignore();
-    
+
     getline(inputFile, ticketOffice);
 
     // iterate over each candidate on the individual ticket
@@ -56,40 +49,15 @@ Ballot ballotReader(string ballotFile)
       getline(inputFile, candidates[candidateCount]);
     }
 
-    // Ticket tempTicket(ticketOffice, candidates);
     tempTicket.office = ticketOffice;
     tempTicket.candidates = candidates;
     tickets[ticketCount] = tempTicket;
-    // refacotr: collect garbage
-
   }
-  // refactor: collect garbage
 
   inputFile.close();
 
-  // make a bunch of tickets
-  // make a ballot out of those tickets
   Ballot ballot(ticketQuantity, tickets);
   return ballot;
 
-  // account for 0
-}
-
-// reads in the posted list of votes from a separate file, taking the name of
-// the file as a string argument.
-void voteReader(string votesFile)
-{
-
-}
-
-// iterates over votes data structure to compute the results for the election.
-// writes the results of the election
-// to a text file for each ballot item (the string argument),
-// followed by a TAB
-// the number of votes received by each choice for that ballot item,
-// followed by a TAB
-// and the percentage (to 2 decimal places) for each ballot item.
-void tallyVotes(string resultsFile)
-{
-
+  // account for 0?
 }

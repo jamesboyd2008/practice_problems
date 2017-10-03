@@ -6,15 +6,19 @@
 // Initializes the object with a ballot with no more than 100 questions.
 Voter::Voter()
 {
-  positions = new char [100];
+  positions = new char[100];
 }
 
 
 // An overloaded constructor that takes the number of votes and
 // a string of votes (e.g. “ACFHJ”).
-Voter::Voter(int voteCount, string newPositions)
+Voter::Voter(int newId, int voteCount, string newPositions)
 {
+  id = newId;
+  positions = new char[voteCount + 1];
 
+  // turn a string into a c-string and assign it to instance private member
+  strcpy(positions, newPositions.c_str());
 }
 
 
@@ -42,9 +46,7 @@ Voter::~Voter()
 // returns the voter's id number
 int Voter::getId()
 {
-
-
-  return 0;
+  return id;
 }
 
 
@@ -56,11 +58,9 @@ void Voter::setId(int newId)
 
 
 // returns the voter's votes as a cstring
-char Voter::getPositions()
+char *Voter::getPositions()
 {
-
-
-  return 'a';
+  return positions;
 }
 
 
