@@ -25,7 +25,9 @@ Voter::Voter(int newId, int voteCount, string newPositions)
 // Copy constructor
 Voter::Voter(const Voter& voter_object)
 {
-
+  // id = voter_object.getId();
+  // positions = new char[100];
+  // positions = voter_object.getPositions();
 }
 
 
@@ -39,7 +41,12 @@ Voter::~Voter()
 // Overloads assignment operator
 // Voter::Voter& operator=(const Voter &rightVoter)
 // {
-//
+//   if (this != &right)
+//   {
+//     id = rightVoter.getId();
+//     positions = rightVoter.getPositions();
+//   }
+//   return *this;
 // }
 
 
@@ -53,7 +60,7 @@ int Voter::getId()
 // a mutator function that set's the voter's id taking an integer argument.
 void Voter::setId(int newId)
 {
-
+  id = newId;
 }
 
 
@@ -68,5 +75,5 @@ char *Voter::getPositions()
 // character array of votes as an argument.
 void Voter::setPositions(const char newPositions[])
 {
-
+  // positions = newPositions;
 }

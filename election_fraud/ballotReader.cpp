@@ -8,9 +8,9 @@
 * and the choices for that category.
 * The end of the ballot information will be marked by a 0.
 * @param ballotFile a string indicating the file that holds the ballot data.
-* @return Ballot all the things upon which the voters will vote
+* @return *Ballot all the things upon which the voters will vote
 */
-Ballot ballotReader(string ballotFile)
+Ballot *ballotReader(string ballotFile)
 {
   ifstream inputFile;
   inputFile.open(ballotFile);
@@ -50,13 +50,22 @@ Ballot ballotReader(string ballotFile)
     }
 
     tempTicket.office = ticketOffice;
-    tempTicket.candidates = candidates;
+    tempTicket.candidateQuantity = candidateQuantity;
+
+    // create candidates
+    tempTicket.candidates = new Candidate[candidateQuantity];
+    for (int candidate_i = 0; candidate_i < candidateQuantity; candidate_i++)
+    {
+      tempTicket.candidates[candidate_i].name = candidates[candidate_i];
+    }
+
     tickets[ticketCount] = tempTicket;
   }
 
   inputFile.close();
 
-  Ballot ballot(ticketQuantity, tickets);
+  Ballot *ballot = new Ballot();
+  *ballot = Ballot(ticketQuantity, tickets);
   return ballot;
 
   // account for 0?
