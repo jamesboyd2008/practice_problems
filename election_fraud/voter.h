@@ -23,16 +23,16 @@ public:
   Voter& operator=(const Voter &rightVoter);
   // Overloads assignment operator
 
-  int getId();
+  int getId() const;
   // returns the voter's id number
 
   void setId(int newId);
   // a mutator function that set's the voter's id taking an integer argument.
 
-  char *getPositions();
+  char *getPositions() const;
   // returns the voter's votes as a cstring
 
-  void setPositions(const char newPositions[]);
+  void setPositions(char newPositions[]);
   // a mutator function that sets the voter's positions, taking a
   // character array of votes as an argument.
 

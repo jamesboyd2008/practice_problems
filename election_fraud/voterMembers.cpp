@@ -1,7 +1,4 @@
 // This file contains implementations of Voter class member functions.
-// #include <iostream>
-// #include "voter.h"
-// using namespace std;
 
 // Initializes the object with a ballot with no more than 100 questions.
 Voter::Voter()
@@ -23,39 +20,31 @@ Voter::Voter(int newId, int voteCount, string newPositions)
 
 
 // Copy constructor
-Voter::Voter(const Voter& voter_object)
+Voter::Voter(const Voter& voter_object) : id(voter_object.getId())
 {
-  // id = voter_object.getId();
-  // positions = new char[100];
-  // positions = voter_object.getPositions();
+  positions = new char[100];
+  positions = voter_object.getPositions();
 }
-
 
 // Destructor - returns dynamic memory to the freestore
 Voter::~Voter()
 {
-
+  delete [] positions;
 }
 
-
 // Overloads assignment operator
-// Voter::Voter& operator=(const Voter &rightVoter)
-// {
-//   if (this != &right)
-//   {
-//     id = rightVoter.getId();
-//     positions = rightVoter.getPositions();
-//   }
-//   return *this;
-// }
-
+Voter& Voter::operator=(const Voter &rightVoter)
+{
+  id = rightVoter.getId();
+  positions = rightVoter.getPositions();
+  return *this;
+}
 
 // returns the voter's id number
-int Voter::getId()
+int Voter::getId() const
 {
   return id;
 }
-
 
 // a mutator function that set's the voter's id taking an integer argument.
 void Voter::setId(int newId)
@@ -63,17 +52,15 @@ void Voter::setId(int newId)
   id = newId;
 }
 
-
 // returns the voter's votes as a cstring
-char *Voter::getPositions()
+char *Voter::getPositions() const
 {
   return positions;
 }
 
-
 // a mutator function that sets the voter's positions, taking a
 // character array of votes as an argument.
-void Voter::setPositions(const char newPositions[])
+void Voter::setPositions(char newPositions[])
 {
-  // positions = newPositions;
+  positions = newPositions;
 }
