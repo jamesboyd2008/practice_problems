@@ -1,8 +1,7 @@
-// Voter class declaration
-// #include <iostream>
-// #include "voterMembers.cpp"
-// using namespace std;
-
+/*
+This is the Voter class declaration.  A Voter object holds a voter's
+identification number and all their votes.
+*/
 class Voter
 {
 public:

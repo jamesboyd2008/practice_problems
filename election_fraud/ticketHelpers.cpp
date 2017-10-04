@@ -1,6 +1,6 @@
-// This file defines the ballot and ticket structures.
-#include <iostream>
-#include <string>
+// This file defines the Candidate, Ticket, and Ballot structures.
+// #include <iostream>
+// #include <string>
 using namespace std;
 
 // Candidate structure definition

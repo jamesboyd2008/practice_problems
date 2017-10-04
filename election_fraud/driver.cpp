@@ -1,4 +1,7 @@
-//  This program simulates an election
+/*
+This program simulates an election. It asks the user for input which it
+uses to produce the results of an election.
+*/
 #include <fstream>
 #include <iostream>
 #include <iomanip>
@@ -10,12 +13,15 @@
 #include "voter.h"
 #include "voteReader.cpp"
 #include "voterMembers.cpp"
+#include "ballotIterator.cpp"
+#include "ticketIterator.cpp"
+#include "voterIterator.cpp"
 #include "tallyVotes.cpp"
 using namespace std;
 
 int main()
 {
-  // create a vetor to hold all the voters from the election;
+  // create a vector to hold all the voters from the election;
   vector<Voter*> voters;
 
   // create the ballot
