@@ -9,7 +9,7 @@ struct Candidate
   string name;
   int votesWon;
   float percentWon;
-  Candidate() { }
+  Candidate() { votesWon = 0; }
 };
 
 // Ticket structure definition

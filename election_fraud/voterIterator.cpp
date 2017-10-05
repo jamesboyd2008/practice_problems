@@ -31,7 +31,6 @@ void voterIterator(
     // find the candidate for whom the voter voted and increment their votes
     if (stance == candidate_i) { candidate->votesWon++; }
   }
-
   candidate->percentWon =
     (static_cast<double>(candidate->votesWon) / voters.size()) * 100;
 }

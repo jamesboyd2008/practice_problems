@@ -32,7 +32,7 @@ Ballot *ballotReader(string ballotFile)
     string ticketOffice;
 
     // assumes there's no more than 10 candidates per ticket
-    string *candidates = new string[10];
+    string *candidates = new string[26];
 
     inputFile >> candidateQuantity;
     inputFile.ignore();
