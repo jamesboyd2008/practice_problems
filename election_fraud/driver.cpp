@@ -22,8 +22,8 @@ using namespace std;
 
 int main()
 {
-  // cout << "\x1B[2J\x1B[H"; // clears the screen on mac
-  system("cls"); // clears the screen on windows
+  cout << "\x1B[2J\x1B[H"; // clears the screen on mac
+  // system("cls"); // clears the screen on windows
 
   // create a vector to hold all the voters from the election;
   vector<Voter*> voters;
@@ -32,8 +32,8 @@ int main()
   cout << "Let's simulate an election. [press enter]";
   cin.get();
 
-  // cout << "\x1B[2J\x1B[H"; // clears the screen on mac
-  system("cls"); // clears the screen on windows
+  cout << "\x1B[2J\x1B[H"; // clears the screen on mac
+  // system("cls"); // clears the screen on windows
 
   cout << "What is the name of the file containing the ballot information?\n";
   cout << "ballot_1.txt\n";
@@ -43,8 +43,8 @@ int main()
   cout << "Please choose from one of the above: ";
   cin >> ballotFileName;
 
-  // cout << "\x1B[2J\x1B[H"; // clears the screen on mac
-  system("cls"); // clears the screen on windows
+  cout << "\x1B[2J\x1B[H"; // clears the screen on mac
+  // system("cls"); // clears the screen on windows
 
   /* create the ballot from data from a file.
   Ballot objects are composed of Ticket objects,
@@ -60,8 +60,8 @@ int main()
   cout << "Please choose the corresponding file from above: ";
   cin >> voteFileName;
 
-  // cout << "\x1B[2J\x1B[H"; // clears the screen on mac
-  system("cls"); // clears the screen on windows
+  cout << "\x1B[2J\x1B[H"; // clears the screen on mac
+  // system("cls"); // clears the screen on windows
 
   // read in vote data from a file
   voters = voteReader(voteFileName);
