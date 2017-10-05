@@ -43,19 +43,21 @@ int main( )
   // swap_values(a[0], a[1]);
   // cout << "a[0]: " << a[0] << "\n";
   // cout << "a[1]: " << a[1] << "\n";
-
-  // cout << "index of smallest: " << index_of_smallest(a, 0, 10) << "\n";
-
-  // sort(a, array_size);
   //
-  // cout << "In sorted order the numbers are:\n";
-  // for (int index = 0; index < array_size; index++)
-  //   cout << a[index] << " ";
-  // cout << endl;
-  //
+  // cout << "index of smallest: " << index_of_smallest(a, 0, 5) << "\n";
+
+  sort(a, array_size);
+
+  cout << "In sorted order the numbers are:\n";
+  for (int index = 0; index < array_size; index++)
+    cout << a[index] << " ";
+  cout << endl;
+
 	// system("pause");
-  //   delete [] a;
+  cin.get();
+    delete [] a;
 	// system("pause");
+  cin.get();
 
   return 0;
 }
@@ -101,5 +103,9 @@ int index_of_smallest(const int a[], int start_index, int number_used)
 void sort(int a[], int size)
 {
   // use the two above functions to sort the input array
-  
+  for (int index = 0; index < size; index++)
+  {
+    int smallest = index_of_smallest(a, index, size);
+    swap_values(a[smallest], a[index]);
+  }
 }
