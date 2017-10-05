@@ -13,9 +13,9 @@ uses to produce the results of an election.
 #include "voter.h"
 #include "voteReader.cpp"
 #include "voterMembers.cpp"
-#include "ballotIterator.cpp"
 #include "ticketIterator.cpp"
 #include "voterIterator.cpp"
+#include "candidateIterator.cpp"
 #include "tallyVotes.cpp"
 using namespace std;
 
