@@ -82,7 +82,7 @@ int correctMove(char testBoard[][5])
       {
         if (isSafeMove(testBoard, row, column))
         {
-          cout << "[" << row << "][" << column << "]\n";
+          // cout << "[" << row << "][" << column << "]\n";
           // return (column + 1 + (row * 5));
         }
       }
@@ -108,23 +108,42 @@ bool isSafeMove(char testBoard[][5], int row, int column)
       }
     }
   }
-    
+
   return false;
 }
 
 // returns whether that position is Horizontally safe.
 bool isSafeHorizontally(char testBoard[][5], int row, int column)
 {
+  // will this position NOT make you win?
   // go as far as you can to the left as long as it's an O
   // go as far as you can to the right as long as it's an O or an *
     // if you get 4 in a row, return false
   // otherwise, return true
-  // bool oToTheLeft = true;
-  // while (oToTheLeft == true)
-  // {
-  //
-  // }
-  // return true;
+  bool oToTheLeft = true;
+  while (oToTheLeft == true)
+  {
+    if ( column < 1 || testBoard[row][column - 1] == 'X')
+      oToTheLeft = false;
+    else column--;
+  }
+
+  for (int pleaseNot4 = 0; pleaseNot4 < 4; pleaseNot4++)
+  {
+    // cout << "horizontal?: " << "[" << row << "][" << column << "]\n";
+    // if it's not four in a row
+    if (column > 3 || testBoard[row][column + 1] == 'X')
+      break;
+    // if this move causes you to win
+    if (pleaseNot4 == 3)
+    {
+      // cout << "Don\'t move here: " << "[" << row << "][" << column << "]\n";
+      return false;
+    }
+    column++;
+  }
+
+  // will this position NOT block the wookie from winning?
   return true;
 }
 
