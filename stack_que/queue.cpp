@@ -9,7 +9,7 @@ using namespace std;
 
 
 	//Uses cstddef;
-	Queue::Queue() : front(NULL), back(NULL) 
+	Queue::Queue() : front(NULL), back(NULL)
 	{
 		// This space intentionally left blank
 	}
@@ -89,13 +89,9 @@ using namespace std;
 		discard = front;
 		front = front->link;
 
-		if (front == NULL) 
+		if (front == NULL)
 			back = NULL;
 
 		delete discard;
 		return result;
 	}
-
-			
-
-

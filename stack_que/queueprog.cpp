@@ -1,7 +1,8 @@
-//DISPLAY 13.22 Program Using the Queue Class 
+//DISPLAY 13.22 Program Using the Queue Class
 //Program to demonstrate use of the Queue class.
 #include <iostream>
-#include "queue.h"
+// #include "queue.h"
+#include "queue.cpp"
 using namespace std;
 
 int main( )
