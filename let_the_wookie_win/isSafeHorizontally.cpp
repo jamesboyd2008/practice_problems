@@ -9,6 +9,8 @@ bool isSafeHorizontally(
   char player = 'O'
 )
 {
+  cout << "* @: [" << row << "][" << column << "]\n";
+
   char opponent = 'X';
   if (player == 'X')
     opponent = 'O';
@@ -32,7 +34,7 @@ bool isSafeHorizontally(
   int oCount = 0;
   for (int pleaseNot4 = 0; pleaseNot4 < 4; pleaseNot4++)
   {
-    cout << "horizontal?: " << "[" << row << "][" << columnCopy << "]\n";
+    // cout << "horizontal?: " << "[" << row << "][" << columnCopy << "]\n";
 
     // increment O count for every O encountered
     if (testBoard[row][columnCopy] == player)
@@ -41,7 +43,7 @@ bool isSafeHorizontally(
     // if this move causes you to win
     if (oCount > 2)
     {
-      cout << "Don\'t move here: " << "[" << row << "][" << columnCopy << "]\n";
+      // cout << "Don\'t move on this row: " << "[" << row << "][" << columnCopy << "]\n";
       return false;
     }
 
@@ -56,12 +58,15 @@ bool isSafeHorizontally(
   }
 
   // will this position NOT block the wookie from winning?
-  // if (player == 'O')
-  // {
-  //   // if this space LETS the wookie win
-  //   if (!isSafeHorizontally(testBoard, column, row, 'X'))
-  //     return false;
-  // }
+  if (player == 'O')
+  {
+    // if this space LETS the wookie win, then we don't want to block him/her
+    if (!isSafeHorizontally(testBoard, column, row, 'X'))
+    {
+      // cout << "This move blocks the wookie.\n";
+      return false;
+    }
+  }
   // cout << "column: " << column << endl;
   // cout << "columnCopy: " << columnCopy << endl;
   // cout << "player: " << player << endl;
