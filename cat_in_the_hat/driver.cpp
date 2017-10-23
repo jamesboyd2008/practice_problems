@@ -53,17 +53,20 @@ int main()
     return 0;
   }
 
-  // cout << "playerCount in main: " << playerCount << endl;
+  cout << "playerCount in main: " << playerCount << endl;
+  cout << "wordCount in main: " << wordCount << endl;
 
-  // for (int i = 0; i < players.size(); i++)
-  // {
-  //   cout << players[i]->quantity << "\n";
-  // }
+  for (int i = 0; i < players.size(); i++)
+  {
+    cout << players[i]->quantity << "\n";
+  }
 
-  // printList(players[5]);
+  printList(players[9]);
 
 // pickup here
 // You've got your circular linked list.  Now start eliminating players
+
+
 
 
   return 0;

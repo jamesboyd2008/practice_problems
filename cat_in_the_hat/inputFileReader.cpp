@@ -34,21 +34,31 @@ vector<ListNodePtr> inputFileReader(string file, vector<ListNodePtr> players, in
   if (playerCount == 0)
     return players;
 
-  ListNodePtr firstPlayer = new ListNode("player", 0);
+  int firstIndex = *playerCount - 1;
+  ListNodePtr firstPlayer = new ListNode("player", firstIndex);
   players.push_back(firstPlayer);
 
-  for (int i = 1; i < *playerCount; i++)
+  // for (int i = 1; i < *playerCount; i++)
+  // {
+  //   ListNodePtr newPlayer = new ListNode("player", i);
+  //   players.push_back(newPlayer);
+  //   addNode(players[i], players[i - 1]);
+  // }
+  
+  int j = 1;
+  for (int i = *playerCount - 2; i >= 0; i--)
   {
     ListNodePtr newPlayer = new ListNode("player", i);
     players.push_back(newPlayer);
-    addNode(players[i], players[i - 1]);
+    addNode(players[j], players[j - 1]);
+    j++;
   }
 
   // makes it a circular linked list
   addNode(players[0], players[players.size() - 1]);
 
   string word;
-  int wordIncrementor;
+  int wordIncrementor = 0;
   while (inputFile >> word)
   {
     wordIncrementor++;
