@@ -2,14 +2,6 @@
 
 using namespace std;
 
-// ifstream inputFile;
-//  inputFile.open(ballotFile);
-//  inputFile >> ticketQuantity;
-//  inputFile.ignore();
-//  string ticketOffice;
-//  getline(inputFile, ticketOffice);
-//  inputFile.close();
-
 /**
  * a file reader that creates a circular linked list.
  * Uses <fstream>
@@ -19,9 +11,17 @@ using namespace std;
  * @param players a vector of ListNodePtr's
  * @param playerCount an integer pointer
  * @param wordCount an integer, the number of words in the rhyme
+ * @param rhyme a string pointer
  * @return players a vector<ListNodePtr>
  */
-vector<ListNodePtr> inputFileReader(string file, vector<ListNodePtr> players, int* playerCount, int* wordCount)
+vector<ListNodePtr> inputFileReader
+  (
+    string file,
+    vector<ListNodePtr> players,
+    int* playerCount,
+    int* wordCount,
+    string* rhyme
+  )
 {
   int newPlayerCount;
 
@@ -31,24 +31,20 @@ vector<ListNodePtr> inputFileReader(string file, vector<ListNodePtr> players, in
   inputFile >> newPlayerCount;
   *playerCount = newPlayerCount;
 
-  if (playerCount == 0)
+  if (*playerCount < 2)
     return players;
 
   int firstIndex = *playerCount - 1;
-  ListNodePtr firstPlayer = new ListNode("player", firstIndex);
+  string firstName, name;
+  inputFile >> firstName;
+  ListNodePtr firstPlayer = new ListNode(firstName, firstIndex);
   players.push_back(firstPlayer);
 
-  // for (int i = 1; i < *playerCount; i++)
-  // {
-  //   ListNodePtr newPlayer = new ListNode("player", i);
-  //   players.push_back(newPlayer);
-  //   addNode(players[i], players[i - 1]);
-  // }
-  
   int j = 1;
   for (int i = *playerCount - 2; i >= 0; i--)
   {
-    ListNodePtr newPlayer = new ListNode("player", i);
+    inputFile >> name;
+    ListNodePtr newPlayer = new ListNode(name, i);
     players.push_back(newPlayer);
     addNode(players[j], players[j - 1]);
     j++;
@@ -61,6 +57,7 @@ vector<ListNodePtr> inputFileReader(string file, vector<ListNodePtr> players, in
   int wordIncrementor = 0;
   while (inputFile >> word)
   {
+    *rhyme += word + " ";
     wordIncrementor++;
   }
 

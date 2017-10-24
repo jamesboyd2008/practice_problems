@@ -1,0 +1,19 @@
+There are 3 test cases included in the directory:
+
+one.txt
+two.txt
+loneliestNumber.txt
+
+In all the test cases, the names of the players are
+listed in reverse order, with Alice in the first position.
+
+Test Cases:
+
+  1. This is the test case from the assignment,
+     to see if the program works, because I'm too lazy to write my own
+     test case.
+
+  2. This is a more realistic rhyme for this game with the maximum player
+     count. Often, things will break when pushed to their extremes.
+
+  3. This test case checks whether Alice is trying to play by herself.

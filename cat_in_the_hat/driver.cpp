@@ -1,73 +1,50 @@
 /*
 This program simulates a game and tells the user how to win.
-
 For input, you will be given a file with a rhyme. For each particular
 rhyme, you need to determine where Alice needs to stand in line in order to
 win the game for any given number of friends between 2 and 10. For each
 input rhyme, save your results to a file.
-
 */
 #include <fstream>
 #include <iostream>
 #include <vector>
 #include "list_node.h" // re-using code from Lab 6
 #include "inputFileReader.cpp"
+#include "gameSimulation.cpp"
+#include "outputFileWriter.cpp"
 
 using namespace std;
 
-/*
-handle situation in which no one wants to play
-up to 10 friends
-
-read input from file
- - input file contains:
-    - n number of people playing
-    - the rhyme
-
-make player struct
-  - original index property
-
-make circular linked list of n players
-
-
-loop through players until one remains
- - eliminate someone each go around
-
-output result to file
-  - "[result index] is the position in which Alice should stand when
-    playing the game with [n] players using the rhyme [rhyme]."
-*/
 int main()
 {
-  string fileName;
+  string fileName, rhyme, winner = "Alice";
+
+  // get the test case file name from the user
   cout << "What is the name of the rhyme file? ";
   cin >> fileName;
 
   int playerCount, wordCount;
   vector<ListNodePtr> players;
-  players = inputFileReader(fileName, players, &playerCount, &wordCount);
 
-  if (players.size() == 0)
+  // read the test case file
+  players = inputFileReader
+    (fileName, players, &playerCount, &wordCount, &rhyme);
+
+  // handle corner case in which nobody wants to play with Alice
+  // i.e., there are not at least two players
+  if (players.size() < 2)
   {
     cout << "Sorry, Alice. Nobody else wants to play at this time.\n";
     return 0;
   }
 
-  cout << "playerCount in main: " << playerCount << endl;
-  cout << "wordCount in main: " << wordCount << endl;
+  // determine how to win
+  int winningPosition = gameSimulation(players, wordCount, &winner);
 
-  for (int i = 0; i < players.size(); i++)
-  {
-    cout << players[i]->quantity << "\n";
-  }
+  // write the results to a file
+  outputFileWriter(playerCount, rhyme, winningPosition, &winner);
 
-  printList(players[9]);
-
-// pickup here
-// You've got your circular linked list.  Now start eliminating players
-
-
-
+  cout << "The solution is in results.txt\n";
 
   return 0;
 }
