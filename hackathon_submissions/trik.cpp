@@ -16,28 +16,69 @@ Output
 Output the index of the cup under which the ball is: 11 if it is under the left cup, 22 if it is under the middle cup or 33 if it is under the right cup.
 */
 
+// #include <iostream>
+//
+// using namespace std;
+//
+// int main()
+// {
+//   char letter[2];
+//   int position = 1;
+//
+//   while (cin.get(letter, 2))
+//   {
+//     if      (letter[0] == 'A')
+//     {
+//       if      (position == 1) position = 2;
+//       else if (position == 2) position = 1;
+//     }
+//     else if (letter[0] == 'B')
+//     {
+//       if      (position == 2) position = 3;
+//       else if (position == 3) position = 2;
+//     }
+//     else // (letter[0] == 'C')
+//     {
+//       if      (position == 1) position = 3;
+//       else if (position == 3) position = 1;
+//     }
+//   }
+//
+//   cout << position << "\n";
+//
+//   return 0;
+// }
+
+
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 int main()
 {
-  char letter[2];
+  char letter;
   int position = 1;
+  string input;
 
-  while (cin.get(letter, 2))
+  cin >> input;
+
+  for (int i = 0; i < input.size(); i++)
   {
-    if      (letter[0] == 'A')
+    // letter = input[i];
+    letter = input.at(i);
+
+    if      (letter == 'A')
     {
       if      (position == 1) position = 2;
       else if (position == 2) position = 1;
     }
-    else if (letter[0] == 'B')
+    else if (letter == 'B')
     {
       if      (position == 2) position = 3;
       else if (position == 3) position = 2;
     }
-    else // (letter[0] == 'C')
+    else // (letter == 'C')
     {
       if      (position == 1) position = 3;
       else if (position == 3) position = 1;
