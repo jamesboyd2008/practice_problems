@@ -48,7 +48,7 @@ using namespace std;
 
 int main()
 {
-  string input1, input2;
+  string input1, input2, result1, result2;
   vector<int> compare1, compare2;
   vector<int> survivors1, survivors2;
   int num, sum1 = 0, sum2 = 0;
@@ -114,14 +114,17 @@ int main()
 
   // output result
   if (survivors1.size() == 1)
-    cout << "YODA\n";
+    result1 = "YODA";
   else
-    cout << sum1 << endl;
+    result1 = to_string(sum1);
 
   if (survivors2.size() == 1)
-    cout << "YODA\n";
+    result2 = "YODA";
   else
-    cout << sum2 << endl;
+    result2 = to_string(sum2);
+
+  cout << result1 << endl;
+  cout << result2 << endl;
 
   return 0;
 }
