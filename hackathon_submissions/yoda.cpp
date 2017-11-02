@@ -70,7 +70,7 @@ int main()
 
   // pad compares on front w/ zeros 'till they're the same size
   auto it1 = compare1.insert(compare1.begin(), 0);
-  while (compare1.size() < compare2.size())
+  while (compare1.size() < compare2.size() + 1)
   {
     it1 = compare1.insert(it1, 0);
   }
