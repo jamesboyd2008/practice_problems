@@ -23,6 +23,7 @@ void swap_values(T1& variable1, T2& variable2)
   variable2 = temp;
 }
 
+// returns the smallest element in an array
 template<class T>
 T min(T arr[], int arr_size)
 {
@@ -38,25 +39,25 @@ T min(T arr[], int arr_size)
 int main( )
 {
   int integer1 = 1, integer2 = 90;
-  // cout << "Original integer values are "
-  //      << integer1 << " " << integer2 << endl;
+  cout << "Original integer values are "
+       << integer1 << " " << integer2 << endl;
   swap_values(integer1, integer2);
-  // cout << "Swapped integer values are "
-  //      << integer1 << " " << integer2 << endl;
+  cout << "Swapped integer values are "
+       << integer1 << " " << integer2 << endl;
 
   char symbol1 = 'A', symbol2 = 'B';
-  // cout << "Original character values are "
-  //      << symbol1 << " " << symbol2 << endl;
+  cout << "Original character values are "
+       << symbol1 << " " << symbol2 << endl;
   swap_values(symbol1, symbol2);
-  // cout << "Swapped character values are "
-  //      << symbol1 << " " << symbol2 << endl;
+  cout << "Swapped character values are "
+       << symbol1 << " " << symbol2 << endl;
 
    double v1 = 3.14; // Pi
    double v2 = 67.9;
 
 	swap_values(v1, v2);
-	// cout << "Swapped double values are "
-	// 	<< v1 << " " << v2 << endl;
+	cout << "Swapped double values are "
+		<< v1 << " " << v2 << endl;
 
   cout << "Original int and char values are "
        << integer1 << " " << symbol1 << endl;
@@ -86,6 +87,13 @@ int main( )
 
   float arr3[4] = { 2.33, 1.2, 8.9 };
   cout << "Minimum value in a float array is: " << min(arr3, 3) << endl;
+
+  // Pair member demonstrations
+  Pair<int, string> these_two(2, "two");
+  cout << these_two;
+  these_two.set_first(3);
+  these_two.set_second("three");
+  cout << these_two;
 
   return 0;
 }
