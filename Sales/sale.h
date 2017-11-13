@@ -1,5 +1,5 @@
 
-//This is the header file sale.h. 
+//This is the header file sale.h.
 //This is the interface for the class Sale.
 //Sale is a class for simple sales.
 #ifndef SALE_H
@@ -27,5 +27,3 @@ using namespace std;
 
 
 #endif // SALE_H
-
-

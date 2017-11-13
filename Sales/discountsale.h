@@ -1,7 +1,8 @@
 //This is the interface for the class DiscountSale.
 #ifndef DISCOUNTSALE_H
 #define DISCOUNTSALE_H
-#include "sale.h"
+// #include "sale.h"
+#include "sale.cpp"
 
 
     class DiscountSale : public Sale
