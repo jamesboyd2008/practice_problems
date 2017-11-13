@@ -5,6 +5,7 @@
 class Time
 {
 public:
+  Time();
   Time(int hour1, int minute1, int second1);
   int getHour();
   int getMin();
@@ -13,12 +14,20 @@ protected:
   int hour, minute, second;
 };
 
+// default constructor
+Time::Time()
+{
+  hour = 0;
+  minute = 0;
+  second = 0;
+}
+
 // overloaded constructor function
 Time::Time(int hour1, int minute1, int second1)
 {
-  hour = aHour;
-  minute = aMinute;
-  second = aSecond;
+  hour = hour1;
+  minute = minute1;
+  second = second1;
 }
 
 /**

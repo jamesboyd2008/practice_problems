@@ -5,6 +5,7 @@
 class Date
 {
 public:
+  Date();
   Date(int aDay, int aMonth, int aYear);
   int getDay();
   int getMonth();
@@ -12,6 +13,14 @@ public:
 protected:
   int day, month, year;
 };
+
+// default constructor
+Date::Date()
+{
+  day = 0;
+  month = 0;
+  year = 0;
+}
 
 // overloaded constructor function
 Date::Date(int aDay, int aMonth, int aYear)
