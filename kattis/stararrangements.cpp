@@ -73,15 +73,33 @@ using namespace std;
 
 int main()
 {
-  const char spades[4]   = "\u2660",
-             hearts[4]   = "\u2665",
-             diamonds[4] = "\u2666",
-             clubs[4]    = "\u2663";
+  int num, sum, i = 2, j = 1;
+  cin >> num;
+  cout << num << ":\n";
 
-  cout << "spades: " << spades << endl;
-  cout << "hearts: " << hearts << endl;
-  cout << "diamonds: " << diamonds << endl;
-  cout << "clubs: " << clubs << endl;
+  for (int i = 2, j = 1; i <= (num / 2 + 1); i++, j++)
+  {
+    sum = i + j;
+    while (sum <= num)
+    {
+      if (sum == num)
+      {
+        cout << i << ',' << j << endl;
+        break;
+      }
+      sum += i;
+
+      if (sum == num)
+      {
+        cout << i << ',' << j << endl;
+        break;
+      }
+      sum += j;
+    }
+
+    if (num % i == 0)
+      cout << i << ',' << i << endl;
+  }
 
   return 0;
 }
