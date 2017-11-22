@@ -17,6 +17,8 @@ using namespace std;
         double get_salary( ) const;
         void set_salary(double new_salary);
         void print_check( );
+        friend ostream &operator<<(ostream &out, const SalariedEmployee &employee);
+        friend istream &operator>>(istream &in, SalariedEmployee &employee);
     private:
         double salary;//weekly
     };

@@ -1,6 +1,6 @@
-//This is the file: hourlyemployee.cpp 
+//This is the file: hourlyemployee.cpp
 //This is the implementation for the class HourlyEmployee.
-//The interface for the class HourlyEmployee is in 
+//The interface for the class HourlyEmployee is in
 //the header file hourlyemployee.h.
 #include <string>
 #include <iostream>
@@ -52,9 +52,40 @@ using namespace std;
         cout << "________________________________________________\n";
         cout << "Check Stub: NOT NEGOTIABLE\n";
         cout << "Employee Number: " << get_ssn( ) << endl;
-        cout << "Hourly Employee. \nHours worked: " << hours 
-             << " Rate: " << wage_rate << " Pay: " << get_net_pay( ) << endl; 
+        cout << "Hourly Employee. \nHours worked: " << hours
+             << " Rate: " << wage_rate << " Pay: " << get_net_pay( ) << endl;
         cout << "_________________________________________________\n";
     }
 
+    // overloaded insertion operator
+    ostream &operator<<(ostream& out, const HourlyEmployee &employee)
+    {
+      out << "name:      " << employee.get_name() << endl
+          << "ssn:       " << employee.get_ssn() << endl
+          << "wage rate: " << employee.get_rate() << endl
+          << "hours:     " << employee.get_hours() << endl;
+      return out;
+    }
 
+    // overloaded extraction operator
+    istream &operator>>(istream &in, HourlyEmployee &employee)
+    {
+      string name, ssn;
+      int hours;
+      double rate;
+      cout << "Enter hourly Employee Name: " ;
+      in >> name;
+      cout << "Enter hourly Employee SSN: ";
+      in >> ssn;
+      cout << "Enter number of Hours Worked: ";
+      in >> hours;
+      cout << "Enter hourly Rate: " ;
+      in >> rate;
+
+      employee.set_name(name);
+      employee.set_hours(hours);
+      employee.set_ssn(ssn);
+      employee.set_rate(rate);
+
+      return in;
+    }
