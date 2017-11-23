@@ -60,10 +60,11 @@ using namespace std;
     // overloaded insertion operator
     ostream &operator<<(ostream& out, const HourlyEmployee &employee)
     {
-      out << "name:      " << employee.get_name() << endl
-          << "ssn:       " << employee.get_ssn() << endl
-          << "wage rate: " << employee.get_rate() << endl
-          << "hours:     " << employee.get_hours() << endl;
+      out << "name:                 " << employee.get_name() << endl
+          << "ssn:                  " << employee.get_ssn() << endl
+          << "wage rate:            " << employee.get_rate() << endl
+          << "hours:                " << employee.get_hours() << endl;
+
       return out;
     }
 
