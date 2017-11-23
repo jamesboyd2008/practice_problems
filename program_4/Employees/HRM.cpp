@@ -2,8 +2,10 @@
 #include <string>
 #include <vector>
 #include "hourlyemployee.cpp"
+#include "tempemployee.cpp"
 #include "salariedemployee.cpp"
 #include "executiveemployee.cpp"
+
 using namespace std;
 
 void menu(int& choice, bool entered);
@@ -17,34 +19,43 @@ int main()
 	vector<string> benefits = { "basic responsibility", "medical", "dental" };
 
 	// SalariedEmployee CEO("Todd Davis", "457-55-5462", 54.62, benefits);
-	SalariedEmployee CEO;
-	cin >> CEO;
-	cout << endl;
+	// SalariedEmployee CEO;
+	// cin >> CEO;
+	// cout << endl;
 	// CEO.print_check();
 
-  HourlyEmployee joe;
-	cin >> joe;
-	cout << endl;
+  // HourlyEmployee joe;
+	// cin >> joe;
+	// cout << endl;
 
-	ExecutiveEmployee doinkles;
-	cin >> doinkles;
+	// ExecutiveEmployee doinkles;
+	// cin >> doinkles;
+
+	TempEmployee dweebs;
+	cin >> dweebs;
 	// joe.set_name(name);
 	// joe.set_hours(hours);
 	// joe.set_ssn(ssn);
 	// joe.set_rate(rate);
 
 
-  cout << "Check for " << joe.get_name()
-       << " for " << joe.get_hours() << " hours.\n";
-  joe.print_check();
+  // cout << "Check for " << joe.get_name()
+  //      << " for " << joe.get_hours() << " hours.\n";
+  // joe.print_check();
 
-	cout << joe << "\n";
-	cout << CEO << "\n";
-	doinkles.print();
+  cout << "Check for " << dweebs.get_name()
+       << " for " << dweebs.get_hours() << " hours.\n";
+  dweebs.print_check();
+
+	// cout << joe << "\n";
+	// cout << dweebs << "\n";
+	// cout << CEO << "\n";
+	// doinkles.print();
 	cout << "\n";
+	cout << dweebs;
 
-	cout << "Check for " << doinkles.get_name() << ":\n";
-	doinkles.print_check();
+	// cout << "Check for " << doinkles.get_name() << ":\n";
+	// doinkles.print_check();
 
   return 0;
 }
