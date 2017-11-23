@@ -11,18 +11,15 @@ using namespace std;
     class Employee
     {
     public:
-        Employee( );
+        Employee();
         Employee(string the_name, string the_ssn);
-        string get_name( ) const;
-        string get_ssn( ) const;
-        double get_net_pay( ) const;
+        string get_name() const;
+        string get_ssn() const;
+        double get_net_pay() const;
         void set_name(string new_name);
         void set_ssn(string new_ssn);
         void set_net_pay(double new_net_pay);
-        void print_check( ) const;
-        // virtual func: stream insertion & extraction operators?
-        // virtual friend ostream &operator<<(ostream &out, Employee employee);
-        // error: 'virtual' is invalid in friend declarations
+        virtual void print_check() const;
     private:
         string name;
         string ssn;

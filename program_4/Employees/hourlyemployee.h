@@ -13,14 +13,14 @@ using namespace std;
     class HourlyEmployee : public Employee
     {
     public:
-        HourlyEmployee( );
+        HourlyEmployee();
         HourlyEmployee(string the_name, string the_ssn,
                            double the_wage_rate, double the_hours);
         void set_rate(double new_wage_rate);
-        double get_rate( ) const;
+        double get_rate() const;
         void set_hours(double hours_worked);
-        double get_hours( ) const;
-        void print_check( ) ;
+        double get_hours() const;
+        virtual void print_check() ;
         friend ostream &operator<<(ostream &out, const HourlyEmployee &employee);
         friend istream &operator>>(istream &in, HourlyEmployee &employee);
     private:

@@ -10,7 +10,7 @@
 using namespace std;
 
 
-    SalariedEmployee::SalariedEmployee( ) : Employee( )//, salary(0)
+    SalariedEmployee::SalariedEmployee() : Employee()//, salary(0)
     {
       salary = 0;
       // grade[0] = "basic";
@@ -33,7 +33,7 @@ using namespace std;
       grade = benefits;
     }
 
-    double SalariedEmployee::get_salary( ) const
+    double SalariedEmployee::get_salary() const
     {
       return salary;
     }
@@ -43,7 +43,7 @@ using namespace std;
       salary = new_salary;
     }
 
-    vector<string> SalariedEmployee::get_grade( ) const
+    vector<string> SalariedEmployee::get_grade() const
     {
       return grade;
     }
@@ -53,15 +53,15 @@ using namespace std;
       grade = new_grade;
     }
 
-    void SalariedEmployee::print_check( )
+    void SalariedEmployee::print_check()
     {
       set_net_pay(salary);
       cout << "\n__________________________________________________\n";
-      cout << "Pay to the order of " << get_name( ) << endl;
-      cout << "The sum of " << get_net_pay( ) << " Dollars\n";
+      cout << "Pay to the order of " << get_name() << endl;
+      cout << "The sum of " << get_net_pay() << " Dollars\n";
       cout << "_________________________________________________\n";
       cout << "Check Stub NOT NEGOTIABLE \n";
-      cout << "Employee Number: " << get_ssn( ) << endl;
+      cout << "Employee Number: " << get_ssn() << endl;
       cout << "Salaried Employee. Regular Pay: "
            << salary << endl;
       cout << "_________________________________________________\n";

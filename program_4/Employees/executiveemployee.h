@@ -11,7 +11,7 @@ using namespace std;
 class ExecutiveEmployee : public SalariedEmployee
 {
 public:
-  ExecutiveEmployee( );
+  ExecutiveEmployee();
   ExecutiveEmployee
   (
     string the_name,
@@ -24,6 +24,19 @@ public:
     double the_annual_salary,
     double the_bailout_bonus
   );
+  string get_title() const;
+  void set_title(string new_title);
+  string get_aor() const;
+  void set_aor(string new_aor);
+  string get_supervisor() const;
+  void set_supervisor(string new_supervisor);
+  double get_annual_salary() const;
+  void set_annual_salary(double new_annual_salary);
+  double get_bailout_bonus() const;
+  void set_bailout_bonus(double new_bailout_bonus);
+  friend istream &operator>>(istream &in, ExecutiveEmployee &employee);
+  void print();
+  virtual void print_check();
 private:
   string title;
   string aor; // area of responsibility

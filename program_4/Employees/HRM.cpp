@@ -8,7 +8,7 @@ using namespace std;
 
 void menu(int& choice, bool entered);
 
-int main( )
+int main()
 {
 	string name;
 	string ssn;
@@ -24,15 +24,27 @@ int main( )
 
   HourlyEmployee joe;
 	cin >> joe;
+	cout << endl;
 
-  // cout << "Check for " << joe.get_name( )
-  //      << " for " << joe.get_hours( ) << " hours.\n";
-  // joe.print_check( );
-  cout << endl;
+	ExecutiveEmployee doinkles;
+	cin >> doinkles;
+	// joe.set_name(name);
+	// joe.set_hours(hours);
+	// joe.set_ssn(ssn);
+	// joe.set_rate(rate);
+
+
+  cout << "Check for " << joe.get_name()
+       << " for " << joe.get_hours() << " hours.\n";
+  joe.print_check();
 
 	cout << joe << "\n";
 	cout << CEO << "\n";
+	doinkles.print();
+	cout << "\n";
 
+	cout << "Check for " << doinkles.get_name() << ":\n";
+	doinkles.print_check();
 
   return 0;
 }

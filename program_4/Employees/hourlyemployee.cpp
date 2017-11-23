@@ -9,7 +9,7 @@ using namespace std;
 
 
 
-    HourlyEmployee::HourlyEmployee( ) : Employee( ), wage_rate(0), hours(0)
+    HourlyEmployee::HourlyEmployee() : Employee(), wage_rate(0), hours(0)
     {
         //deliberately empty
     }
@@ -26,7 +26,7 @@ using namespace std;
         wage_rate = new_wage_rate;
     }
 
-    double HourlyEmployee::get_rate( ) const
+    double HourlyEmployee::get_rate() const
     {
         return wage_rate;
     }
@@ -37,23 +37,23 @@ using namespace std;
         hours = hours_worked;
     }
 
-    double HourlyEmployee::get_hours( ) const
+    double HourlyEmployee::get_hours() const
     {
         return hours;
     }
 
-    void HourlyEmployee::print_check( )
+    void HourlyEmployee::print_check()
     {
         set_net_pay(hours * wage_rate);
 
         cout << "\n________________________________________________\n";
-        cout << "Pay to the order of " << get_name( ) << endl;
-        cout << "The sum of " << get_net_pay( ) << " Dollars\n";
+        cout << "Pay to the order of " << get_name() << endl;
+        cout << "The sum of " << get_net_pay() << " Dollars\n";
         cout << "________________________________________________\n";
         cout << "Check Stub: NOT NEGOTIABLE\n";
-        cout << "Employee Number: " << get_ssn( ) << endl;
+        cout << "Employee Number: " << get_ssn() << endl;
         cout << "Hourly Employee. \nHours worked: " << hours
-             << " Rate: " << wage_rate << " Pay: " << get_net_pay( ) << endl;
+             << " Rate: " << wage_rate << " Pay: " << get_net_pay() << endl;
         cout << "_________________________________________________\n";
     }
 

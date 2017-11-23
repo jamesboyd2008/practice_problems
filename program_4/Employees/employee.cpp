@@ -1,4 +1,4 @@
-//This is the file: employee.cpp. 
+//This is the file: employee.cpp.
 //This is the implementation for the class Employee.
 //The interface for the class Employee is in the header file employee.h.
 #include <string>
@@ -8,28 +8,28 @@
 using namespace std;
 
 
-    Employee::Employee( ) : name("No name yet"), ssn("No number yet"), net_pay(0)
+    Employee::Employee() : name("No name yet"), ssn("No number yet"), net_pay(0)
     {
         //deliberately empty
     }
 
-    Employee::Employee(string the_name, string the_number) 
-       : name(the_name), ssn(the_number), net_pay(0) 
-    {			
+    Employee::Employee(string the_name, string the_number)
+       : name(the_name), ssn(the_number), net_pay(0)
+    {
         //deliberately empty
     }
 
-    string Employee::get_name( ) const 
+    string Employee::get_name() const
     {
         return name;
     }
 
-    string Employee::get_ssn( ) const 
+    string Employee::get_ssn() const
     {
         return ssn;
     }
 
-    double Employee::get_net_pay( ) const 
+    double Employee::get_net_pay() const
     {
         return net_pay;
     }
@@ -49,14 +49,10 @@ using namespace std;
         net_pay = new_net_pay;
     }
 
-    void Employee::print_check( ) const
+    void Employee::print_check() const
     {
         cout << "\nERROR: print_check FUNCTION CALLED FOR AN \n"
-             << "UNDIFFERENTIATED EMPLOYEE. Aborting the program.\n" 
+             << "UNDIFFERENTIATED EMPLOYEE. Aborting the program.\n"
              << "The Bobs will make sure the problem takes care of itself.\n";
         exit(1);
     }
-
-
-
-
