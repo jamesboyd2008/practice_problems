@@ -34,6 +34,7 @@ public:
   void set_annual_salary(double new_annual_salary);
   double get_bailout_bonus() const;
   void set_bailout_bonus(double new_bailout_bonus);
+  friend ostream &operator<<(istream &out, ExecutiveEmployee &employee);
   friend istream &operator>>(istream &in, ExecutiveEmployee &employee);
   void print();
   virtual void print_check();

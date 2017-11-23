@@ -6,7 +6,7 @@ Check Stub NOT NEGOTIABLE
 Employee Number: 457-55-5462
 Salaried Employee. Regular Pay: 54.62
 _________________________________________________
-Hourly Employee Name: Jinklesburry
+Hourly Employee Name, without spaces: Jinklesburry
 Hourly Employee SSN: 123456789
 Number of Hours Worked: 160
 Hourly Rate: 10

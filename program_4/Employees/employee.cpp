@@ -19,36 +19,43 @@ using namespace std;
         //deliberately empty
     }
 
+    // accessor member
     string Employee::get_name() const
     {
         return name;
     }
 
+    // accessor member
     string Employee::get_ssn() const
     {
         return ssn;
     }
 
+    // accessor member
     double Employee::get_net_pay() const
     {
         return net_pay;
     }
 
-   void Employee::set_name(string new_name)
+    // mutator member
+    void Employee::set_name(string new_name)
     {
         name = new_name;
     }
 
+    // mutator member
     void Employee::set_ssn(string new_ssn)
     {
         ssn = new_ssn;
     }
 
+    // mutator member
     void Employee::set_net_pay (double new_net_pay)
     {
         net_pay = new_net_pay;
     }
 
+    // log checks to console
     void Employee::print_check() const
     {
         cout << "\nERROR: print_check FUNCTION CALLED FOR AN \n"

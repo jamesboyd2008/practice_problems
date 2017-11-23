@@ -33,26 +33,31 @@ using namespace std;
       grade = benefits;
     }
 
+    // accessor member
     double SalariedEmployee::get_salary() const
     {
       return salary;
     }
 
+    // mutator member
     void SalariedEmployee::set_salary(double new_salary)
     {
       salary = new_salary;
     }
 
+    // accessor member
     vector<string> SalariedEmployee::get_grade() const
     {
       return grade;
     }
 
+    // mutator member
     void SalariedEmployee::set_grade(vector<string> new_grade)
     {
       grade = new_grade;
     }
 
+    // log checks to console
     void SalariedEmployee::print_check()
     {
       set_net_pay(salary);
@@ -92,7 +97,7 @@ using namespace std;
       bool more = true;
       vector<string> benefits;
       double salary;
-      cout << "Enter salaried employee name: ";
+      cout << "Enter salaried Employee Name, without spaces: ";
       in >> name;
       cout << "Enter salaried employee SSN: ";
       in >> ssn;

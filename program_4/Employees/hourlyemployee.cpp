@@ -21,27 +21,31 @@ using namespace std;
         //deliberately empty
     }
 
+    // mutator member
     void HourlyEmployee::set_rate(double new_wage_rate)
     {
         wage_rate = new_wage_rate;
     }
 
+    // accessor member
     double HourlyEmployee::get_rate() const
     {
         return wage_rate;
     }
 
-
+    // mutator member
     void HourlyEmployee::set_hours(double hours_worked)
     {
         hours = hours_worked;
     }
 
+    // accessor member
     double HourlyEmployee::get_hours() const
     {
         return hours;
     }
 
+    // log checks to console
     void HourlyEmployee::print_check()
     {
         set_net_pay(hours * wage_rate);
@@ -74,7 +78,7 @@ using namespace std;
       string name, ssn;
       int hours;
       double rate;
-      cout << "Enter hourly Employee Name: " ;
+      cout << "Enter hourly Employee Name, without spaces: " ;
       in >> name;
       cout << "Enter hourly Employee SSN: ";
       in >> ssn;

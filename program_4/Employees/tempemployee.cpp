@@ -32,11 +32,13 @@ using namespace std;
         //deliberately empty
     }
 
+    // accessor function
     string TempEmployee::get_termination_date() const
     {
       return termination_date;
     }
 
+    // mutator function
     void TempEmployee::set_termination_date(string new_termination_date)
     {
       termination_date = new_termination_date;
@@ -60,7 +62,7 @@ using namespace std;
       string name, ssn, termination_date;
       int hours;
       double rate;
-      cout << "Enter temp Employee Name: " ;
+      cout << "Enter temp Employee Name, without spaces: " ;
       in >> name;
       cout << "Enter temp Employee SSN: ";
       in >> ssn;

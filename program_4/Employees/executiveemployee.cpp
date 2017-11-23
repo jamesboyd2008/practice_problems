@@ -40,55 +40,88 @@ ExecutiveEmployee::ExecutiveEmployee
   bailout_bonus = the_bailout_bonus;
 }
 
+// accessor function
 string ExecutiveEmployee::get_title() const
 {
   return title;
 }
 
+// mutator function
 void ExecutiveEmployee::set_title(string new_title)
 {
   title = new_title;
 }
 
+// accessor function
 string ExecutiveEmployee::get_aor() const
 {
   return aor;
 }
 
+// mutator function
 void ExecutiveEmployee::set_aor(string new_aor)
 {
   aor = new_aor;
 }
 
+// accessor function
 string ExecutiveEmployee::get_supervisor() const
 {
   return supervisor;
 }
 
+// mutator function
 void ExecutiveEmployee::set_supervisor(string new_supervisor)
 {
   supervisor = new_supervisor;
 }
 
+// accessor function
 double ExecutiveEmployee::get_annual_salary() const
 {
   return annual_salary;
 }
 
+// mutator function
 void ExecutiveEmployee::set_annual_salary(double new_annual_salary)
 {
   annual_salary = new_annual_salary;
 }
 
+// accessor function
 double ExecutiveEmployee::get_bailout_bonus() const
 {
   return bailout_bonus;
 }
 
+// mutator function
 void ExecutiveEmployee::set_bailout_bonus(double new_bailout_bonus)
 {
   bailout_bonus = new_bailout_bonus;
 }
+
+// overloaded insertion operator
+ostream &operator<<(ostream& out, const ExecutiveEmployee &employee)
+{
+  vector<string> benefits = employee.get_grade();
+
+  out << "name:                 " << employee.get_name() << endl
+       << "ssn:                  " << employee.get_ssn() << endl
+       << "weekly salary:        " << employee.get_salary() << endl
+       << "annual salary:        " << employee.get_annual_salary() << endl
+       << "responsibility level: " << benefits[0] << endl
+       << "title:                " << employee.get_title() << endl
+       << "aor:                  " << employee.get_aor() << endl
+       << "supervisor:           " << employee.get_supervisor() << endl;
+
+  for (int i = 1; i < benefits.size(); i++)
+  {
+    out << "benefit:              " << benefits[i] << endl;
+  }
+
+  return out;
+}
+
 
 // overloaded extraction operator
 istream &operator>>(istream &in, ExecutiveEmployee &employee)
@@ -97,7 +130,7 @@ istream &operator>>(istream &in, ExecutiveEmployee &employee)
   bool more = true;
   vector<string> benefits;
   double weekly_salary, annual_salary, bailout_bonus;
-  cout << "Enter executive employee name: ";
+  cout << "Enter executive Employee Name, without spaces: ";
   in >> name;
   cout << "Enter executive employee SSN: ";
   in >> ssn;
@@ -142,7 +175,6 @@ istream &operator>>(istream &in, ExecutiveEmployee &employee)
 }
 
 // overloaded insertion operator
-// ostream &operator<<(ostream& out, const SalariedEmployee &employee)
 void ExecutiveEmployee::print()
 {
   vector<string> benefits = this->get_grade();
@@ -162,6 +194,7 @@ void ExecutiveEmployee::print()
   }
 }
 
+// log checks to console
 void ExecutiveEmployee::print_check()
 {
   set_net_pay(annual_salary);
