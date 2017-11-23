@@ -27,7 +27,7 @@ using namespace std;
         void print_check( );
         friend ostream &operator<<(ostream &out, const SalariedEmployee &employee);
         friend istream &operator>>(istream &in, SalariedEmployee &employee);
-    private:
+    protected:
         double salary;//weekly
         vector<string> grade; // grade[0] is the grade, grade[1+] is benefits
     };

@@ -16,7 +16,8 @@ using namespace std;
       // grade[0] = "basic";
       // grade[1] = "medical";
       // grade[2] = "dental";
-      grade = {"basic responsibility", "medical", "dental"};
+      vector<string> benefits = { "basic responsibility", "medical", "dental" };
+      grade = benefits;
     }
 
     SalariedEmployee::SalariedEmployee
