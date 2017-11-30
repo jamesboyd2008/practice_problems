@@ -8,24 +8,19 @@ using namespace std;
 class Card
 {
 public:
-  // define default constructor
-  // define overloaded constructor
-  // define accessors
-  // define mutators
-  // define overloaded stream insertion operator
   Card();
-  Card(string a_suit, char a_value, int some_points);
+  Card(string a_suit, string a_value, int some_points);
   string get_suit();
   void set_suit(string a_suit);
-  char get_value();
-  void set_value(char a_value);
+  string get_value();
+  void set_value(string a_value);
   int get_points();
   void set_points(int some_points);
   friend ostream &operator<<(ostream &out, Card &card);
 private:
   string suit;
-  char value;
-  int points; // 2-10, Jack: 10, Queen: 11, King: 12, Ace: 13
+  string value;
+  int points; // 2-10, Jack: 11, Queen: 12, King: 13, Ace: 14
 };
 
 // default constructor
@@ -37,7 +32,7 @@ Card::Card()
 }
 
 // overloaded constructor
-Card::Card(string a_suit, char a_value, int some_points)
+Card::Card(string a_suit, string a_value, int some_points)
 {
   suit = a_suit;
   value = a_value;
@@ -57,13 +52,13 @@ void Card::set_suit(string a_suit)
 }
 
 // accessor function
-char Card::get_value()
+string Card::get_value()
 {
   return value;
 }
 
 // mutator function
-void Card::set_value(char a_value)
+void Card::set_value(string a_value)
 {
   value = a_value;
 }
@@ -80,6 +75,36 @@ void Card::set_points(int some_points)
   points = some_points;
 }
 
+// // overloaded insertion operator
+// ostream &operator<<(ostream &out, Card &card)
+// {
+//   const char spades[4]   = "\u2664",
+//              hearts[4]   = "\u2661",
+//              diamonds[4] = "\u2662",
+//              clubs[4]    = "\u2667";
+//
+//   out << "value:  " << card.get_value()  << endl
+//       << "suit:   ";
+//
+//   string suit = card.get_suit();
+//
+//   if (suit == "spades")
+//     out << spades;
+//   else if (suit == "hearts")
+//     out << hearts;
+//   else if (suit == "diamonds")
+//     out << diamonds;
+//   else if (suit == "clubs")
+//     out << clubs;
+//   else
+//     out << "indeterminate suit";
+//
+//   out << endl;
+//   out << "points: " << card.get_points() << endl;
+//
+//   return out;
+// }
+
 // overloaded insertion operator
 ostream &operator<<(ostream &out, Card &card)
 {
@@ -88,8 +113,7 @@ ostream &operator<<(ostream &out, Card &card)
              diamonds[4] = "\u2662",
              clubs[4]    = "\u2667";
 
-  out << "value:  " << card.get_value()  << endl
-      << "suit:   ";
+  out << "card:  " << card.get_value();
 
   string suit = card.get_suit();
 
@@ -104,8 +128,7 @@ ostream &operator<<(ostream &out, Card &card)
   else
     out << "indeterminate suit";
 
-  out << endl;
-  out << "points: " << card.get_points() << endl;
+  out << "  points: " << card.get_points();
 
   return out;
 }
