@@ -1,5 +1,8 @@
 /*
-This program outputs card suites.
+This program builds a deck of cards,
+             shuffles it,
+             deals two hands,
+             and simulates a game of war between those two hands.
 */
 
 #include <algorithm>

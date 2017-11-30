@@ -75,36 +75,6 @@ void Card::set_points(int some_points)
   points = some_points;
 }
 
-// // overloaded insertion operator
-// ostream &operator<<(ostream &out, Card &card)
-// {
-//   const char spades[4]   = "\u2664",
-//              hearts[4]   = "\u2661",
-//              diamonds[4] = "\u2662",
-//              clubs[4]    = "\u2667";
-//
-//   out << "value:  " << card.get_value()  << endl
-//       << "suit:   ";
-//
-//   string suit = card.get_suit();
-//
-//   if (suit == "spades")
-//     out << spades;
-//   else if (suit == "hearts")
-//     out << hearts;
-//   else if (suit == "diamonds")
-//     out << diamonds;
-//   else if (suit == "clubs")
-//     out << clubs;
-//   else
-//     out << "indeterminate suit";
-//
-//   out << endl;
-//   out << "points: " << card.get_points() << endl;
-//
-//   return out;
-// }
-
 // overloaded insertion operator
 ostream &operator<<(ostream &out, Card &card)
 {
