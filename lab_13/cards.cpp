@@ -3,6 +3,7 @@ This program outputs card suites.
 */
 
 #include <iostream>
+#include "Card.h"
 
 using namespace std;
 
@@ -13,10 +14,8 @@ int main()
              diamonds[4] = "\u2662",
              clubs[4]    = "\u2667";
 
-  cout << "spades: " << spades << endl;
-  cout << "hearts: " << hearts << endl;
-  cout << "diamonds: " << diamonds << endl;
-  cout << "clubs: " << clubs << endl;
+  Card card_zero;
+  cout << card_zero << endl;
 
   return 0;
 }
