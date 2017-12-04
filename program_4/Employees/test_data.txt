@@ -1,0 +1,334 @@
+Here are some tests that the HRM program passes.
+
+Test Number 1:
+  - Test Description: Can a user create all the employees?
+  - Expected Results: Outputting the created employees confirms this functionality.
+  - Pass/Fail: Pass
+  - Comments
+To conduct this test:
+Compile everything an run the driver, HRM.cpp.
+Output/input should look like the following:
+---------------------------------------------------------
+Pick a number:
+1: Enter an employee's information
+2: Modify an employee's information
+3: Display an employee's information
+4: Monthly Payroll: print cheques for all employees
+5: Employment Report: output all employee info to a file
+6: exit
+---------------------------------------------------------
+
+1
+
+You chose to create an employee.
+Choose an employee type:
+1: hourly employee
+2: salaried employee
+3: executive employee
+4: temp employee
+
+1
+
+You chose to create an hourly employee.
+Enter hourly Employee Name, without spaces: Doug
+Enter hourly Employee SSN: 298934567
+Enter number of Hours Worked: 32
+Enter hourly Rate: 12
+
+---------------------------------------------------------
+Pick a number:
+1: Enter an employee's information
+2: Modify an employee's information
+3: Display an employee's information
+4: Monthly Payroll: print cheques for all employees
+5: Employment Report: output all employee info to a file
+6: exit
+---------------------------------------------------------
+
+1
+
+You chose to create an employee.
+Choose an employee type:
+1: hourly employee
+2: salaried employee
+3: executive employee
+4: temp employee
+
+2
+
+You chose to create a salaried employee.
+Enter salaried Employee Name, without spaces: Michelle
+Enter salaried employee SSN: 489843456
+Enter salary: 45678
+Enter responsibility level: medium
+Any more benefits? (y/n): y
+Enter the benefit: dental
+Any more benefits? (y/n): n
+
+---------------------------------------------------------
+Pick a number:
+1: Enter an employee's information
+2: Modify an employee's information
+3: Display an employee's information
+4: Monthly Payroll: print cheques for all employees
+5: Employment Report: output all employee info to a file
+6: exit
+---------------------------------------------------------
+
+1
+
+You chose to create an employee.
+Choose an employee type:
+1: hourly employee
+2: salaried employee
+3: executive employee
+4: temp employee
+
+3
+
+You chose to create an executive employee.
+Enter executive Employee Name, without spaces: BigBoss
+Enter executive employee SSN: 234987456
+Enter weekly salary: 234000
+Enter annual salary: 189567324
+Enter responsibility level: very_high
+Enter area of responsibility: outdoors
+Enter title: CEO
+Enter supervisor: board_of_directors
+Any more benefits? (y/n): y
+Enter the benefit: private_bathroom
+Any more benefits? (y/n): n
+
+---------------------------------------------------------
+Pick a number:
+1: Enter an employee's information
+2: Modify an employee's information
+3: Display an employee's information
+4: Monthly Payroll: print cheques for all employees
+5: Employment Report: output all employee info to a file
+6: exit
+---------------------------------------------------------
+
+1
+
+You chose to create an employee.
+Choose an employee type:
+1: hourly employee
+2: salaried employee
+3: executive employee
+4: temp employee
+
+4
+
+You chose to create a temp employee.
+Enter temp Employee Name, without spaces: Wally
+Enter temp Employee SSN: 345765221
+Enter number of Hours Worked: 89
+Enter Rate: 12.6
+Enter termination date: august152018
+
+
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+Test Number 2:
+  - Test Description: Can a user modify any existing employee?
+  - Expected Results: Outputting the modified employee confirms this functionality.
+  - Pass/Fail: Pass
+  - Comments
+To conduct this test:
+Using the same program from above:
+
+---------------------------------------------------------
+Pick a number:
+1: Enter an employee's information
+2: Modify an employee's information
+3: Display an employee's information
+4: Monthly Payroll: print cheques for all employees
+5: Employment Report: output all employee info to a file
+6: exit
+---------------------------------------------------------
+
+2
+
+You chose to modify an employee.
+Enter the employee's name: Michelle
+We found that employee.
+Please enter their info:
+Enter salaried Employee Name, without spaces: Michelleee
+Enter salaried employee SSN: 345654786
+Enter salary: 234555
+Enter responsibility level: high
+Any more benefits? (y/n): y
+Enter the benefit: snack_bar
+Any more benefits? (y/n): y
+Enter the benefit: medical
+Any more benefits? (y/n): n
+
+
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+Test Number 3:
+  - Test Description: Can a user display any specific employee's information?
+  - Expected Results: Outputting a chosen employee confirms this functionality.
+  - Pass/Fail: Pass
+  - Comments
+To conduct this test:
+Using the same program from above:
+
+---------------------------------------------------------
+Pick a number:
+1: Enter an employee's information
+2: Modify an employee's information
+3: Display an employee's information
+4: Monthly Payroll: print cheques for all employees
+5: Employment Report: output all employee info to a file
+6: exit
+---------------------------------------------------------
+
+3
+
+You chose to display an employee.
+Enter the employee's name: BigBoss
+We found that employee.
+Here is their info:
+name:                 BigBoss
+ssn:                  234987456
+weekly salary:        234000
+annual salary:        1.89567e+08
+responsibility level: very_high
+title:                CEO
+aor:                  outdoors
+supervisor:           board_of_directors
+benefit:              private_bathroom
+
+
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+Test Number 4:
+  - Test Description: Can a user print all the cheques?
+  - Expected Results: All the checks will print to the console.
+  - Pass/Fail: Fail (one check seemed a little high)
+  - Comments
+To conduct this test:
+Using the same program from above:
+
+---------------------------------------------------------
+Pick a number:
+1: Enter an employee's information
+2: Modify an employee's information
+3: Display an employee's information
+4: Monthly Payroll: print cheques for all employees
+5: Employment Report: output all employee info to a file
+6: exit
+---------------------------------------------------------
+
+4
+
+
+________________________________________________
+Pay to the order of Doug
+The sum of 384 Dollars
+________________________________________________
+Check Stub: NOT NEGOTIABLE
+Employee Number: 298934567
+Hourly Employee.
+Hours worked: 32 Rate: 12 Pay: 384
+_________________________________________________
+
+________________________________________________
+Pay to the order of Wally
+The sum of 1121.4 Dollars
+________________________________________________
+Check Stub: NOT NEGOTIABLE
+Employee Number: 345765221
+Hourly Employee.
+Hours worked: 89 Rate: 12.6 Pay: 1121.4
+_________________________________________________
+
+__________________________________________________
+Pay to the order of Michelleee
+The sum of 234555 Dollars
+_________________________________________________
+Check Stub NOT NEGOTIABLE
+Employee Number: 345654786
+Salaried Employee. Regular Pay: 234555
+_________________________________________________
+
+__________________________________________________
+Pay to the order of BigBoss
+The sum of 1.89567e+08 Dollars
+_________________________________________________
+Check Stub NOT NEGOTIABLE
+Employee Number: 234987456
+Salaried Employee. Regular Pay: 234000
+Swiss Bank Account No.: CH93 0076 2011 6238 5295 7
+_________________________________________________
+
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+Test Number 5:
+  - Test Description: Can a user output all the employee data to a file?
+  - Expected Results: All the employee data will be visible in employee_data.txt.
+  - Pass/Fail: Pass
+  - Comments
+To conduct this test:
+Using the same program from above:
+
+---------------------------------------------------------
+Pick a number:
+1: Enter an employee's information
+2: Modify an employee's information
+3: Display an employee's information
+4: Monthly Payroll: print cheques for all employees
+5: Employment Report: output all employee info to a file
+6: exit
+---------------------------------------------------------
+
+5
+
+The employeed data is in employee_data.txt
+---------------------------------------------------------
+Pick a number:
+1: Enter an employee's information
+2: Modify an employee's information
+3: Display an employee's information
+4: Monthly Payroll: print cheques for all employees
+5: Employment Report: output all employee info to a file
+6: exit
+---------------------------------------------------------
+
+6
+
+employee_data.txt looks like this:
+
+name:                 Doug
+ssn:                  298934567
+wage rate:            12
+hours:                32
+
+name:                 Wally
+ssn:                  345765221
+wage rate:            12.6
+hours:                89
+termination date:     august152018
+
+name:                 Michelleee
+ssn:                  345654786
+salary:               234555
+responsibility level: high
+benefit:              snack_bar
+benefit:              medical
+
+name:                 BigBoss
+ssn:                  234987456
+weekly salary:        234000
+annual salary:        1.89567e+08
+responsibility level: very_high
+title:                CEO
+aor:                  outdoors
+supervisor:           board_of_directors
+benefit:              private_bathroom
+
+
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------

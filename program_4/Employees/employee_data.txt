@@ -1,0 +1,29 @@
+
+name:                 Doug
+ssn:                  298934567
+wage rate:            12
+hours:                32
+
+name:                 Wally
+ssn:                  345765221
+wage rate:            12.6
+hours:                89
+termination date:     august152018
+
+name:                 Michelleee
+ssn:                  345654786
+salary:               234555
+responsibility level: high
+benefit:              snack_bar
+benefit:              medical
+
+name:                 BigBoss
+ssn:                  234987456
+weekly salary:        234000
+annual salary:        1.89567e+08
+responsibility level: very_high
+title:                CEO
+aor:                  outdoors
+supervisor:           board_of_directors
+benefit:              private_bathroom
+
