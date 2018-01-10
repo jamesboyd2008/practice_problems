@@ -9,7 +9,7 @@
 using namespace std;
 
 template <class elemType>
-class bSearchTreeType : public binaryTreeType<elemType>
+class SearchTreeType : public binaryTreeType<elemType>
 {
 public:
 	bool search(const elemType& searchItem) const;
@@ -46,7 +46,7 @@ private:
 
 
 template <class elemType>
-bool bSearchTreeType<elemType>::search
+bool SearchTreeType<elemType>::search
 (const elemType& searchItem) const
 {
 	nodeType<elemType> *current;
@@ -73,7 +73,7 @@ bool bSearchTreeType<elemType>::search
 }//end search
 
 template <class elemType>
-void bSearchTreeType<elemType>::insert
+void SearchTreeType<elemType>::insert
 (const elemType& insertItem)
 {
 	nodeType<elemType> *current; //pointer to traverse the tree
@@ -117,7 +117,7 @@ void bSearchTreeType<elemType>::insert
 }//end insert
 
 template <class elemType>
-void bSearchTreeType<elemType>::deleteNode
+void SearchTreeType<elemType>::deleteNode
 (const elemType& deleteItem)
 {
 	nodeType<elemType> *current; //pointer to traverse the tree
@@ -166,7 +166,7 @@ void bSearchTreeType<elemType>::deleteNode
 } //end deleteNode
 
 template <class elemType>
-void bSearchTreeType<elemType>::deleteFromTree
+void SearchTreeType<elemType>::deleteFromTree
 (nodeType<elemType>* &p)
 {
 	nodeType<elemType> *current; //pointer to traverse the tree

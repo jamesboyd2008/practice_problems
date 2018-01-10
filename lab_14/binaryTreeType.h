@@ -64,21 +64,21 @@ public:
 	//               is deallocated.
 	//               root = nullptr;
 
-	virtual bool search(const elemType& searchItem) const = 0;
+	// virtual bool search(const elemType& searchItem) const = 0;
 	//Function to determine if searchItem is in the binary
 	//tree.
 	//Postcondition: Returns true if searchItem is found in
 	//               the binary tree; otherwise, returns
 	//               false.
 
-	virtual void insert(const elemType& insertItem) = 0;
+	// virtual void insert(const elemType& insertItem) = 0;
 	//Function to insert insertItem in the binary tree.
 	//Postcondition: If there is no node in the binary tree
 	//               that has the same info as insertItem, a
 	//               node with the info insertItem is created
 	//               and inserted in the binary search tree.
 
-	virtual void deleteNode(const elemType& deleteItem) = 0;
+	// virtual void deleteNode(const elemType& deleteItem) = 0;
 	//Function to delete deleteItem from the binary tree
 	//Postcondition: If a node with the same info as
 	//               deleteItem is found, it is deleted from
