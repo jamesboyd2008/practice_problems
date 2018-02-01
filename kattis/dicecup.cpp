@@ -47,6 +47,7 @@ Sample Output 3
 21
 */
 
+#include "algorithm"
 #include "iostream"
 #include "vector"
 
