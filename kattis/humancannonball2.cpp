@@ -40,8 +40,6 @@ Sample Input 1	      Sample Output 1
 #include <cmath>
 using namespace std;
 
-// #define PI 3.14159;
-
 bool isSafe(double v, double theta, double x, double hLow, double hHigh);
 
 int main()
@@ -70,13 +68,19 @@ bool isSafe(double v, double theta, double x, double hLow, double hHigh)
   const double pi = 3.14159;
   bool safety;
   double t;
-  double denominator = v * cos(theta) * 180.0 / pi;
-  t = 1.0 / denominator;
-
-  double first = v * t * sin(theta) * (180.0/pi);
+  double denominator = v * cos(theta * pi / 180);
+  t = x / denominator;
+  double first = v * t * sin(theta * pi / 180);
   double second = 0.5 * 9.81 * pow(t, 2);
   // momentOfTruth is their height when they hit/!hit the wall.
   double momentOfTruth = first - second;
 
-  return ((momentOfTruth > hLow && momentOfTruth < hHigh) ? true : false);
+  if (momentOfTruth > hLow + 1.0)
+  {
+    if (momentOfTruth < hHigh - 1.0)
+    {
+      return true;
+    }
+  }
+  return false;
 }
