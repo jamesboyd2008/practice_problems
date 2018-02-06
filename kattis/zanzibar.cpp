@@ -60,7 +60,6 @@ int main()
 
   for (int i = 0; i < caseQuantity; i++)
   {
-    // vector<int> populationTracker;
     int census, runningCount = 0, previous = 0;
     while (true)
     {
@@ -70,15 +69,11 @@ int main()
         turtlesIn.push_back(runningCount);
         break;
       }
-      if (previous == 0)
-      {
-        previous = census;
-      }
-      else if (census > (previous * 2) )
+      if (census > (previous * 2) && previous != 0)
       {
         runningCount += (census - (previous * 2) );
-        previous = census;
       }
+      previous = census;
     }
   }
 
