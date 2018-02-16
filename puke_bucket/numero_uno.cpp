@@ -297,33 +297,36 @@ void checkOutBook() {
 	Book book;
 	list<Author>::iterator authorRef;
 	list<Book>::iterator bookRef;
-	bool noWhammies = true;
+	bool noWhammies = true; // flag, in case anything goes wrong
 	patron.name = getString("Enter patron's name: ");
 
 	author.name = getString("Enter author's name: ");
 	authorRef = find(catalog[author.name[0]].begin(),
 		catalog[author.name[0]].end(), author);
+	// check whether any such author exists in the system
 	if (authorRef == catalog[author.name[0]].end()) {
 		cout << "We have no books written by " << author.name << endl;
 	    noWhammies = false;
 	}
-	if (noWhammies) {
+	if (noWhammies) { // the author must exist
 		book.title = getString("Enter the title of the book: ");
 		bookRef = find((*authorRef).books.begin(),
 			(*authorRef).books.end(), book);
+		// checks whether that title exists (for that author)
 		if (bookRef == (*authorRef).books.end()) {
 			cout << "Misspelled title.\n"
 			     << "We have these books by that author: \n"
 			     << *authorRef;
 		    noWhammies = false;
 		}
+		// checks whether the book is still in the library
 		else if ((*bookRef).checkedOut) {
 		    cout << "That book is already checked out.\n";
 		    cout << (*bookRef);
 				noWhammies = false;
 		}
 	}
-	if (noWhammies) {
+	if (noWhammies) { // author, title, and inventory check out
     	if (!(*bookRef).checkedOut) { // condition prevents double check out
         	(*bookRef).checkedOut = true;
         	list<Patron>::iterator patronRef;
@@ -335,8 +338,10 @@ void checkOutBook() {
         		people[patron.name[0]].push_front(patron);
         		(*bookRef).patron = &*people[patron.name[0]].begin();
         	}
-        	else {
+        	else { // the patron was already in the system
+				// add the book to the patron's books
         		(*patronRef).books.push_front(checkedOutBook);
+				// add the patron as the book's patron
         		(*bookRef).patron = &*patronRef;
         	}
     	}
@@ -366,6 +371,7 @@ void returnBook() {
 	patron.name = getString("Enter patron's name: ");
 	patronRef = find(people[patron.name[0]].begin(),
 		people[patron.name[0]].end(), patron);
+	// check for the patron in the system
 	if (patronRef == people[patron.name[0]].end()) {
 		cout << "Patron's name misspelled.\n"
 		     << "They are either a new patron, or you made a typo.\n"
@@ -375,10 +381,11 @@ void returnBook() {
 			    cout << people[i];
 		patronExists = false;
 	}
-	if (patronExists) {
+	if (patronExists) { // the patron is in the system
 		author.name = getString("Enter author's name: ");
 		authorRef = find(catalog[author.name[0]].begin(),
 			catalog[author.name[0]].end(), author);
+		// check for the author in the system
 		if (authorRef == catalog[author.name[0]].end()) {
 			cout << "You either misspelled the author's name, \n"
 			     << "or we don't have a book by that author.\n"
@@ -389,10 +396,11 @@ void returnBook() {
 		    patronExists = false;
 		}
 	}
-	if (patronExists) {
+	if (patronExists) { // the patron and author are in the system
 		book.title = getString("Enter the title of the book: ");
 		bookRef = find((*authorRef).books.begin(),
 			(*authorRef).books.end(), book);
+		// check for that title under that author
 		if (bookRef == (*authorRef).books.end()) {
 			cout << "You may have misspelled the title.\n"
 			     << "We have these books by that author:\n"
@@ -400,7 +408,7 @@ void returnBook() {
 			patronExists = false;
 		}
 	}
-	if (patronExists) {
+	if (patronExists) { // patron, author, and title check out
     	CheckedOutBook checkedOutBook(authorRef, bookRef);
     	list<CheckedOutBook>::iterator checkedOutChecker;
     	checkedOutChecker = find(
@@ -410,9 +418,12 @@ void returnBook() {
     	);
     	// condition ensures the patron indeed checked that book out.
     	if (!(checkedOutChecker == (*patronRef).books.end())) {
+			// remove the patron from the book's patron
         	(*bookRef).patron = NULL;
+			// remove the book from the patron's books
+			(*patronRef).books.remove(checkedOutBook);
+			// indicate that the book is bakc in the library
         	(*bookRef).checkedOut = false;
-        	(*patronRef).books.remove(checkedOutBook);
     	}
     	else {
     	    cout << "That patron does not have that book checked out.\n"

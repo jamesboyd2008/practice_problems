@@ -21,7 +21,6 @@ Data Structures and Algorithms in C++, by Adam Drozdek, section 3.9
 #include <iostream>
 #include <list>
 #include <string>
-// #include <vector> // added to enable multiple patrons per book
 
 using namespace std;
 
@@ -38,7 +37,6 @@ It defines a constructor and a comparison operator.
 class Book {
 public:
 	Book() {
-		// patrons = NULL;
         quantity = 1;
         copiesOut = 0;
 	}
@@ -47,7 +45,6 @@ public:
 	}
 private:
 	char *title;
-	// Patron *patron;
     list<Patron> patrons; // multiple patrons are possible.
     int quantity, copiesOut;
 	ostream& printBook(ostream&) const;
@@ -131,13 +128,6 @@ public:
 	bool operator== (const Patron& pn) const {
 		return strcmp(name, pn.name) == 0;
 	}
-    // Patron& operator=(const Patron &right) { // for managing a book's multiple patrons
-    //     if (this != &right) {
-    //         *name = right->name;
-    //         books =
-    //     }
-    //     return *this;
-    // }
 private:
 	char *name;
 	list<CheckedOutBook> books;
@@ -184,18 +174,9 @@ ostream& Book::printBook(ostream& out) const {
     out << "    total copies in circulation: " << quantity << endl;
     out << "    total copies rented out now: " << copiesOut << endl;
     if (!patrons.empty()) {
-	// if (patron != NULL) {
-	// if (patrons.size() > 0) {
-    // for (int i = 0; i < patrons.size(); i++) {
-    //   // out << " - checked out to " << patrons->name << endl; // overloaded <<
-    //   // out << " - checked out to " << patrons[i]->name << endl; // overloaded <<
-    //   // out << " - checked out to " << (*patrons[i]).name << endl; // overloaded <<
-
         list<Patron>::const_iterator pats = patrons.begin();
         for(; pats != patrons.end(); pats++)
-            // out << *pats;
-            // out << " - checked out to " << pats->name; // overloaded <<
-            out << " - checked out to " << (*pats).name << endl; // overloaded <<
+            out << " - checked out to " << (*pats).name << endl;
     }
 	out << endl;
 	return out;
@@ -300,7 +281,6 @@ void includeBook() {
 	    // condition checks whether the library already has a copy of that book.
         // if so, the total number of copies is incremented.
 	    if (!(bookRef == (*oldAuthor).books.end())) {
-	        // cout << "There can be only one...copy of that book.\n";
           (*bookRef).quantity++;
 	    }
 	    else {
@@ -323,34 +303,35 @@ void checkOutBook() {
 	Book book;
 	list<Author>::iterator authorRef;
 	list<Book>::iterator bookRef;
-	bool noWhammies = true;
+	bool noWhammies = true; // flag, in case anything goes wrong
 	patron.name = getString("Enter patron's name: ");
-
 	author.name = getString("Enter author's name: ");
 	authorRef = find(catalog[author.name[0]].begin(),
 		catalog[author.name[0]].end(), author);
+    // check whether any such author exists in the system
 	if (authorRef == catalog[author.name[0]].end()) {
 		cout << "We have no books written by " << author.name << endl;
 	    noWhammies = false;
 	}
-	if (noWhammies) {
+	if (noWhammies) { // assuming the author exists
 		book.title = getString("Enter the title of the book: ");
 		bookRef = find((*authorRef).books.begin(),
 			(*authorRef).books.end(), book);
+        // checks whether that title exists (for that author)
 		if (bookRef == (*authorRef).books.end()) {
 			cout << "Misspelled title.\n"
 			     << "We have these books by that author: \n"
 			     << *authorRef;
 		    noWhammies = false;
 		}
-		// else if ((*bookRef).checkedOut) {
+        // checks whether any copies are left in the library
 		else if ((*bookRef).quantity <= (*bookRef).copiesOut) {
 		    cout << "All copies of that book are already checked out.\n";
 		    cout << (*bookRef);
             noWhammies = false;
 		}
 	}
-	if (noWhammies) {
+	if (noWhammies) { // author, title, and available copies checked out
     	list<Patron>::iterator patronRef;
     	patronRef = find(people[patron.name[0]].begin(),
     		people[patron.name[0]].end(), patron);
@@ -361,7 +342,7 @@ void checkOutBook() {
     		(*bookRef).patrons.push_front(patron);
             (*bookRef).copiesOut++;
     	}
-    	else { // a pre-existing patron
+    	else { // must be a pre-existing patron
             CheckedOutBook checkedOutBook(authorRef, bookRef);
             list<CheckedOutBook>::iterator checkedOutChecker;
             checkedOutChecker = find(
@@ -375,12 +356,12 @@ void checkOutBook() {
                      << "that book.\n";
             }
             else {
+                // add that book to the patron's books
         		(*patronRef).books.push_front(checkedOutBook);
-        		// (*bookRef).patrons.push_back(&*patronRef);
+                // add that patron to the book's patrons
         		(*bookRef).patrons.push_front(patron);
-                // this line not strictly necessary, but just in case...
+                // increment the number of copies rented out at the moment
                 (*bookRef).copiesOut++;
-                // cout << "copiesOut: " << (*bookRef).copiesOut << endl;
             }
     	}
 	}
@@ -403,11 +384,12 @@ void returnBook() {
 	list<Patron>::iterator patronRef;
 	list<Book>::iterator bookRef;
 	list<Author>::iterator authorRef;
-	bool patronExists = true; // prevents non-existant patron returns.
+	bool patronExists = true; // flag in case something goes wrong
 
 	patron.name = getString("Enter patron's name: ");
 	patronRef = find(people[patron.name[0]].begin(),
 		people[patron.name[0]].end(), patron);
+    // check for the patron in the system
 	if (patronRef == people[patron.name[0]].end()) {
 		cout << "Patron's name misspelled.\n"
 		     << "They are either a new patron, or you made a typo.\n"
@@ -417,10 +399,11 @@ void returnBook() {
 			    cout << people[i];
 		patronExists = false;
 	}
-	if (patronExists) {
+	if (patronExists) { // the patron is in the system
 		author.name = getString("Enter author's name: ");
 		authorRef = find(catalog[author.name[0]].begin(),
 			catalog[author.name[0]].end(), author);
+        // check for the author in the system
 		if (authorRef == catalog[author.name[0]].end()) {
 			cout << "You either misspelled the author's name, \n"
 			     << "or we don't have a book by that author.\n"
@@ -431,10 +414,11 @@ void returnBook() {
 		    patronExists = false;
 		}
 	}
-	if (patronExists) {
+	if (patronExists) { // the patron and author are in the system
 		book.title = getString("Enter the title of the book: ");
 		bookRef = find((*authorRef).books.begin(),
 			(*authorRef).books.end(), book);
+        // check for that title under that author
 		if (bookRef == (*authorRef).books.end()) {
 			cout << "You may have misspelled the title.\n"
 			     << "We have these books by that author:\n"
@@ -442,9 +426,7 @@ void returnBook() {
 			patronExists = false;
 		}
 	}
-    // cout << "check 1\n";
-	if (patronExists) {
-        // cout << "check 2\n";
+	if (patronExists) { // patron, author, and title all check out
     	CheckedOutBook checkedOutBook(authorRef, bookRef);
     	list<CheckedOutBook>::iterator checkedOutChecker;
     	checkedOutChecker = find(
@@ -453,36 +435,15 @@ void returnBook() {
     	    checkedOutBook
     	);
     	// condition ensures the patron indeed checked that book out.
-        // cout << "check 3\n";
     	if (!(checkedOutChecker == (*patronRef).books.end())) {
-            // cout << "check 4\n";
-            // Patron* patPtr;
-            // cout << "check 4.1\n";
-            // *patPtr = *patronRef;
-            // *patPtr = patronRef;
-            // cout << "check 4.2\n";
-            // vector<Patron*>::iterator paterator = find(
-            //     (*bookRef).patrons.begin(),
-            //     (*bookRef).patrons.end(),
-            //     patPtr
-            // );
-            // cout << "check 5\n";
-            // (*bookRef).patrons.erase(paterator);
-
+            // remove that patron from the book's patrons
             (*bookRef).patrons.remove((*patronRef));
-
-        	(*bookRef).copiesOut--;
-            // cout << "check 6\n";
+            // remove that book from the patron's books
         	(*patronRef).books.remove(checkedOutBook);
-            // cout << "check 7\n";
-
-            // patPtr = NULL;
-            // cout << "check 8\n";
-            // delete patPtr;
-            // cout << "check 9\n";
+            // decrement the number of copies rented out, at the moment
+            (*bookRef).copiesOut--;
     	}
     	else {
-            // cout << "check 10\n";
     	    cout << "That patron does not have that book checked out.\n"
     	         << *patronRef;
     	}
