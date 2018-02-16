@@ -16,7 +16,7 @@ that looks like this and provides these options:
 Most of the source code comes from a text book:
 Data Structures and Algorithms in C++, by Adam Drozdek, section 3.9
 */
-#include <cstring>
+#include <cstring> // this fixed some warnings
 #include <iostream>
 #include <string>
 #include <list>
@@ -28,7 +28,7 @@ class Patron;        // forward declaration;
 
 /******************************************************************************
 The class below, Book, represents a book in the library.
-It has title and patron member variables.
+It has title, patron, and checkedOut member variables.
 It has a member function for printing book data.
 It gives some non-class functions and classes access to it's
 private member variables.
@@ -38,7 +38,7 @@ class Book {
 public:
 	Book() {
 		patron = NULL;
-		checkedOut = false;
+		checkedOut = false; // books begin inside the library
 	}
 	bool operator== (const Book& bk) const {
 		return strcmp(title, bk.title) == 0;
@@ -46,7 +46,7 @@ public:
 private:
 	char *title;
 	Patron *patron;
-	bool checkedOut;
+	bool checkedOut; // this attribute is to prevent double check out
 	ostream& printBook(ostream&) const;
 	friend ostream& operator<< (ostream& out, const Book& bk) {
 		return bk.printBook(out);
@@ -320,6 +320,7 @@ void checkOutBook() {
 		else if ((*bookRef).checkedOut) {
 		    cout << "That book is already checked out.\n";
 		    cout << (*bookRef);
+				noWhammies = false;
 		}
 	}
 	if (noWhammies) {
@@ -359,7 +360,8 @@ void returnBook() {
 	list<Patron>::iterator patronRef;
 	list<Book>::iterator bookRef;
 	list<Author>::iterator authorRef;
-	bool patronExists = true; // prevents non-existant patron returns.
+	bool patronExists = true; // prevents non-existant patron returns
+	                          // and other defacto errors.
 
 	patron.name = getString("Enter patron's name: ");
 	patronRef = find(people[patron.name[0]].begin(),
