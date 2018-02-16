@@ -6,3 +6,11 @@
         // maybe add it's location to output, as well
             // location is line number and character count
                 // get this from something else
+
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Hello World\n");
+    return 0;
+}
