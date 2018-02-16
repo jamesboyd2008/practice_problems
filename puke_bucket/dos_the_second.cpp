@@ -21,7 +21,7 @@ Data Structures and Algorithms in C++, by Adam Drozdek, section 3.9
 #include <iostream>
 #include <list>
 #include <string>
-#include <vector> // added to enable multiple patrons per book
+// #include <vector> // added to enable multiple patrons per book
 
 using namespace std;
 
@@ -39,8 +39,8 @@ class Book {
 public:
 	Book() {
 		// patrons = NULL;
-    quantity = 1;
-    copiesOut = 0;
+        quantity = 1;
+        copiesOut = 0;
 	}
 	bool operator== (const Book& bk) const {
 		return strcmp(title, bk.title) == 0;
@@ -48,8 +48,8 @@ public:
 private:
 	char *title;
 	// Patron *patron;
-  vector<Patron*> patrons; // multiple patrons are possible.
-  int quantity, copiesOut;
+    list<Patron> patrons; // multiple patrons are possible.
+    int quantity, copiesOut;
 	ostream& printBook(ostream&) const;
 	friend ostream& operator<< (ostream& out, const Book& bk) {
 		return bk.printBook(out);
@@ -131,6 +131,13 @@ public:
 	bool operator== (const Patron& pn) const {
 		return strcmp(name, pn.name) == 0;
 	}
+    // Patron& operator=(const Patron &right) { // for managing a book's multiple patrons
+    //     if (this != &right) {
+    //         *name = right->name;
+    //         books =
+    //     }
+    //     return *this;
+    // }
 private:
 	char *name;
 	list<CheckedOutBook> books;
@@ -174,16 +181,22 @@ output: a reference to a modified version of that ostream object: out.
 ******************************************************************************/
 ostream& Book::printBook(ostream& out) const {
 	out << "    * " << title << endl;
-  out << "    total copies in circulation: " << quantity << endl;
-  out << "    total copies rented out now: " << copiesOut << endl;
+    out << "    total copies in circulation: " << quantity << endl;
+    out << "    total copies rented out now: " << copiesOut << endl;
+    if (!patrons.empty()) {
 	// if (patron != NULL) {
-	if (patrons.size() > 0) {
-    for (int i = 0; i < patrons.size(); i++) {
-      // out << " - checked out to " << patrons->name << endl; // overloaded <<
-      out << " - checked out to " << patrons[i]->name << endl; // overloaded <<
-      // out << " - checked out to " << (*patrons[i]).name << endl; // overloaded <<
+	// if (patrons.size() > 0) {
+    // for (int i = 0; i < patrons.size(); i++) {
+    //   // out << " - checked out to " << patrons->name << endl; // overloaded <<
+    //   // out << " - checked out to " << patrons[i]->name << endl; // overloaded <<
+    //   // out << " - checked out to " << (*patrons[i]).name << endl; // overloaded <<
+
+        list<Patron>::const_iterator pats = patrons.begin();
+        for(; pats != patrons.end(); pats++)
+            // out << *pats;
+            // out << " - checked out to " << pats->name; // overloaded <<
+            out << " - checked out to " << (*pats).name << endl; // overloaded <<
     }
-  }
 	out << endl;
 	return out;
 }
@@ -331,32 +344,45 @@ void checkOutBook() {
 		    noWhammies = false;
 		}
 		// else if ((*bookRef).checkedOut) {
-		else if ((*bookRef).quantity == (*bookRef).copiesOut) {
+		else if ((*bookRef).quantity <= (*bookRef).copiesOut) {
 		    cout << "All copies of that book are already checked out.\n";
 		    cout << (*bookRef);
             noWhammies = false;
 		}
 	}
 	if (noWhammies) {
-    	// if (!(*bookRef).checkedOut) { // condition prevents double check out
-        	// (*bookRef).checkedOut = true;
-        	(*bookRef).copiesOut++;
-        	list<Patron>::iterator patronRef;
-        	patronRef = find(people[patron.name[0]].begin(),
-        		people[patron.name[0]].end(), patron);
-        	CheckedOutBook checkedOutBook(authorRef, bookRef);
-        	if (patronRef == people[patron.name[0]].end()) { // a new patron
-        		patron.books.push_front(checkedOutBook);    // in the library;
-        		people[patron.name[0]].push_front(patron);
-        		// (*bookRef).patron = &*people[patron.name[0]].begin();
-        		(*bookRef).patrons.push_back(&*people[patron.name[0]].begin());
-        	}
-        	else {
+    	list<Patron>::iterator patronRef;
+    	patronRef = find(people[patron.name[0]].begin(),
+    		people[patron.name[0]].end(), patron);
+    	CheckedOutBook checkedOutBook(authorRef, bookRef);
+    	if (patronRef == people[patron.name[0]].end()) { // a new patron
+    		patron.books.push_front(checkedOutBook);    // in the library;
+    		people[patron.name[0]].push_front(patron);
+    		(*bookRef).patrons.push_front(patron);
+            (*bookRef).copiesOut++;
+    	}
+    	else { // a pre-existing patron
+            CheckedOutBook checkedOutBook(authorRef, bookRef);
+            list<CheckedOutBook>::iterator checkedOutChecker;
+            checkedOutChecker = find(
+                (*patronRef).books.begin(),
+                (*patronRef).books.end(),
+                checkedOutBook
+            );
+            // condition ensures patron does not have a copy already
+            if (!(checkedOutChecker == (*patronRef).books.end())) {
+                cout << "That patron has already checked out a copy of "
+                     << "that book.\n";
+            }
+            else {
         		(*patronRef).books.push_front(checkedOutBook);
-        		// (*bookRef).patron = &*patronRef;
-        		(*bookRef).patrons.push_back(&*patronRef);
-        	}
-    	// }
+        		// (*bookRef).patrons.push_back(&*patronRef);
+        		(*bookRef).patrons.push_front(patron);
+                // this line not strictly necessary, but just in case...
+                (*bookRef).copiesOut++;
+                // cout << "copiesOut: " << (*bookRef).copiesOut << endl;
+            }
+    	}
 	}
 }
 
@@ -416,7 +442,9 @@ void returnBook() {
 			patronExists = false;
 		}
 	}
+    // cout << "check 1\n";
 	if (patronExists) {
+        // cout << "check 2\n";
     	CheckedOutBook checkedOutBook(authorRef, bookRef);
     	list<CheckedOutBook>::iterator checkedOutChecker;
     	checkedOutChecker = find(
@@ -425,21 +453,36 @@ void returnBook() {
     	    checkedOutBook
     	);
     	// condition ensures the patron indeed checked that book out.
+        // cout << "check 3\n";
     	if (!(checkedOutChecker == (*patronRef).books.end())) {
-            Patron* patPtr;
-            *patPtr = *patronRef;
-            vector<Patron*>::iterator paterator = find(
-                (*bookRef).patrons.begin(),
-                (*bookRef).patrons.end(),
-                patPtr
-            );
-        	(*bookRef).copiesOut--;
-        	(*patronRef).books.remove(checkedOutBook);
+            // cout << "check 4\n";
+            // Patron* patPtr;
+            // cout << "check 4.1\n";
+            // *patPtr = *patronRef;
+            // *patPtr = patronRef;
+            // cout << "check 4.2\n";
+            // vector<Patron*>::iterator paterator = find(
+            //     (*bookRef).patrons.begin(),
+            //     (*bookRef).patrons.end(),
+            //     patPtr
+            // );
+            // cout << "check 5\n";
+            // (*bookRef).patrons.erase(paterator);
 
-            patPtr = NULL;
-            delete patPtr;
+            (*bookRef).patrons.remove((*patronRef));
+
+        	(*bookRef).copiesOut--;
+            // cout << "check 6\n";
+        	(*patronRef).books.remove(checkedOutBook);
+            // cout << "check 7\n";
+
+            // patPtr = NULL;
+            // cout << "check 8\n";
+            // delete patPtr;
+            // cout << "check 9\n";
     	}
     	else {
+            // cout << "check 10\n";
     	    cout << "That patron does not have that book checked out.\n"
     	         << *patronRef;
     	}
