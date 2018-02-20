@@ -52,25 +52,30 @@ using namespace std;
 
 /*******************************************************************************
 This function adds columns to a row.
-input: string, the row to which columns must be added
-output: string, the new row, with more columns
+input: vector<string> matrix, the matrix to which columns are to be added.
+       int addThisMany, the number of columns to add.
+output: vector<string>, the new matrix with more columns.
 *******************************************************************************/
-string addColumns(string row, int addThisMany)
+vector<string> addColumns(vector<string> matrix, int addThisMany)
 {
-    // duplicate e'ry element addThisMany times
-    int originalSize = row.size();
-    for
-    (
-        int i = 0;
-        i < originalSize * (addThisMany + 1) - (addThisMany - 1);
-        i += addThisMany + 1
-    )
+    for (int r = 0; r < matrix.size(); r++)
     {
-        // insert another i into row right after i
-        row.insert((i + 1), &row[i]);
-    }
+        // duplicate e'ry element addThisMany times
+        int originalSize = matrix[r].size();
+        for
+        (
+            int i = 0;
+            i < originalSize * (addThisMany + 1) - (addThisMany - 1);
+            i += addThisMany + 1
+        )
+        {
+            // insert another i into row right after i
+            matrix[r].insert((i + 1), &matrix[r][i]);
+        }
 
-    return row;
+        // matrix[r] = row;
+    }
+    return matrix;
 }
 
 /*******************************************************************************
@@ -93,10 +98,8 @@ int main()
     vector<string> matrix;
     for (int i = 0; i < row; i++)
     {
-        // cout << "Let's get a row\n";
         string input;
         cin >> input;
-        // matrix[i] = input;
         matrix.push_back(input);
     }
 
@@ -107,11 +110,7 @@ int main()
     }
     if (zC > 1)
     {
-        // matrix = addColumns(matrix, zC - 1);
-        for (int r = 0; r < row; r++)
-        {
-            matrix[r] = addColumns(matrix[r], zC - 1);
-        }
+        matrix = addColumns(matrix, zC - 1);
     }
 
     // print the new matrix to the console
