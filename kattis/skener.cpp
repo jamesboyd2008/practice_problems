@@ -60,35 +60,40 @@ vector<string> addColumns(vector<string> matrix, int addThisMany)
 {
     for (int r = 0; r < matrix.size(); r++)
     {
-        // duplicate e'ry element addThisMany times
-        int originalSize = matrix[r].size();
-        for
-        (
-            int i = 0;
-            i < originalSize * (addThisMany + 1) - (addThisMany - 1);
-            i += addThisMany + 1
-        )
-        {
-            // insert another i into row right after i
-            matrix[r].insert((i + 1), &matrix[r][i]);
-        }
+        string oldRow = matrix[r];
+        string newRow = "";
 
-        // matrix[r] = row;
+        // duplicate e'ry element addThisMany times
+        for (int i = 0; i < oldRow.size(); i++)
+        {
+            for (int j = 0; j < addThisMany + 1; j++)
+            {
+                newRow += oldRow[i];
+            }
+        }
+        matrix[r] = newRow;
     }
     return matrix;
 }
 
 /*******************************************************************************
 This function adds rows to a matrix.
-input: a matrix, i.e., a vector of vectors of ints, and
+input: a matrix, i.e., a vector of strings, and
        an int, the number of rows to add to the matrix.
-ouput: a new matrix, i.e., a vector of vectors of ints, with more rows.
+ouput: a new matrix, i.e., a vector of strings, with more rows.
 *******************************************************************************/
 vector<string> addRows(vector<string> matrix, int addThisMany)
 {
-
-
-    return matrix;
+    vector<string> newMatrix;
+    // duplicate every row addThisMany times
+    for (int r = 0; r < matrix.size(); r++)
+    {
+        for (int j = 0; j < addThisMany + 1; j++)
+        {
+            newMatrix.push_back(matrix[r]);
+        }
+    }
+    return newMatrix;
 }
 
 int main()
@@ -106,7 +111,7 @@ int main()
     // process the input matrix
     if (zR > 1)
     {
-        matrix = addRows(matrix, zR);
+        matrix = addRows(matrix, zR - 1);
     }
     if (zC > 1)
     {
@@ -114,9 +119,9 @@ int main()
     }
 
     // print the new matrix to the console
-    for (int r = 0; r < (row * zR); r++)
+    for (int r = 0; r < matrix.size(); r++)
     {
-        for (int c = 0; c < (column * zC); c++)
+        for (int c = 0; c < matrix[r].size(); c++)
         {
             cout << matrix[r][c];
         }
