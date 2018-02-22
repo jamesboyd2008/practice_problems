@@ -24,7 +24,7 @@ ChessBoard::ChessBoard(int n) : available(true), squares(n), norm(squares-1) {
     initializeBoard();
 }
 void ChessBoard::initializeBoard() {
-    register int i;
+    int i;
     column = new bool[squares];
     positionInRow = new int[squares];
     leftDiagonal  = new bool[squares*2 - 1];
@@ -39,6 +39,25 @@ void ChessBoard::initializeBoard() {
 }
 void ChessBoard::printBoard(ostream& out) {
     // . . . .
+    // ♛
+    // ♕
+    // ─ │ ┌ ┐ └ ┘ ├ ┤ ┬ ┴ ┼ // light
+    // ━ ┃ ┏ ┓ ┗ ┛ ┣ ┫ ┳ ┻ ╋ // heavy
+    // Block Elements, bottom aligned ▁ ▂ ▃ ▄ ▅ ▆ ▇ █
+    // Block Elements, left aligned ▉ ▊ ▋ ▌ ▍ ▎ ▏
+    // Block Elements, right aligned ▐ ▕
+    // Shaded Block ░ ▒ ▓
+    for (int row = 0; row < squares; row++) {
+        for (int col = 0; col < squares; col++) {
+            if (positionInRow[row] == col) {
+                out << "♛ ";
+            } else {
+                out << "_ ";
+            }
+        }
+        out << endl;
+    }
+    out << endl;
 }
 void ChessBoard::putQueen(int row) {
     for (int col = 0; col < squares; col++)
@@ -51,7 +70,10 @@ void ChessBoard::putQueen(int row) {
             rightDiagonal[row-col+norm] = !available;
             if (row < squares-1)
                  putQueen(row+1);
-            else printBoard(cout);
+            else {
+                printBoard(cout);
+                howMany++; // increment solutions discovered
+            }
             column[col] = available;
             leftDiagonal[row+col] = available;
             rightDiagonal[row-col+norm] = available;
@@ -64,6 +86,7 @@ void ChessBoard::findSolutions() {
 
 int main() {
     ChessBoard board(4);
+    // ChessBoard board;
     board.findSolutions();
     return 0;
 }
