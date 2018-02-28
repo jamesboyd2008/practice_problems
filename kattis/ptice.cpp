@@ -103,3 +103,18 @@ int main()
 
     return 0;
 }
+
+// ABCABCABCABC
+// BABCBABCBABC
+// CCAABBCCAABB
+// ___BA__A_BCA
+// AAABAAAAABCA // all three score 2
+// BBBBABBABBCA // 1, 4 bruno, 1
+// CCCBACCACBCA // 3 adrian, 0, 3 goran
+// ABCBBCCABCBCBCBBAACCAACCBAA // 12 Bruno
+// 100 of adrian, goran sequences passed
+//
+
+// ABCABCABCABCABCABCABCABCABC // ADRIAN
+// BABCBABCBABCBABCBABCBABCBAB // BRUNO
+// CCAABBCCAABBCCAABBCCAABBCCA // Goran
