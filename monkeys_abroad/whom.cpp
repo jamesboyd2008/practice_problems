@@ -2,9 +2,13 @@
 This program is an implementation of the classic N Queens problem.
 
 A user is prompted for a number, N, which represents the length and width of a
-chess board.  The program then calculates and outputs the number of ways
-N queens can be arranged on the board such that no queen threatens another.
-The program also outputs the first solution in a readable fashion.
+chess board. Then the program outputs a configuration of a chess board such
+that no queen threatens another. Then the program outputs the quantity of
+configurations of an imaginary chess board it examined prior to discovering a
+solution.
+
+The program can easily be modified to output all solutions by commenting out
+lines 106 and 120 and uncommenting line 126.
 
 Here's a more thorough explanation:
 https://en.wikipedia.org/wiki/Eight_queens_puzzle
@@ -53,8 +57,6 @@ void ChessBoard::initializeBoard() {
     howMany = configurationsExamined = 0;
 }
 void ChessBoard::printBoard(ostream& out) {
-    // ♛
-    // ─ │ ┌ ┐ └ ┘ ├ ┤ ┬ ┴ ┼ // light
     for (int row = 0; row < squares; row++) {
         for (int col = 0; col < squares; col++) {
             // This condition checks whether a queen is on the square.
@@ -101,9 +103,8 @@ void ChessBoard::putQueen(int row) {
             } else {
                 // The condition below ensures only the first solution is
                 // displayed.
-                if (howMany < 1) {
+                if (howMany < 1)
                     printBoard(cout);
-                }
                 howMany++; // increment solutions discovered
             }
             column[col] = available;
@@ -116,9 +117,7 @@ void ChessBoard::putQueen(int row) {
                 configurationsExamined++;
         }
         // comment out the code block below to find more solutions.
-        if (howMany > 0) {
-            break;
-        }
+        if (howMany > 0) break;
     }
 }
 void ChessBoard::findSolutions() {
