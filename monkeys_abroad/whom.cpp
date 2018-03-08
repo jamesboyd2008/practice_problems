@@ -84,7 +84,7 @@ void ChessBoard::printBoard(ostream& out) {
     out << endl;
 }
 void ChessBoard::putQueen(int row) {
-    for (int col = 0; col < squares; col++)
+    for (int col = 0; col < squares; col++) {
         if (column[col] == available &&
             leftDiagonal [row+col] == available &&
             rightDiagonal[row-col+norm] == available) {
@@ -101,8 +101,9 @@ void ChessBoard::putQueen(int row) {
             } else {
                 // The condition below ensures only the first solution is
                 // displayed.
-                if (howMany < 1)
+                if (howMany < 1) {
                     printBoard(cout);
+                }
                 howMany++; // increment solutions discovered
             }
             column[col] = available;
@@ -114,11 +115,16 @@ void ChessBoard::putQueen(int row) {
             if (howMany < 1)
                 configurationsExamined++;
         }
+        // comment out the code block below to find more solutions.
+        if (howMany > 0) {
+            break;
+        }
+    }
 }
 void ChessBoard::findSolutions() {
     putQueen(0);
     // Tell the user how many solutions were found.
-    cout << howMany << " solutions were found.\n";
+    // cout << howMany << " solutions were found.\n";
     // Tell the user how many board configurations were examined
     // before a board configuration was examined that happened to be a solution.
     cout << configurationsExamined - 1
