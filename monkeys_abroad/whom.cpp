@@ -24,7 +24,7 @@ private:
     const int squares, norm;
     bool *column, *leftDiagonal, *rightDiagonal;
     // howMany is used to track the total number of solutions discovered.
-    int  *positionInRow, howMany;
+    int  *positionInRow, howMany, configurationsExamined;
     void putQueen(int);
     void printBoard(ostream&);
     void initializeBoard();
@@ -48,7 +48,9 @@ void ChessBoard::initializeBoard() {
         column[i] = available;
     for (i = 0; i < squares*2 - 1; i++)
         leftDiagonal[i] = rightDiagonal[i] = available;
-    howMany = 0; // initialize board with zero solutions discovered, so far.
+    // initialize board with zero solutions discovered
+    // and zero configurations examined.
+    howMany = configurationsExamined = 0;
 }
 void ChessBoard::printBoard(ostream& out) {
     // ♛
@@ -60,8 +62,21 @@ void ChessBoard::printBoard(ostream& out) {
                 out << "♛ ";
             } else {
                 // Determine the color of the unoccupied square.
-
-                out << "_ ";
+                if (row % 2 == 0) {
+                    if (col % 2 == 0) {
+                        // white squares get a "."
+                        out << ". ";
+                    } else {
+                        // black squares get an "x"
+                        out << "x ";
+                    }
+                } else {
+                    if (col % 2 == 0) {
+                        out << "x ";
+                    } else {
+                        out << ". ";
+                    }
+                }
             }
         }
         out << endl;
@@ -77,9 +92,13 @@ void ChessBoard::putQueen(int row) {
             column[col] = !available;
             leftDiagonal[row+col] = !available;
             rightDiagonal[row-col+norm] = !available;
-            if (row < squares-1)
+            // increment board configurations examined,
+            // if still working on the first solution.
+            if (howMany < 1)
+                configurationsExamined++;
+            if (row < squares-1) {
                 putQueen(row+1);
-            else {
+            } else {
                 // The condition below ensures only the first solution is
                 // displayed.
                 if (howMany < 1)
@@ -89,12 +108,45 @@ void ChessBoard::putQueen(int row) {
             column[col] = available;
             leftDiagonal[row+col] = available;
             rightDiagonal[row-col+norm] = available;
+        } else {
+            // increment board configurations examined,
+            // if still working on the first solution.
+            if (howMany < 1)
+                configurationsExamined++;
         }
 }
 void ChessBoard::findSolutions() {
     putQueen(0);
     // Tell the user how many solutions were found.
-    cout << howMany << " solutions found.\n";
+    cout << howMany << " solutions were found.\n";
+    // Tell the user how many board configurations were examined
+    // before a board configuration was examined that happened to be a solution.
+    cout << configurationsExamined - 1
+         << " board configuarations were examined, \n"
+         << "prior to the discovery of the first solution.\n";
+}
+// This function tests the rest of the program.
+// It creates boards with sizes 4-10 and finds solutions for them.
+void runTests() {
+    ChessBoard board4(4),
+               board5(5),
+               board6(6),
+               board7(7),
+               board8,
+               board9(9),
+               board10(10);
+    ChessBoard boards[7] = {
+        board4,
+        board5,
+        board6,
+        board7,
+        board8,
+        board9,
+        board10
+    };
+    for (int i = 0; i < 7; i++) {
+        boards[i].findSolutions();
+    }
 }
 
 int main() {
@@ -118,5 +170,8 @@ int main() {
         if (response != 'y')
             break;
     }
+
+    // runTests(); // uncomment to run tests
+
     return 0;
 }
