@@ -35,7 +35,7 @@ public:
         set<int>::iterator itr;
         for (itr = kubla.lines.begin(); itr != kubla.lines.end(); ++itr)
         {
-            out << '\t' << *itr;
+            out << " " << *itr;
         }
         out << endl;
         return out;
