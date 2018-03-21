@@ -110,7 +110,7 @@ protected:
 	void inorder(BSTNode<T>*);
 	void postorder(BSTNode<T>*);
 	virtual void visit(BSTNode<T>* p) {
-		cout << p->el << ' ';
+		cout << p->el;// << ' ';
 	}
 };
 
