@@ -1,13 +1,25 @@
-# include <algorithm>
-# include <fstream>
-# include <iostream>
-# include <string>
-# include <sstream>
-# include "genBST.h"
+#include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <set>
+#include <string>
+#include <sstream>
+#include "genBST.h"
+#include "Kubla.h"
 
 using namespace std;
 
+void fillTree();
+void printTree();
+
 int main()
+{
+    fillTree();
+    printTree();
+    return 0;
+}
+
+void fillTree()
 {
     ifstream kublaKhan;
     kublaKhan.open("kubla_khan.txt"); // access the input file
@@ -32,6 +44,13 @@ int main()
             cout << word << endl;
         }
     }
+}
 
-    return 0;
+void printTree()
+{
+    /*
+    After you finish looping through the file, iterate through the tree in alphabetical order (i.e. an inorder
+traversal) and print each node. This will consist of printing the word and its list of line number
+occurrences.
+    */
 }
