@@ -48,3 +48,6 @@ do
         echo "Please choose 1, 2, 3, or 4."
     fi
 done
+
+# TODO: check out a book
+# TODO: see what books a student has checked out

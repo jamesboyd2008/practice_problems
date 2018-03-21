@@ -1,0 +1,10 @@
+CS 101 | Math | 3 | T Shaneyfelt
+CS 135 | Science | 3 | S Rahman
+CS 141 | English | 3 | M Peterson
+CS 150 | Art | 3 | T Shaneyfelt
+CS 151 | Astrology | 3 | H Edwards
+CS 194 | Reading | 3 | M Peterson
+CS 241 | Botony | 3 | J Cheng
+CS 321 | Group_Think | 3 | M Peterson
+CS 350 | Obedience | 3 | S Erdogan
+CS 407 | History | 3 | H Edwards
