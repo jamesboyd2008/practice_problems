@@ -34,17 +34,53 @@ PROGRAM_DESCRIPTION
 
 echo "These are the professors:\n"
 awk 'BEGIN { FS = "|" } ;
-           { print $2 }' students
-echo "Which student are you? \c"
+           { print $1 }' professors
+echo "Which professor are you? \c"
 read NAME
 echo ""
-echo "$NAME, here is your record:\n"
-awk -v name="$NAME" 'BEGIN { FS = "|" } ;
-                   $2~name { print "Student ID: " $1}' students
-awk -v name="$NAME" -f findGrade.awk grades
+
+echo "$NAME, here are your courses:\n"
+
+awk -v name="$NAME" '
+    {
+        FS = "|";
+        if ($1~name)
+        {
+            for (i=2; i<=NF; i++)
+            {
+                print $i
+            }
+        }
+    }' professors
+echo "\nWhich course would you like to view?"
+read COURSE
+echo "You chose $COURSE\n"
+echo "Choose an option:\n"
+echo "1. View grades"
+echo "2. Modify grades\n"
+read OPTION
+if [ $OPTION == 1 ]
+then
+    echo "$COURSE"
+    # view grades of the chosen course
+    awk -v course="$COURSE" 'BEGIN { FS = "|" };
+                       $3~course { print $2 $4}' grades
+elif [ $OPTION == 2 ]
+then
+    echo "You chose 2."
+    # modify the grades of the chosen course
+else
+    echo "You mis-chose $OPTION."
+    echo "Please choose 1 or 2\n"
+fi
 
 
+# display everyone in the course, and their grade
+# ask
 
+# awk -v name="$NAME" 'BEGIN { FS = "|" } ;
+#                    $1~name { print $0}' professors
+# awk -v name="$NAME" -f findGrade.awk grades
 
 
 
