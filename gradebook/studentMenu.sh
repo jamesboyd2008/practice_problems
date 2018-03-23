@@ -25,11 +25,6 @@ echo "Which student are you? \c"
 read NAME
 echo ""
 echo "$NAME, here is your record:\n"
-# awk -v name="$NAME" '$1~name{ print "Student ID: " $1}' students
 awk -v name="$NAME" 'BEGIN { FS = "|" } ;
                    $2~name { print "Student ID: " $1}' students
-# PICKUP HERE: merge the students and marks files. Only students and courses
-# are required. Aint no SQL in this project.
-
-# awk 'BEGIN { FS = "|" } ;
-#            { print $2 }' students
+awk -v name="$NAME" -f findGrade.awk grades
