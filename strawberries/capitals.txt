@@ -1,0 +1,50 @@
+Montgomery 32.38 86.30
+Juneau 58.30 134.41
+Phoenix 33.45 112.08
+Little Rock 34.75 92.27
+Sacramento 38.58 121.49
+Denver 39.74 104.99
+Hartford 41.76 72.67
+Dover 39.16 75.67
+Tallahassee 30.44 84.39
+Atlanta 33.75 84.39
+Honolulu 21.30 157.86
+Boise 43.61 116.19
+Springfield 39.80 89.64
+Indianapolis 39.77 86.64
+Des Moines 41.59 93.62
+Topeka 39.05 95.67
+Frankfort 38.20 84.88
+Baton Rouge 30.44 91.19
+Augusta 44.32 69.78
+Annapolis 38.98 76.49
+Boston 42.36 71.06
+Lansing 42.73 84.55
+Saint Paul 44.94 93.09
+Jackson 32.30 90.19
+Jefferson City 38.58 92.18
+Helena 46.59 112.02
+Lincoln 40.81 96.71
+Carson City 39.16 119.77
+Concord 43.21 71.54
+Trenton 40.22 74.76
+Santa Fe 35.69 105.94
+Albany 42.65 73.76
+Raleigh 35.79 78.64
+Bismark 46.81 100.78
+Columbus 39.96 83.00
+Oklahoma City 35.47 97.52
+Salem 44.93 123.04
+Harrisburg 40.26 76.88
+Providence 41.82 71.41
+Columbia 34.00 81.05
+Pierre 44.37 100.35
+Nashville 36.17 86.78
+Austin 30.27 97.74
+Salt Lake City 40.76 111.89
+Montpelier 44.26 72.58
+Richmond 37.54 77.43
+Olympia 47.04 122.89
+Charleston 38.35 81.64
+Madison 43.07 89.39
+Cheyenne 41.13 104.82
