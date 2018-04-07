@@ -1,8 +1,11 @@
 // prog 5 multiway trees
-#include <iostream>
 #include <cmath>
+#include <fstream>
+#include <iostream>
 #include <queue>
 #include <stack>
+#include <string>
+#include <sstream>
 #include <vector>
 
 using namespace std;
@@ -183,45 +186,36 @@ void QuadTree<T>::clear(QuadTreeNode<T> *p) {
 // 	else prev->right = new QuadTreeNode<T>(el);
 // }
 
-// template<class T>
-// void QuadTree<T>::recursiveInsert(QuadTreeNode<T>*& p, const T& el) {
-// 	if (p == 0)
-// 		p = new QuadTreeNode<T>(el);
-// 	else if (el < p->el)
-//     {
-// 		recursiveInsert(p->left, el);
-//     }
-// 	else recursiveInsert(p->right, el);
-// }
 template<class T>
 void QuadTree<T>::recursiveInsert(QuadTreeNode<T>*& p, const T& el) {
-    cout << "check1\n";
-	double lat1 = el.getLat();
-	cout << "check2\n";
-	double lat2 = p->el.getLat();
-	cout << "check3\n";
-	double lon1 = el.getLon();
-	double lon2 = p->el.getLon();
 	if (p == 0)
 	{
 		p = new QuadTreeNode<T>(el);
 	}
-	// else if (el.isNEof(p->el))
-	else if (lat1 >= lat2 && lon1 <= lon2)
-    {
-		recursiveInsert(p->ne, el);
-    }
-	// else if (el.isNWof(p->el))
-	else if (lat1 >= lat2 && lon1 >= lon2)
-    {
-		recursiveInsert(p->nw, el);
-    }
-	// else if (el.isSWof(p->el))
-	else if (lat1 <= lat2 && lon1 >= lon2)
-    {
-		recursiveInsert(p->sw, el);
-    }
-	else recursiveInsert(p->se, el);
+	else
+	{
+		double lat1 = el.getLat();
+		double lat2 = p->el.getLat();
+		double lon1 = el.getLon();
+		double lon2 = p->el.getLon();
+
+		// else if (el.isNEof(p->el))
+		if (lat1 >= lat2 && lon1 <= lon2)
+	    {
+			recursiveInsert(p->ne, el);
+	    }
+		// else if (el.isNWof(p->el))
+		else if (lat1 >= lat2 && lon1 >= lon2)
+	    {
+			recursiveInsert(p->nw, el);
+	    }
+		// else if (el.isSWof(p->el))
+		else if (lat1 <= lat2 && lon1 >= lon2)
+	    {
+			recursiveInsert(p->sw, el);
+	    }
+		else recursiveInsert(p->se, el);
+	}
 }
 
 // template<class T>
@@ -369,10 +363,10 @@ void QuadTree<T>::breadthFirst() {
 		while (!queue.empty()) {
 			p = queue.dequeue();
 			visit(p);
-			if (p->ne != 0)
-				queue.enqueue(p->ne);
 			if (p->nw != 0)
 				queue.enqueue(p->nw);
+			if (p->ne != 0)
+				queue.enqueue(p->ne);
 			if (p->sw != 0)
 				queue.enqueue(p->sw);
 			if (p->se != 0)
@@ -381,10 +375,40 @@ void QuadTree<T>::breadthFirst() {
 	}
 }
 
+void populateTree(QuadTree<City> &cities)
+{
+	// read line by line, adding city to tree
+	ifstream capitals;
+	capitals.open("capitals.txt");
+	string line;
+	while (getline(capitals, line))
+	{
+		stringstream lineStream(line);
+		string word, name = "";
+		double lat = 0, lon = 0;
+		while (lineStream >> word)
+		{
+			// if the first char of the workd is a letter, it's still the name
+			if (isalpha(word[0]))
+				if (name == "")
+					name = word;
+				else
+					name += " " + word;
+			else
+				if (lat == 0)
+					lat = stod(word);
+				else
+					lon = stod(word);
+		}
+		City city = City(name, lat, lon);
+		cities.recursiveInsert(city);
+	}
+}
+
 int main()
 {
 	QuadTree<City> cities;
-	// populate tree
+	populateTree(cities);
     bool keepGoing = true;
     while (keepGoing)
     {
