@@ -1,10 +1,52 @@
 // prog 5 multiway trees
 #include <iostream>
+#include <cmath>
 #include <queue>
 #include <stack>
 #include <vector>
 
 using namespace std;
+
+class City
+{
+public:
+	City()
+	{
+		name = "City";
+		lat = lon = 0.0;
+	}
+	City (string newName, double latitude, double longitude)
+	{
+		name = newName;
+		lat = latitude;
+		lon = longitude;
+	}
+	string getName() const { return name; }
+	double getLat()  const { return lat;  }
+	double getLon()  const { return lon;  }
+	double distanceFrom(City city)
+	{
+		double pi = 3.1415926535897932384626433832795;
+		double r = 3956.0;
+		double distance = r * acos(
+			sin(lat * pi / 180.0) * sin(city.getLat() * pi / 180.0) +
+			cos(lat * pi / 180.0) * cos(city.getLat() * pi / 180.0) *
+			cos(abs(city.getLon() * pi / 180.0 - lon * pi / 180.0))
+		);
+		return distance;
+	}
+	friend ostream & operator << (ostream& out, City& city)
+	{
+		out << city.name << endl;
+		out << "latitude:  " << city.lat << endl;
+		out << "longitude: " << city.lon << endl;
+		return out;
+	}
+private:
+	string name;
+	double lat;
+	double lon;
+};
 
 template<class T>
 // visual studio didn't like this form of inheritance, but removing <T> works - MRP 10/28/14
@@ -31,7 +73,7 @@ public:
 		return tmp;
 	}
 	void enqueue(const T& el) {
-		push(el);
+		this->push(el);
 	}
 };
 template<class T> class QuadTree;
@@ -80,15 +122,6 @@ public:
 	bool isEmpty() const {
 		return root == 0;
 	}
-	void preorder() {
-		preorder(root);
-	}
-	void inorder() {
-		inorder(root);
-	}
-	void postorder() {
-		postorder(root);
-	}
 	// void insert(const T&);
 	void recursiveInsert(const T& el) {
 		recursiveInsert(root, el);
@@ -103,18 +136,7 @@ public:
 	T* recursiveNearestSearch(const T& el) const {
 		return recursiveNearestSearch(root, el);
 	}
-	void deleteByCopying(QuadTreeNode<T>*&);
-	void findAndDeleteByCopying(const T&);
-	void deleteByMerging(QuadTreeNode<T>*&);
-	void findAndDeleteByMerging(const T&);
-	void iterativePreorder();
-	void iterativeInorder();
-	void iterativePostorder();
 	void breadthFirst();
-	void MorrisPreorder();
-	void MorrisInorder();
-	void MorrisPostorder();
-	void balance(T*, int, int);
 protected:
 	QuadTreeNode<T>* root;
 	void clear(QuadTreeNode<T>*);
@@ -127,9 +149,6 @@ protected:
         vector<T*> cities
     );// const;
 	T* recursiveNearestSearch(QuadTreeNode<T>*, const T&) const;
-	void preorder(QuadTreeNode<T>*);
-	void inorder(QuadTreeNode<T>*);
-	void postorder(QuadTreeNode<T>*);
 	virtual void visit(QuadTreeNode<T>* p) {
 		cout << p->el;// << ' ';
 	}
@@ -176,18 +195,29 @@ void QuadTree<T>::clear(QuadTreeNode<T> *p) {
 // }
 template<class T>
 void QuadTree<T>::recursiveInsert(QuadTreeNode<T>*& p, const T& el) {
-    cout << "Don't forget to implement some comparison functions as the template element's members!\n";
+    cout << "check1\n";
+	double lat1 = el.getLat();
+	cout << "check2\n";
+	double lat2 = p->el.getLat();
+	cout << "check3\n";
+	double lon1 = el.getLon();
+	double lon2 = p->el.getLon();
 	if (p == 0)
+	{
 		p = new QuadTreeNode<T>(el);
-	else if (el.isNEof(p->el))
+	}
+	// else if (el.isNEof(p->el))
+	else if (lat1 >= lat2 && lon1 <= lon2)
     {
 		recursiveInsert(p->ne, el);
     }
-	else if (el.isNWof(p->el))
+	// else if (el.isNWof(p->el))
+	else if (lat1 >= lat2 && lon1 >= lon2)
     {
 		recursiveInsert(p->nw, el);
     }
-	else if (el.isSWof(p->el))
+	// else if (el.isSWof(p->el))
+	else if (lat1 <= lat2 && lon1 >= lon2)
     {
 		recursiveInsert(p->sw, el);
     }
@@ -223,223 +253,112 @@ vector<T*> QuadTree<T>::radiusSearch(
     vector <T*> cities
 )// const
 {
+	cout << "Now seeing if " << p->el.getName() << " is within " << radius
+	     << " miles of " << el.getName() << endl;
 	if (p != 0)
     {
+		double distance = el.distanceFrom(p->el);
+		cout << p->el.getName() << " is " << distance << " miles from "
+		     << el.getName() << endl;
+		if (distance <= radius)
+		{
+			// return &p->el;
+			cities.push_back(&p->el);
+		}
+		bool NE, NW, SW, SE;
+		NE = NW = SW = SE = true;
         // eliminate dead quadrants
-            // find distance between cities
-            // if radius is exceeded by longitudinal difference
-                // if focal city is west of original
-                    // don't search any quadrant further west
-                    // search ne & se
-                // if focal city is east of original
-                    // don't search any quadrant furhter east
-                    // search  nw & sw
-            // if radius is exceeded by latitudinal difference
-                // if focal city is north of original
-                    // don't search any quadrant further north
-                    // search sw & se
-                // if focal city is south of original
-                    // don't search any quadrant further south
-                    // search ne & nw
-            // otherwise search ne, nw, se, & sw
-    	if (el.distanceFrom(p->el) <= radius)
-        {
-    		// return &p->el;
-            cities.push_back(&p->el);
-            // keep searching
-        }
-    	else if (el < p->el)
-    		return radiusSearch(p->left, el);
-    	else return radiusSearch(p->right, el);
+        // find distance between cities
+		// double lonDiff = abs(p->el.getLon() - el.getLon());
+		double lonDiff = p->el.getLon() - el.getLon();
+		double latDiff = p->el.getLat() - el.getLat();
+		// if radius is exceeded by longitudinal difference
+		if (lonDiff > radius)
+		{
+            // if focal city is west of or even with original
+			if (lonDiff >= 0)
+			{
+				// don't search any quadrant further west
+				// search ne & se
+				NW = SW = false;
+				// cout << "searching NE\n";
+				// return radiusSearch(p->ne, el, radius, cities);
+				// cout << "searching SE\n";
+				// return radiusSearch(p->se, el, radius, cities);
+			}
+			// if focal city is east of original
+			else //if (lonDiff < 0)
+			{
+				// don't search any quadrant further east
+				// search  nw & sw
+				NE = SE = false;
+				// cout << "searching NW\n";
+				// return radiusSearch(p->nw, el, radius, cities);
+				// cout << "searching SW\n";
+				// return radiusSearch(p->sw, el, radius, cities);
+			}
+		}
+		// if radius is exceeded by latitudinal difference
+		if (latDiff > radius)
+		{
+            // if focal city is north of or even with original
+			if (latDiff >= 0)
+			{
+                // don't search any quadrant further north
+                // search sw & se
+				NE = NW = false;
+				// cout << "searching SW\n";
+				// return radiusSearch(p->sw, el, radius, cities);
+				// cout << "searching SE\n";
+				// return radiusSearch(p->se, el, radius, cities);
+			}
+            // if focal city is south of original
+			else
+			{
+                // don't search any quadrant further south
+                // search ne & nw
+				SW = SE = false;
+				// cout << "searching NE\n";
+				// return radiusSearch(p->ne, el, radius, cities);
+				// cout << "searching NW\n";
+				// return radiusSearch(p->nw, el, radius, cities);
+			}
+		}
+		// otherwise search ne, nw, se, & sw
+		if (NE)
+		{
+			cout << "searching NE\n";
+			return radiusSearch(p->ne, el, radius, cities);
+		}
+		if (NW)
+		{
+			cout << "searching NW\n";
+			return radiusSearch(p->nw, el, radius, cities);
+		}
+		if (SW)
+		{
+			cout << "searching SW\n";
+			return radiusSearch(p->sw, el, radius, cities);
+		}
+		if (SE)
+		{
+			cout << "searching SE\n";
+			return radiusSearch(p->se, el, radius, cities);
+		}
     }
-	else return 0; //root = new QuadTreeNode<T>(el);
+	else return cities;
 }
 
-template<class T>
-T* QuadTree<T>::recursiveNearestSearch(QuadTreeNode<T>* p, const T& el) const {
-	if (p != 0)
-	if (el == p->el)
-		return &p->el;
-	else if (el < p->el)
-		return recursiveNearestSearch(p->left, el);
-	else return recursiveNearestSearch(p->right, el);
-	else return 0;
-}
-
-template<class T>
-void QuadTree<T>::inorder(QuadTreeNode<T> *p) {
-	if (p != 0) {
-		inorder(p->left);
-		visit(p);
-		inorder(p->right);
-	}
-}
-
-template<class T>
-void QuadTree<T>::preorder(QuadTreeNode<T> *p) {
-	if (p != 0) {
-		visit(p);
-		preorder(p->left);
-		preorder(p->right);
-	}
-}
-
-template<class T>
-void QuadTree<T>::postorder(QuadTreeNode<T>* p) {
-	if (p != 0) {
-		postorder(p->left);
-		postorder(p->right);
-		visit(p);
-	}
-}
-
-template<class T>
-void QuadTree<T>::deleteByCopying(QuadTreeNode<T>*& node) {
-	QuadTreeNode<T> *previous, *tmp = node;
-	if (node->right == 0)                  // node has no right child;
-		node = node->left;
-	else if (node->left == 0 )              // node has no left child;
-		node = node->right;
-	else {
-		tmp = node->left;                  // node has both children;
-		previous = node;                  // 1.
-		while (tmp->right != 0) {         // 2.
-			previous = tmp;
-			tmp = tmp->right;
-		}
-		node->el = tmp->el;               // 3.
-		if (previous == node)
-			previous->left = tmp->left;
-		else previous->right = tmp->left; // 4.
-	}
-	delete tmp;                            // 5.
-}
-
-// findAndDeleteByCopying() searches the tree to locate the node containing
-// el. If the node is located, the function DeleteByCopying() is called.
-
-template<class T>
-void QuadTree<T>::findAndDeleteByCopying(const T& el) {
-	QuadTreeNode<T> *p = root, *prev = 0;
-	while (p != 0 && !(p->el == el)) {
-		prev = p;
-		if (el < p->el)
-			p = p->left;
-		else p = p->right;
-	}
-	if (p != 0 && p->el == el)
-	if (p == root)
-		deleteByCopying(root);
-	else if (prev->left == p)
-		deleteByCopying(prev->left);
-	else deleteByCopying(prev->right);
-	else if (root != 0)
-		cout << "el " << el << " is not in the tree\n";
-	else cout << "the tree is empty\n";
-}
-
-template<class T>
-void QuadTree<T>::deleteByMerging(QuadTreeNode<T>*& node) {
-	QuadTreeNode<T> *tmp = node;
-	if (node != 0) {
-		if (!node->right)           // node has no right child: its left
-			node = node->left;     // child (if any) is attached to its parent;
-		else if (node->left == 0)   // node has no left child: its right
-			node = node->right;    // child is attached to its parent;
-		else {                      // be ready for merging subtrees;
-			tmp = node->left;      // 1. move left
-			while (tmp->right != 0)// 2. and then right as far as possible;
-				tmp = tmp->right;
-			tmp->right =           // 3. establish the link between the
-				node->right;        //    the rightmost node of the left
-			//    subtree and the right subtree;
-			tmp = node;            // 4.
-			node = node->left;     // 5.
-		}
-		delete tmp;                 // 6.
-	}
-}
-
-template<class T>
-void QuadTree<T>::findAndDeleteByMerging(const T& el) {
-	QuadTreeNode<T> *node = root, *prev = 0;
-	while (node != 0) {
-		if (node->el == el)
-			break;
-		prev = node;
-		if (el < node->el)
-			node = node->left;
-		else node = node->right;
-	}
-	if (node != 0 && node->el == el)
-	if (node == root)
-		deleteByMerging(root);
-	else if (prev->left == node)
-		deleteByMerging(prev->left);
-	else deleteByMerging(prev->right);
-	else if (root != 0)
-		cout << "el " << el << " is not in the tree\n";
-	else cout << "the tree is empty\n";
-}
-
-template<class T>
-void QuadTree<T>::iterativePreorder() {
-	Stack<QuadTreeNode<T>*> travStack;
-	QuadTreeNode<T> *p = root;
-	if (p != 0) {
-		travStack.push(p);
-		while (!travStack.empty()) {
-			p = travStack.pop();
-			visit(p);
-			if (p->right != 0)
-				travStack.push(p->right);
-			if (p->left != 0)             // left child pushed after right
-				travStack.push(p->left); // to be on the top of the stack;
-		}
-	}
-}
-
-template<class T>
-void QuadTree<T>::iterativeInorder() {
-	Stack<QuadTreeNode<T>*> travStack;
-	QuadTreeNode<T> *p = root;
-	while (p != 0) {
-		while (p != 0) {                 // stack the right child (if any)
-			if (p->right)                // and the node itself when going
-				travStack.push(p->right); // to the left;
-			travStack.push(p);
-			p = p->left;
-		}
-		p = travStack.pop();             // pop a node with no left child
-		while (!travStack.empty() && p->right == 0) { // visit it and all nodes
-			visit(p);                                 // with no right child;
-			p = travStack.pop();
-		}
-		visit(p);                        // visit also the first node with
-		if (!travStack.empty())          // a right child (if any);
-			p = travStack.pop();
-		else p = 0;
-	}
-}
-
-template<class T>
-void QuadTree<T>::iterativePostorder() {
-	Stack<QuadTreeNode<T>*> travStack;
-	QuadTreeNode<T>* p = root, *q = root;
-	while (p != 0) {
-		for (; p->left != 0; p = p->left)
-			travStack.push(p);
-		while (p->right == 0 || p->right == q) {
-			visit(p);
-			q = p;
-			if (travStack.empty())
-				return;
-			p = travStack.pop();
-		}
-		travStack.push(p);
-		p = p->right;
-	}
-}
+// template<class T>
+// T* QuadTree<T>::recursiveNearestSearch(QuadTreeNode<T>* p, const T& el) const {
+// 	if (p != 0)
+// 	if (el == p->el)
+// 		return &p->el;
+// 	else if (el < p->el)
+// 		return recursiveNearestSearch(p->left, el);
+// 	else return recursiveNearestSearch(p->right, el);
+// 	else return 0;
+// }
 
 template<class T>
 void QuadTree<T>::breadthFirst() {
@@ -450,126 +369,22 @@ void QuadTree<T>::breadthFirst() {
 		while (!queue.empty()) {
 			p = queue.dequeue();
 			visit(p);
-			if (p->left != 0)
-				queue.enqueue(p->left);
-			if (p->right != 0)
-				queue.enqueue(p->right);
+			if (p->ne != 0)
+				queue.enqueue(p->ne);
+			if (p->nw != 0)
+				queue.enqueue(p->nw);
+			if (p->sw != 0)
+				queue.enqueue(p->sw);
+			if (p->se != 0)
+				queue.enqueue(p->se);
 		}
 	}
-}
-
-template<class T>
-void QuadTree<T>::MorrisInorder() {
-	QuadTreeNode<T> *p = root, *tmp;
-	while (p != 0)
-	if (p->left == 0) {
-		visit(p);
-		p = p->right;
-	}
-	else {
-		tmp = p->left;
-		while (tmp->right != 0 &&// go to the rightmost node of
-			tmp->right != p)  // the left subtree or
-			tmp = tmp->right;   // to the temporary parent of p;
-		if (tmp->right == 0) {   // if 'true' rightmost node was
-			tmp->right = p;     // reached, make it a temporary
-			p = p->left;        // parent of the current root,
-		}
-		else {                   // else a temporary parent has been
-			visit(p);           // found; visit node p and then cut
-			tmp->right = 0;     // the right pointer of the current
-			p = p->right;       // parent, whereby it ceases to be
-		}                        // a parent;
-	}
-}
-
-template<class T>
-void QuadTree<T>::MorrisPreorder() {
-	QuadTreeNode<T> *p = root, *tmp;
-	while (p != 0) {
-		if (p->left == 0) {
-			visit(p);
-			p = p->right;
-		}
-		else {
-			tmp = p->left;
-			while (tmp->right != 0 &&// go to the rightmost node of
-				tmp->right != p)  // the left subtree or
-				tmp = tmp->right;   // to the temporary parent of p;
-			if (tmp->right == 0) {   // if 'true' rightmost node was
-				visit(p);           // reached, visit the root and
-				tmp->right = p;     // make the rightmost node a temporary
-				p = p->left;        // parent of the current root,
-			}
-			else {                   // else a temporary parent has been
-				tmp->right = 0;     // found; cut the right pointer of
-				p = p->right;       // the current parent, whereby it ceases
-			}                        // to be a parent;
-		}
-	}
-}
-
-template<class T>
-void QuadTree<T>::MorrisPostorder() {
-	QuadTreeNode<T> *p = new QuadTreeNode<T>(), *tmp, *q, *r, *s;
-	p->left = root;
-	while (p != 0)
-	if (p->left == 0)
-		p = p->right;
-	else {
-		tmp = p->left;
-		while (tmp->right != 0 &&// go to the rightmost node of
-			tmp->right != p)  // the left subtree or
-			tmp = tmp->right;   // to the temporary parent of p;
-		if (tmp->right == 0) {   // if 'true' rightmost node was
-			tmp->right = p;     // reached, make it a temporary
-			p = p->left;        // parent of the current root,
-		}
-		else {             // else a temporary parent has been found;
-			// process nodes between p->left (included) and p (excluded)
-			// extended to the right in modified tree in reverse order;
-			// the first loop descends this chain of nodes and reverses
-			// right pointers; the second loop goes back, visits nodes,
-			// and reverses right pointers again to restore the pointers
-			// to their original setting;
-			for (q = p->left, r = q->right, s = r->right;
-				r != p; q = r, r = s, s = s->right)
-				r->right = q;
-			for (s = q->right; q != p->left;
-				q->right = r, r = q, q = s, s = s->right)
-				visit(q);
-			visit(p->left);     // visit node p->left and then cut
-			tmp->right = 0;     // the right pointer of the current
-			p = p->right;       // parent, whereby it ceases to be
-		}                        // a parent;
-	}
-}
-
-template<class T>
-void QuadTree<T>::balance(T data[], int first, int last) {
-	if (first <= last) {
-		int middle = (first + last) / 2;
-		insert(data[middle]);
-		balance(data, first, middle - 1);
-		balance(data, middle + 1, last);
-	}
-}
-
-double findDistance()
-{
-    return 0;
-}
-void nearestCity()
-{
-    return 0;
-}
-void addCity()
-{
-    return 0;
 }
 
 int main()
 {
+	QuadTree<City> cities;
+	// populate tree
     bool keepGoing = true;
     while (keepGoing)
     {
@@ -585,16 +400,32 @@ int main()
         switch(response)
         {
             case 1:
+			{
                 // 1. Compute the distance between two sets of coordinates.
+				double lat1, lon1, lat2, lon2;
                 cout << "Input the first latitude: ";
-                cout << "\n...\n";
+				cin >> lat1;
+                cout << "Input the first longitude: ";
+				cin >> lon1;
+                cout << "Input the second latitude: ";
+				cin >> lat2;
+				cout << "Input the second longitude: ";
+				cin >> lon2;
+				City city1 = City("here",  lat1, lon1);
+				City city2 = City("there", lat2, lon2);
+				cout << "The distance is " << city1.distanceFrom(city2)
+				     << " miles.\n";
+			}
                 break;
             case 2:
+			{
                 // 2. Find the nearest city to a set of coordinates.
                 cout << "Input the latitude: ";
                 cout << "Input the longitude: ";
+			}
                 break;
             case 3:
+			{
                 // 3. Add a city to the data set.
                 // • Otherwise, prompt the user for a city name and its coordinates (lat, lon).
                 // • Once you have the city’s information:
@@ -604,7 +435,18 @@ int main()
                 //         given city.
                 //         § Find and list the names and distances of all cities within a user-provided
                 //         distance r in miles from the given city.
+				string name;
+				double lat, lon;
                 cout << "Input the name of the city: ";
+				cin >> name;
+				cout << "Input the latitude: ";
+				cin >> lat;
+				cout << "Input the longitude: ";
+				cin >> lon;
+				City city = City(name, lat, lon);
+				cities.recursiveInsert(city);
+				cities.breadthFirst();
+			}
                 break;
             case 4:
                 keepGoing = false;
