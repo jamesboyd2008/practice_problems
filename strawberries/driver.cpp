@@ -45,6 +45,11 @@ public:
 		out << "longitude: " << city.lon << endl;
 		return out;
 	}
+	bool operator == (const City& city) const
+	{
+		// return whether they have the same coords
+		return (lat == city.getLat() && lon == city.getLon());
+	}
 private:
 	string name;
 	double lat;
@@ -126,8 +131,8 @@ public:
 		return root == 0;
 	}
 	// void insert(const T&);
-	void recursiveInsert(const T& el) {
-		recursiveInsert(root, el);
+	bool recursiveInsert(const T& el) {
+		return recursiveInsert(root, el);
 	}
 	// T* search(const T& el) const {
 	// 	return search(root, el);
@@ -143,7 +148,7 @@ public:
 protected:
 	QuadTreeNode<T>* root;
 	void clear(QuadTreeNode<T>*);
-	void recursiveInsert(QuadTreeNode<T>*&, const T&);
+	bool recursiveInsert(QuadTreeNode<T>*&, const T&);
 	// T* search(QuadTreeNode<T>*, const T&) const;
 	vector<T*> radiusSearch(
         QuadTreeNode<T>*,
@@ -187,13 +192,18 @@ void QuadTree<T>::clear(QuadTreeNode<T> *p) {
 // }
 
 template<class T>
-void QuadTree<T>::recursiveInsert(QuadTreeNode<T>*& p, const T& el) {
+bool QuadTree<T>::recursiveInsert(QuadTreeNode<T>*& p, const T& el) {
 	if (p == 0)
 	{
 		p = new QuadTreeNode<T>(el);
 	}
-	else
+	else if (p->el == el)
 	{
+		cout << "\nThat city is already in the data set.\n";
+		cout << "Most people call it " << p->el.getName() << ".\n";
+		return true;
+	}
+	else {
 		double lat1 = el.getLat();
 		double lat2 = p->el.getLat();
 		double lon1 = el.getLon();
@@ -216,6 +226,7 @@ void QuadTree<T>::recursiveInsert(QuadTreeNode<T>*& p, const T& el) {
 	    }
 		else recursiveInsert(p->se, el);
 	}
+	return false;
 }
 
 // template<class T>
@@ -405,10 +416,91 @@ void populateTree(QuadTree<City> &cities)
 	}
 }
 
+void findDistance()
+{
+	// 1. Compute the distance between two sets of coordinates.
+	double lat1, lon1, lat2, lon2;
+	cout << "Input the first latitude: ";
+	cin >> lat1;
+	cout << "Input the first longitude: ";
+	cin >> lon1;
+	cout << "Input the second latitude: ";
+	cin >> lat2;
+	cout << "Input the second longitude: ";
+	cin >> lon2;
+	City city1 = City("here",  lat1, lon1);
+	City city2 = City("there", lat2, lon2);
+	cout << "The distance is " << city1.distanceFrom(city2)
+		 << " miles.\n";
+}
+
+City* findNearest(City city)
+{
+	City* defaultArg = new City();
+	if (city == *defaultArg)
+	{
+		// 2. Find the nearest city to a set of coordinates.
+		cout << "Input the latitude: ";
+		cout << "Input the longitude: ";
+		return defaultArg;
+	}
+	else
+	{
+		// find nearest city to city
+		cout << "This code block is under construction.\n";
+		return defaultArg;
+	}
+}
+
+void addCity(QuadTree<City> &cities)
+{
+	// 3. Add a city to the data set.
+	// • Otherwise, prompt the user for a city name and its coordinates (lat, lon).
+	// • Once you have the city’s information:
+	//     o Insert the city into the tree if it is not there already.
+	//     o Give the user two options:
+	//         § Find  the  nearest  (other)  state  capitol  and  report  its  distance  from  the
+	//         given city.
+	//         § Find and list the names and distances of all cities within a user-provided
+	//         distance r in miles from the given city.
+	string name;
+	double lat, lon;
+	cout << "Input the name of the city: ";
+	cin >> name;
+	cout << "Input the latitude: ";
+	cin >> lat;
+	cout << "Input the longitude: ";
+	cin >> lon;
+	City city = City(name, lat, lon);
+	bool alreadyInTree = cities.recursiveInsert(city);
+	// cities.breadthFirst();
+	if (!alreadyInTree)
+	{
+		cout << "\nChoose an option:\n";
+		cout << "1. Find the nearest state capital to " << name << "\n";
+		cout << "2. Find all the capitals within a given radius\n";
+		cout << "3. Main menu\n";
+		bool keepGoing = true;
+		while (keepGoing)
+		{
+			int response;
+			cin >> response;
+			switch(response)
+			{
+				case 1: findNearest(city); break;
+				case 2: /*findAllWithinR()*/break;
+				case 3: keepGoing = false; break;
+				default: cout << "Please choose 1, 2, or 3\n\n";
+			}
+		}
+	}
+}
+
 int main()
 {
 	QuadTree<City> cities;
 	populateTree(cities);
+	City city = City();
     bool keepGoing = true;
     while (keepGoing)
     {
@@ -423,60 +515,13 @@ int main()
 
         switch(response)
         {
-            case 1:
-			{
-                // 1. Compute the distance between two sets of coordinates.
-				double lat1, lon1, lat2, lon2;
-                cout << "Input the first latitude: ";
-				cin >> lat1;
-                cout << "Input the first longitude: ";
-				cin >> lon1;
-                cout << "Input the second latitude: ";
-				cin >> lat2;
-				cout << "Input the second longitude: ";
-				cin >> lon2;
-				City city1 = City("here",  lat1, lon1);
-				City city2 = City("there", lat2, lon2);
-				cout << "The distance is " << city1.distanceFrom(city2)
-				     << " miles.\n";
-			}
-                break;
-            case 2:
-			{
-                // 2. Find the nearest city to a set of coordinates.
-                cout << "Input the latitude: ";
-                cout << "Input the longitude: ";
-			}
-                break;
-            case 3:
-			{
-                // 3. Add a city to the data set.
-                // • Otherwise, prompt the user for a city name and its coordinates (lat, lon).
-                // • Once you have the city’s information:
-                //     o Insert the city into the tree if it is not there already.
-                //     o Give the user two options:
-                //         § Find  the  nearest  (other)  state  capitol  and  report  its  distance  from  the
-                //         given city.
-                //         § Find and list the names and distances of all cities within a user-provided
-                //         distance r in miles from the given city.
-				string name;
-				double lat, lon;
-                cout << "Input the name of the city: ";
-				cin >> name;
-				cout << "Input the latitude: ";
-				cin >> lat;
-				cout << "Input the longitude: ";
-				cin >> lon;
-				City city = City(name, lat, lon);
-				cities.recursiveInsert(city);
-				cities.breadthFirst();
-			}
-                break;
-            case 4:
-                keepGoing = false;
-                break;
-            default:
-                cout << "Please choose 1, 2, 3, or 4.\n\n";
+            case 1: findDistance(); break;
+            case 2: findNearest(city); break;
+// pickup here: re-assess what you need for the menu, then keep implementing functions
+			// account for 2 decimals fo precision
+            case 3: addCity(cities); break;
+            case 4: keepGoing = false; break;
+            default: cout << "Please choose 1, 2, 3, or 4.\n\n";
         }
     }
 
