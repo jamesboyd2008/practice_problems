@@ -466,7 +466,8 @@ void addCity(QuadTree<City> &cities)
 	string name;
 	double lat, lon;
 	cout << "Input the name of the city: ";
-	cin >> name;
+	cin.ignore(); // leading whitespace throws off getline()
+	getline(cin, name); // in case the city name is multiple words
 	cout << "Input the latitude: ";
 	cin >> lat;
 	cout << "Input the longitude: ";
@@ -517,7 +518,7 @@ int main()
         {
             case 1: findDistance(); break;
             case 2: findNearest(city); break;
-// pickup here: re-assess what you need for the menu, then keep implementing functions
+// TODO: re-assess what you need for the menu, then keep implementing functions
 			// account for 2 decimals fo precision
             case 3: addCity(cities); break;
             case 4: keepGoing = false; break;
