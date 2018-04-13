@@ -1,0 +1,3 @@
+Atlanta 33.75 84.39
+Nashville 36.17 86.78
+Louisville 38 85
