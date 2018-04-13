@@ -149,7 +149,7 @@ public:
 protected:
 	QuadTreeNode<T>* root;
 	void clear(QuadTreeNode<T>*);
-	bool recursiveInsert(QuadTreeNode<T>*&, const T&);
+	bool recursiveInsert(QuadTreeNode<T>*& p, const T& el);
 	// T* search(QuadTreeNode<T>*, const T&) const;
 	vector<T*> radiusSearch(
         QuadTreeNode<T>*,
@@ -158,11 +158,12 @@ protected:
         vector<T*> cities
     );// const;
 	// T* recursiveNearestSearch(QuadTreeNode<T>*, const T&, double min = 0) const;
+	// T* recursiveNearestSearch(QuadTreeNode<T>*, const T& el) const;
+	// T* recursiveNearestSearch(QuadTreeNode<T>* contender, const T& champ) const;
 	T* recursiveNearestSearch(
 		QuadTreeNode<T>* contender,
 		QuadTreeNode<T>* runnerUp,
-		const T& champ,
-		double min = 0
+		const T& champ
 	) const;
 	virtual void visit(QuadTreeNode<T>* p) {
 		cout << p->el;// << ' ';
@@ -363,48 +364,42 @@ vector<T*> QuadTree<T>::radiusSearch(
 
 /*
 This function recursivley determines the nearest City to a given City.
-It takes 4 arguments:
+It takes 3 arguments:
 	1. QuadTreeNode<T>* contender, the City that is contending for nearest city.
 	   The template class, T, will probably have to be City.
 	2. QuadTreeNode<T>* runnerUp, the nearest known city.
 	   The template class, T, will probably have to be City.
 	3. const T& champ, the City for which we seek the nearest other city.
-	4. double min, the distance to the current nearest known city.
 It returns a pointer of class T, the nearest City.
 */
 template<class T>
 T* QuadTree<T>::recursiveNearestSearch(
 	QuadTreeNode<T>* contender,
 	QuadTreeNode<T>* runnerUp,
-	const T& champ,
-	double min
+	const T& champ
 ) const {
 	if (contender != 0)
 	{
-		cout << "contender: " << contender->el.getName() << endl;
-		cout << "runnerUp: " << runnerUp->el.getName() << endl;
-		cout << "champ: " << champ.getName() << endl;
-		// double distance = findDistance(contender, champ);
-		double distance = contender->el.distanceFrom(champ);
-		if (min == 0)
-			min = distance;
-		// if (champ == contender->el)
-		if (distance < min)
+		double contenderDist = contender->el.distanceFrom(champ);
+		double runnerUpDist = runnerUp->el.distanceFrom(champ);
+
+		if (contenderDist < runnerUpDist)
+		// pickup here: ensure func does not return champ
+		// if (contenderDist < runnerUpDist && contender->el != champ)
 		{
 			runnerUp = contender;
-			min = distance;
+			cout << endl;
 		}
-		// return &contender->el;
 		// return nearest town of a search conducted in all directions.
-		T* ne = recursiveNearestSearch(contender->ne, runnerUp, champ, min);
-		T* nw = recursiveNearestSearch(contender->nw, runnerUp, champ, min);
-		T* se = recursiveNearestSearch(contender->se, runnerUp, champ, min);
-		T* sw = recursiveNearestSearch(contender->sw, runnerUp, champ, min);
+		T* ne = recursiveNearestSearch(contender->ne, runnerUp, champ);
+		T* nw = recursiveNearestSearch(contender->nw, runnerUp, champ);
+		T* se = recursiveNearestSearch(contender->se, runnerUp, champ);
+		T* sw = recursiveNearestSearch(contender->sw, runnerUp, champ);
 
-		double neDist = ne->distanceFrom(runnerUp->el);
-		double nwDist = nw->distanceFrom(runnerUp->el);
-		double seDist = se->distanceFrom(runnerUp->el);
-		double swDist = sw->distanceFrom(runnerUp->el);
+		double neDist = ne->distanceFrom(champ);
+		double nwDist = nw->distanceFrom(champ);
+		double seDist = se->distanceFrom(champ);
+		double swDist = sw->distanceFrom(champ);
 
 		double shortest = std::min({ neDist, nwDist, seDist, swDist });
 
@@ -417,16 +412,6 @@ T* QuadTree<T>::recursiveNearestSearch(
 		else // (shortest == swDist)
 			return sw;
 
-
-
-		// else if (champ < contender->el)
-		// {
-		// 	return recursiveNearestSearch(contender->left, champ);
-		// }
-		// else
-		// {
-		// 	return recursiveNearestSearch(contender->right, champ);
-		// }
 	}
 	else
 	{
@@ -484,6 +469,7 @@ void populateTree(QuadTree<City> &cities)
 		City city = City(name, lat, lon);
 		cities.recursiveInsert(city);
 	}
+	// cities.breadthFirst();
 }
 
 void findDistance()
@@ -506,8 +492,8 @@ void findDistance()
 
 City* findNearest(QuadTree<City> cities, City city)
 {
-	City* defaultArg = new City();
-	if (city == *defaultArg)
+	City defaultArg = City();
+	if (city == defaultArg)
 	{
 		// 2. Find the nearest city to a set of coordinates.
 		double lat, lon;
