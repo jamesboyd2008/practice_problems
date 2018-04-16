@@ -184,22 +184,6 @@ void QuadTree<T>::clear(QuadTreeNode<T> *p) {
 	}
 }
 
-// template<class T>
-// void QuadTree<T>::insert(const T& el) {
-// 	QuadTreeNode<T> *p = root, *prev = 0;
-// 	while (p != 0) {  // find a place for inserting new node;
-// 		prev = p;
-// 		if (el < p->el)
-// 			p = p->left;
-// 		else p = p->right;
-// 	}
-// 	if (root == 0)    // tree is empty;
-// 		root = new QuadTreeNode<T>(el);
-// 	else if (el < prev->el)
-// 		prev->left = new QuadTreeNode<T>(el);
-// 	else prev->right = new QuadTreeNode<T>(el);
-// }
-
 template<class T>
 bool QuadTree<T>::recursiveInsert(QuadTreeNode<T>*& p, const T& el) {
 	bool neInsertionResult = false,
@@ -209,7 +193,6 @@ bool QuadTree<T>::recursiveInsert(QuadTreeNode<T>*& p, const T& el) {
 	if (p == 0)
 	{
 		p = new QuadTreeNode<T>(el);
-		// cout << "quack\n";
 	}
 	else if (p->el == el)
 	{
@@ -223,18 +206,15 @@ bool QuadTree<T>::recursiveInsert(QuadTreeNode<T>*& p, const T& el) {
 		double lon1 = el.getLon();
 		double lon2 = p->el.getLon();
 
-		// else if (el.isNEof(p->el))
-		if (lat1 >= lat2 && lon1 <= lon2)
+		if (lat1 >= lat2 && lon1 <= lon2) // el is NE of p->el
 	    {
 			neInsertionResult = recursiveInsert(p->ne, el);
 	    }
-		// else if (el.isNWof(p->el))
-		else if (lat1 >= lat2 && lon1 >= lon2)
+		else if (lat1 >= lat2 && lon1 >= lon2) // el is NW of p->el
 	    {
 			nwInsertionResult = recursiveInsert(p->nw, el);
 	    }
-		// else if (el.isSWof(p->el))
-		else if (lat1 <= lat2 && lon1 >= lon2)
+		else if (lat1 <= lat2 && lon1 >= lon2) // el is SW of p->el
 	    {
 			swInsertionResult = recursiveInsert(p->sw, el);
 	    }
@@ -252,137 +232,61 @@ bool QuadTree<T>::recursiveInsert(QuadTreeNode<T>*& p, const T& el) {
 		return true;
 }
 
-// template<class T>
-// T* QuadTree<T>::search(QuadTreeNode<T>* p, const T& el) const {
-// 	while (p != 0)
-// 	if (el == p->el)
-// 		return &p->el;
-// 	else if (el < p->el)
-// 		p = p->left;
-// 	else p = p->right;
-// 	return 0;
-// }
-
-// template<class T>
-// T* QuadTree<T>::recursiveSearch(QuadTreeNode<T>* p, const T& el) const {
-// 	if (p != 0)
-// 	if (el == p->el)
-// 		return &p->el;
-// 	else if (el < p->el)
-// 		return recursiveSearch(p->left, el);
-// 	else return recursiveSearch(p->right, el);
-// 	else return 0;
-// }
 template<class T>
 vector<T*> QuadTree<T>::radiusSearch(
     QuadTreeNode<T>* p,
     const T& el,
     int radius,
     vector <T*> cities
-)// const
+)
 {
-	cout << "Now seeing if " << p->el.getName() << " is within " << radius
-	     << " miles of " << el.getName() << endl;
 	if (p != 0)
     {
 		double distance = el.distanceFrom(p->el);
-		cout << p->el.getName() << " is " << distance << " miles from "
-		     << el.getName() << endl;
 		if (distance <= radius)
-		{
-			// return &p->el;
 			cities.push_back(&p->el);
-		}
 		bool NE, NW, SW, SE;
 		NE = NW = SW = SE = true;
         // eliminate dead quadrants
         // find distance between cities
-		// double lonDiff = abs(p->el.getLon() - el.getLon());
 
 		// a degree of latitude at the equator is 68.703 miles
 		double lonDiff = (p->el.getLon() - el.getLon()) * 68.703;
 		// a degree of longitude at the equator is 69.172 miles
 		double latDiff = (p->el.getLat() - el.getLat()) * 69.172;
-		// if radius is exceeded by longitudinal difference
+		// radius is exceeded by longitudinal difference
 		if (abs(lonDiff) > radius)
 		{
-			cout << "radius is exceeded by longitudinal difference\n";
-            // if focal city is west of or even with original
-			if (lonDiff >= 0)
+			if (lonDiff >= 0)// focal city is west of or even with original
 			{
-				cout << p->el.getName() << " is not east of " << el.getName() << endl;
-				// don't search any quadrant further west
-				// search ne & se
 				NW = SW = false;
-				// cout << "searching NE\n";
-				// return radiusSearch(p->ne, el, radius, cities);
-				// cout << "searching SE\n";
-				// return radiusSearch(p->se, el, radius, cities);
 			}
-			// if focal city is east of original
-			else //if (lonDiff < 0)
+			else // focal city is east of original
 			{
-				cout << p->el.getName() << " is not west of " << el.getName() << endl;
-				// don't search any quadrant further east
-				// search  nw & sw
 				NE = SE = false;
-				// cout << "searching NW\n";
-				// return radiusSearch(p->nw, el, radius, cities);
-				// cout << "searching SW\n";
-				// return radiusSearch(p->sw, el, radius, cities);
 			}
 		}
-		// if radius is exceeded by latitudinal difference
-		// pickup here: ensure this works. convert lat&lon dists to miles
+		// radius is exceeded by latitudinal difference
 		if (abs(latDiff) > radius)
 		{
-			cout << "radius is exceeded by latitudinal difference\n";
-            // if focal city is north of or even with original
-			if (latDiff >= 0)
+			if (latDiff >= 0) // focal city is north of or even with original
 			{
-				cout << p->el.getName() << " is not south of " << el.getName() << endl;
-                // don't search any quadrant further north
-                // search sw & se
 				NE = NW = false;
-				// cout << "searching SW\n";
-				// return radiusSearch(p->sw, el, radius, cities);
-				// cout << "searching SE\n";
-				// return radiusSearch(p->se, el, radius, cities);
 			}
-            // if focal city is south of original
-			else
+			else // focal city is south of original
 			{
-				cout << p->el.getName() << " is not north of " << el.getName() << endl;
-                // don't search any quadrant further south
-                // search ne & nw
 				SW = SE = false;
-				// cout << "searching NE\n";
-				// return radiusSearch(p->ne, el, radius, cities);
-				// cout << "searching NW\n";
-				// return radiusSearch(p->nw, el, radius, cities);
 			}
 		}
 		// otherwise search ne, nw, se, & sw
 		if (NE && p->ne != 0)
-		{
-			cout << "searching NE\n";
 			cities = radiusSearch(p->ne, el, radius, cities);
-		}
 		if (NW && p->nw != 0)
-		{
-			cout << "searching NW\n";
 			cities = radiusSearch(p->nw, el, radius, cities);
-		}
 		if (SW && p->sw != 0)
-		{
-			cout << "searching SW\n";
 			cities = radiusSearch(p->sw, el, radius, cities);
-		}
 		if (SE && p->se != 0)
-		{
-			cout << "searching SE\n";
 			cities = radiusSearch(p->se, el, radius, cities);
-		}
 	}
 	return cities;
 }
@@ -552,7 +456,6 @@ City* findNearest(QuadTree<City> cities, City city)
 
 void findAllWithinR(QuadTree<City> cities, City city)
 {
-	// cities.radiusSearch(const City &el, int radius)
 	cout << "Within what radius, in miles, do you wish to search for cities? ";
 	int radius;
 	cin >> radius;
