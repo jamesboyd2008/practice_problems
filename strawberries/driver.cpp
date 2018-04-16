@@ -142,8 +142,8 @@ public:
         vector<T*> cities;
 		return radiusSearch(root, el, radius, cities);
 	}
-	T* recursiveNearestSearch(const T& el) const {
-		return recursiveNearestSearch(root, root, el);
+	T* nearestSearch(const T& el, bool exceptHere = false) const {
+		return nearestSearch(root, root, el, exceptHere);
 	}
 	void breadthFirst();
 protected:
@@ -157,13 +157,14 @@ protected:
         int radius,
         vector<T*> cities
     );// const;
-	// T* recursiveNearestSearch(QuadTreeNode<T>*, const T&, double min = 0) const;
-	// T* recursiveNearestSearch(QuadTreeNode<T>*, const T& el) const;
-	// T* recursiveNearestSearch(QuadTreeNode<T>* contender, const T& champ) const;
-	T* recursiveNearestSearch(
+	// T* nearestSearch(QuadTreeNode<T>*, const T&, double min = 0) const;
+	// T* nearestSearch(QuadTreeNode<T>*, const T& el) const;
+	// T* nearestSearch(QuadTreeNode<T>* contender, const T& champ) const;
+	T* nearestSearch(
 		QuadTreeNode<T>* contender,
 		QuadTreeNode<T>* runnerUp,
-		const T& champ
+		const T& champ,
+		bool exceptHere
 	) const;
 	virtual void visit(QuadTreeNode<T>* p) {
 		cout << p->el;// << ' ';
@@ -373,10 +374,11 @@ It takes 3 arguments:
 It returns a pointer of class T, the nearest City.
 */
 template<class T>
-T* QuadTree<T>::recursiveNearestSearch(
+T* QuadTree<T>::nearestSearch(
 	QuadTreeNode<T>* contender,
 	QuadTreeNode<T>* runnerUp,
-	const T& champ
+	const T& champ,
+	bool exceptHere
 ) const {
 	if (contender != 0)
 	{
@@ -384,17 +386,18 @@ T* QuadTree<T>::recursiveNearestSearch(
 		double runnerUpDist = runnerUp->el.distanceFrom(champ);
 
 		if (contenderDist < runnerUpDist)
-		// pickup here: ensure func does not return champ
-		// if (contenderDist < runnerUpDist && contender->el != champ)
 		{
-			runnerUp = contender;
-			cout << endl;
+			if ( !(contender->el == champ && exceptHere) )
+			{
+				runnerUp = contender;
+				cout << endl;
+			}
 		}
 		// return nearest town of a search conducted in all directions.
-		T* ne = recursiveNearestSearch(contender->ne, runnerUp, champ);
-		T* nw = recursiveNearestSearch(contender->nw, runnerUp, champ);
-		T* se = recursiveNearestSearch(contender->se, runnerUp, champ);
-		T* sw = recursiveNearestSearch(contender->sw, runnerUp, champ);
+		T* ne = nearestSearch(contender->ne, runnerUp, champ, exceptHere);
+		T* nw = nearestSearch(contender->nw, runnerUp, champ, exceptHere);
+		T* se = nearestSearch(contender->se, runnerUp, champ, exceptHere);
+		T* sw = nearestSearch(contender->sw, runnerUp, champ, exceptHere);
 
 		double neDist = ne->distanceFrom(champ);
 		double nwDist = nw->distanceFrom(champ);
@@ -503,21 +506,25 @@ City* findNearest(QuadTree<City> cities, City city)
 		cin >> lon;
 		// *defaultArg = City("name", lat, lon);
 		const City beginning = City("name", lat, lon);
-		City* nearest = cities.recursiveNearestSearch(beginning);
+		City* nearest = cities.nearestSearch(beginning);
 		cout << "The nearest city is " << nearest->getName() << endl;
 		return nearest;
 
 
-		// T* recursiveNearestSearch(const T& el) const {
-		// 	return recursiveNearestSearch(root, el);
+		// T* nearestSearch(const T& el) const {
+		// 	return nearestSearch(root, el);
 		// }
 
 	}
 	else
 	{
 		// find nearest city to city
-		City* nearest = cities.recursiveNearestSearch(city);
+		bool exceptHere = true;
+		cout << "check 1\n";
+		City* nearest = cities.nearestSearch(city, exceptHere);
+		cout << "check n\n";
 		cout << "The nearest city is " << nearest->getName() << endl;
+		// pickup here: keep loops running, then fix malloc bug
 		return nearest;
 	}
 }
@@ -547,13 +554,13 @@ void addCity(QuadTree<City> &cities)
 	// cities.breadthFirst();
 	if (!alreadyInTree)
 	{
-		cout << "\nChoose an option:\n";
-		cout << "1. Find the nearest state capital to " << name << "\n";
-		cout << "2. Find all the capitals within a given radius\n";
-		cout << "3. Main menu\n";
 		bool keepGoing = true;
 		while (keepGoing)
 		{
+			cout << "\nChoose an option:\n";
+			cout << "1. Find the nearest state capital to " << name << "\n";
+			cout << "2. Find all the capitals within a given radius\n";
+			cout << "3. Main menu\n";
 			int response;
 			cin >> response;
 			switch(response)
@@ -597,5 +604,3 @@ int main()
 
     return 0;
 }
-
-// pickup here: use capitals list depicted in instructions for debugging
