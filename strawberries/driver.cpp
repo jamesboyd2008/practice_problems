@@ -28,7 +28,7 @@ public:
 	string getName() const { return name; }
 	double getLat()  const { return lat;  }
 	double getLon()  const { return lon;  }
-	double distanceFrom(City city)
+	double distanceFrom(City city) const
 	{
 		double pi = 3.1415926535897932384626433832795;
 		double r = 3956.0;
@@ -202,9 +202,14 @@ void QuadTree<T>::clear(QuadTreeNode<T> *p) {
 
 template<class T>
 bool QuadTree<T>::recursiveInsert(QuadTreeNode<T>*& p, const T& el) {
+	bool neInsertionResult = false,
+	     nwInsertionResult = false,
+	     swInsertionResult = false,
+	     seInsertionResult = false;
 	if (p == 0)
 	{
 		p = new QuadTreeNode<T>(el);
+		// cout << "quack\n";
 	}
 	else if (p->el == el)
 	{
@@ -221,21 +226,30 @@ bool QuadTree<T>::recursiveInsert(QuadTreeNode<T>*& p, const T& el) {
 		// else if (el.isNEof(p->el))
 		if (lat1 >= lat2 && lon1 <= lon2)
 	    {
-			recursiveInsert(p->ne, el);
+			neInsertionResult = recursiveInsert(p->ne, el);
 	    }
 		// else if (el.isNWof(p->el))
 		else if (lat1 >= lat2 && lon1 >= lon2)
 	    {
-			recursiveInsert(p->nw, el);
+			nwInsertionResult = recursiveInsert(p->nw, el);
 	    }
 		// else if (el.isSWof(p->el))
 		else if (lat1 <= lat2 && lon1 >= lon2)
 	    {
-			recursiveInsert(p->sw, el);
+			swInsertionResult = recursiveInsert(p->sw, el);
 	    }
-		else recursiveInsert(p->se, el);
+		else
+			seInsertionResult = recursiveInsert(p->se, el);
 	}
-	return false;
+	if (
+		neInsertionResult == false &&
+		nwInsertionResult == false &&
+		swInsertionResult == false &&
+		seInsertionResult == false
+	)
+		return false;
+	else
+		return true;
 }
 
 // template<class T>
@@ -284,14 +298,19 @@ vector<T*> QuadTree<T>::radiusSearch(
         // eliminate dead quadrants
         // find distance between cities
 		// double lonDiff = abs(p->el.getLon() - el.getLon());
-		double lonDiff = p->el.getLon() - el.getLon();
-		double latDiff = p->el.getLat() - el.getLat();
+
+		// a degree of latitude at the equator is 68.703 miles
+		double lonDiff = (p->el.getLon() - el.getLon()) * 68.703;
+		// a degree of longitude at the equator is 69.172 miles
+		double latDiff = (p->el.getLat() - el.getLat()) * 69.172;
 		// if radius is exceeded by longitudinal difference
-		if (lonDiff > radius)
+		if (abs(lonDiff) > radius)
 		{
+			cout << "radius is exceeded by longitudinal difference\n";
             // if focal city is west of or even with original
 			if (lonDiff >= 0)
 			{
+				cout << p->el.getName() << " is not east of " << el.getName() << endl;
 				// don't search any quadrant further west
 				// search ne & se
 				NW = SW = false;
@@ -303,6 +322,7 @@ vector<T*> QuadTree<T>::radiusSearch(
 			// if focal city is east of original
 			else //if (lonDiff < 0)
 			{
+				cout << p->el.getName() << " is not west of " << el.getName() << endl;
 				// don't search any quadrant further east
 				// search  nw & sw
 				NE = SE = false;
@@ -313,11 +333,14 @@ vector<T*> QuadTree<T>::radiusSearch(
 			}
 		}
 		// if radius is exceeded by latitudinal difference
-		if (latDiff > radius)
+		// pickup here: ensure this works. convert lat&lon dists to miles
+		if (abs(latDiff) > radius)
 		{
+			cout << "radius is exceeded by latitudinal difference\n";
             // if focal city is north of or even with original
 			if (latDiff >= 0)
 			{
+				cout << p->el.getName() << " is not south of " << el.getName() << endl;
                 // don't search any quadrant further north
                 // search sw & se
 				NE = NW = false;
@@ -329,6 +352,7 @@ vector<T*> QuadTree<T>::radiusSearch(
             // if focal city is south of original
 			else
 			{
+				cout << p->el.getName() << " is not north of " << el.getName() << endl;
                 // don't search any quadrant further south
                 // search ne & nw
 				SW = SE = false;
@@ -339,28 +363,28 @@ vector<T*> QuadTree<T>::radiusSearch(
 			}
 		}
 		// otherwise search ne, nw, se, & sw
-		if (NE)
+		if (NE && p->ne != 0)
 		{
 			cout << "searching NE\n";
-			return radiusSearch(p->ne, el, radius, cities);
+			cities = radiusSearch(p->ne, el, radius, cities);
 		}
-		if (NW)
+		if (NW && p->nw != 0)
 		{
 			cout << "searching NW\n";
-			return radiusSearch(p->nw, el, radius, cities);
+			cities = radiusSearch(p->nw, el, radius, cities);
 		}
-		if (SW)
+		if (SW && p->sw != 0)
 		{
 			cout << "searching SW\n";
-			return radiusSearch(p->sw, el, radius, cities);
+			cities = radiusSearch(p->sw, el, radius, cities);
 		}
-		if (SE)
+		if (SE && p->se != 0)
 		{
 			cout << "searching SE\n";
-			return radiusSearch(p->se, el, radius, cities);
+			cities = radiusSearch(p->se, el, radius, cities);
 		}
-    }
-	else return cities;
+	}
+	return cities;
 }
 
 /*
@@ -520,13 +544,23 @@ City* findNearest(QuadTree<City> cities, City city)
 	{
 		// find nearest city to city
 		bool exceptHere = true;
-		cout << "check 1\n";
 		City* nearest = cities.nearestSearch(city, exceptHere);
-		cout << "check n\n";
 		cout << "The nearest city is " << nearest->getName() << endl;
-		// pickup here: keep loops running, then fix malloc bug
 		return nearest;
 	}
+}
+
+void findAllWithinR(QuadTree<City> cities, City city)
+{
+	// cities.radiusSearch(const City &el, int radius)
+	cout << "Within what radius, in miles, do you wish to search for cities? ";
+	int radius;
+	cin >> radius;
+	vector<City*> closeCities = cities.radiusSearch(city, radius);
+	cout << "These cities are within " << radius << " miles of "
+	     << city.getName() << ":\n";
+	for (int i = 0; i < closeCities.size(); i++)
+		cout << closeCities[i]->getName() << endl;
 }
 
 void addCity(QuadTree<City> &cities)
@@ -566,7 +600,7 @@ void addCity(QuadTree<City> &cities)
 			switch(response)
 			{
 				case 1: findNearest(cities, city); break;
-				case 2: /*findAllWithinR()*/break;
+				case 2: findAllWithinR(cities, city); break;
 				case 3: keepGoing = false; break;
 				default: cout << "Please choose 1, 2, or 3\n\n";
 			}
@@ -604,3 +638,7 @@ int main()
 
     return 0;
 }
+
+// TODO: fix bug: malloc: *** error for object 0x7fed22402920: pointer being
+// freed was not allocated *** set a breakpoint in malloc_error_break to debug
+// Abort trap: 6
