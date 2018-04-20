@@ -7,6 +7,14 @@
 
 using namespace std;
 
+// This random number generating function is very similar to one found online:
+// http://www.cplusplus.com/forum/beginner/183358/
+int randInt(int bottom, int plusUp)
+{
+    // random int in range [bottom, (bottom + plusUp - 1)]
+    return rand() % plusUp + bottom;
+}
+
 // part - 1 - quicksort
 
 template<class T>
@@ -71,11 +79,31 @@ void quicksort(T data[], int n)
         // generate another array of ~20 random ints [0, 500000]
         // provide test code of array
 
+
 // implement the quicksort demo'd on page 514 figure 9.11
 
     // generate array of ~20 random ints [0, 500000]
-    // provide test code of array
+    // pickup here: make that array
 
+    // provide test code of array
+void drozdekImplementation(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500000);
+    cout << "Unsorted: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+
+    quicksort(nums, dataSetSize);
+
+    cout << "\nSorted: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+
+
+
+}
 // run each of the 3 above algos on randomly generated data of these 6 sizes:
 
     // algo 1
@@ -667,17 +695,12 @@ use	them	in	a	descending	sequence.		In	all	cases,	the	final	iteration	increment	
         // run 5, report MEDIAN execution time
 
 
-// http://www.cplusplus.com/forum/beginner/183358/
-int randInt(int bottom, int plusUp)
-{
-    // random int in range [bottom, (bottom + plusUp - 1)]
-    return rand() % plusUp + bottom;
-}
 
 int main()
 {
-    srand(time(0));
-    for (int i = 0; i < 100; i++)
-        cout << randInt(0, 7) << endl;
+    srand(time(0)); // seed the pseudo random number generator
+
+    drozdekImplementation(5);
+
     return 0;
 }
