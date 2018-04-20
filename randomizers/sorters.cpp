@@ -2,6 +2,9 @@
 // sorting algorithm implementations.
 
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+
 using namespace std;
 
 // part - 1 - quicksort
@@ -59,28 +62,21 @@ void quicksort(T data[], int n)
     // 1 - using a randomly chosen element from within the portion of
     // the array being sorted
 
-        // generate array of ~20 random ints
+        // generate array of ~20 random ints [0, 500000]
         // provide test code of array
 
     // 2 - using a median element of the first, middle, and last el's of the
     // portion of the array currently being sorted.
 
-        // generate another array of ~20 random ints
+        // generate another array of ~20 random ints [0, 500000]
         // provide test code of array
 
 // implement the quicksort demo'd on page 514 figure 9.11
 
-    // generate array of ~20 random ints
+    // generate array of ~20 random ints [0, 500000]
     // provide test code of array
 
 // run each of the 3 above algos on randomly generated data of these 6 sizes:
-
-
-
-
-
-
-
 
     // algo 1
         // 5000
@@ -206,7 +202,6 @@ void quicksort(T data[], int n)
 
 // part - 2 - shellsort
 
-
 template<class T>
 void Shellsort(T data[], int n)
 {
@@ -242,9 +237,447 @@ void Shellsort(T data[], int n)
     }
 }
 
+/*
+Be	careful;	some	of	these	algorithms	count	up	from	1,	some	generate	numbers	in	a
+descending	sequence.		Either	way,	once	you	have	generated	the	increments,	you	will
+use	them	in	a	descending	sequence.		In	all	cases,	the	final	iteration	increment	will	be
+1.
+*/
+
+// variant 1:
+    // increment scheme: h_1 = 1, h_i+1 = 3h_i +1
+    // stop with h_t for which h_t+2 >= n
+    // (default version w/ diff. stopping condition)
+
+        // using internal insertion sort on ~30 elements
+
+        // using internal selection sort on ~30 elements
+
+// variant 2:
+    // increment scheme: h = 2^k - 1 for k = 1 up
+    // to largest k for which (2^k - 1) < n
+
+    // using internal insertion sort on ~30 elements
+
+    // using internal selection sort on ~30 elements
+
+// variant 3:
+    // increment scheme: h = 2^k + 1 for k = 1 up
+    // to largest k for which (2^k + 1) < n
+
+    // using internal insertion sort on ~30 elements
+
+    // using internal selection sort on ~30 elements
+
+// variant 4:
+    // Fibonacci numbers staring with F(2) = 1 up to largest F(k) < n
+
+    // using internal insertion sort on ~30 elements
+
+    // using internal selection sort on ~30 elements
+
+// variant 5:
+    // n/2 is hte increment for the 1st iteration, then
+    // h_i = floor(0.75h_i+1) until you reah 1
+
+    // using internal insertion sort on ~30 elements
+
+    // using internal selection sort on ~30 elements
+
+// run each of the 10 above algos on randomly generated data of these 6 sizes:
+
+        // algo 1
+            // 5000
+                // run 1, report MEDIAN execution time
+                // run 2, report MEDIAN execution time
+                // run 3, report MEDIAN execution time
+                // run 4, report MEDIAN execution time
+                // run 5, report MEDIAN execution time
+            // 10000
+                // run 1, report MEDIAN execution time
+                // run 2, report MEDIAN execution time
+                // run 3, report MEDIAN execution time
+                // run 4, report MEDIAN execution time
+                // run 5, report MEDIAN execution time
+            // 50000
+                // run 1, report MEDIAN execution time
+                // run 2, report MEDIAN execution time
+                // run 3, report MEDIAN execution time
+                // run 4, report MEDIAN execution time
+                // run 5, report MEDIAN execution time
+            // 100000
+                // run 1, report MEDIAN execution time
+                // run 2, report MEDIAN execution time
+                // run 3, report MEDIAN execution time
+                // run 4, report MEDIAN execution time
+                // run 5, report MEDIAN execution time
+            // 150000
+                // run 1, report MEDIAN execution time
+                // run 2, report MEDIAN execution time
+                // run 3, report MEDIAN execution time
+                // run 4, report MEDIAN execution time
+                // run 5, report MEDIAN execution time
+            // 200000
+                // run 1, report MEDIAN execution time
+                // run 2, report MEDIAN execution time
+                // run 3, report MEDIAN execution time
+                // run 4, report MEDIAN execution time
+                // run 5, report MEDIAN execution time
+
+    // algo 2
+    // 5000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 10000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 50000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 100000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 150000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 200000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+
+    // algo 3
+    // 5000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 10000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 50000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 100000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 150000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 200000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+
+    // algo 4
+    // 5000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 10000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 50000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 100000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 150000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 200000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+
+    // algo 5
+    // 5000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 10000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 50000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 100000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 150000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 200000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+
+    // algo 6
+    // 5000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 10000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 50000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 100000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 150000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 200000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+
+    // algo 7
+    // 5000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 10000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 50000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 100000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 150000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 200000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+
+    // algo 8
+    // 5000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 10000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 50000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 100000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 150000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 200000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+
+    // algo 9
+    // 5000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 10000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 50000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 100000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 150000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 200000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+
+    // algo 10
+    // 5000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 10000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 50000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 100000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 150000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+    // 200000
+        // run 1, report MEDIAN execution time
+        // run 2, report MEDIAN execution time
+        // run 3, report MEDIAN execution time
+        // run 4, report MEDIAN execution time
+        // run 5, report MEDIAN execution time
+
+
+// http://www.cplusplus.com/forum/beginner/183358/
+int randInt(int bottom, int plusUp)
+{
+    // random int in range [bottom, (bottom + plusUp - 1)]
+    return rand() % plusUp + bottom;
+}
+
 int main()
 {
-    cout << "It's alive\n";
-
+    srand(time(0));
+    for (int i = 0; i < 100; i++)
+        cout << randInt(0, 7) << endl;
     return 0;
 }
