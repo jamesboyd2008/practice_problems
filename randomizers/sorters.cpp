@@ -56,49 +56,52 @@ void drozdekQuickSort(T data[], int n)
     drozdekQuickSort(data, 0, n - 2);
 }
 
-// implement each of 2 techniques for choosing quicksort bound:
+template<class T>
+void randomPivotQuickSort(T data[], int first, int last)
+{
 
-    // 1 - using a randomly chosen element from within the portion of
-    // the array being sorted
-// template<class T>
-// void randomPivotQuickSort(T data[], int first, int last, int dataSetSize)
-// {
-//     // generate array of ~20 random ints [0, 500000]
-//     // provide test code of array
-//     int nums[dataSetSize];
-//     for (int i = 0; i < dataSetSize; i++)
-//         nums[i] = randInt(0, 500001);
-//     cout << "Unsorted array before randomly chosen pivot style quicksort: \n";
-//     for (int i = 0; i < dataSetSize; i++)
-//         cout << nums[i] << endl;
-//
-//     // drozdekQuickSort(nums, dataSetSize);
-//
-//     int lower = first + 1,
-//         upper = last;
-//     swap( data[first], data[ (first + last) / 2 ] );
-//     T bound = data[first];
-//     while (lower <= upper)
-//     {
-//         while (bound > data[lower])
-//             lower++;
-//         while (bound < data[upper])
-//             upper--;
-//         if (lower < upper)
-//             swap(data[lower++], data[upper--]);
-//         else
-//             lower++;
-//     }
-//     swap(data[upper], data[first]);
-//     if (first < upper - 1)
-//         drozdekQuickSort(data, first, upper - 1);
-//     if (upper + 1 < last)
-//         drozdekQuickSort(data, upper + 1, last);
-//
-//     cout << "\nSorted array after randomly chosen pivot style quicksort: \n";
-//     for (int i = 0; i < dataSetSize; i++)
-//         cout << nums[i] << endl;
-// }
+    int pivotIndex = randInt(first, last + 1);
+
+    int lower = first + 1,
+        upper = last;
+    swap( data[first], data[ (first + last) / 2 ] );
+    T bound = data[first];
+    while (lower <= upper)
+    {
+        while (bound > data[lower])
+            lower++;
+        while (bound < data[upper])
+            upper--;
+        if (lower < upper)
+            swap(data[lower++], data[upper--]);
+        else
+            lower++;
+    }
+    swap(data[upper], data[first]);
+    if (first < upper - 1)
+        randomPivotQuickSort(data, first, upper - 1);
+    if (upper + 1 < last)
+        randomPivotQuickSort(data, upper + 1, last);
+}
+
+void randomPivotQuickSort(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    cout << "Unsorted array before randomly chosen pivot style quicksort:\n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+
+    randomPivotQuickSort(nums, 0, dataSetSize - 1);
+
+    cout << "\nSorted array after randomly chosen pivot style quicksort:\n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+
+    cout << endl;
+}
+
 
     // 2 - using a median element of the first, middle, and last el's of the
     // portion of the array currently being sorted.
@@ -122,7 +125,10 @@ void drozdekQuickSort(int dataSetSize)
     cout << "\nSorted array after Drozdek's quicksort: \n";
     for (int i = 0; i < dataSetSize; i++)
         cout << nums[i] << endl;
+
+    cout << endl;
 }
+
 // run each of the 3 above algos on randomly generated data of these 6 sizes:
 
     // algo 1
@@ -717,7 +723,7 @@ int main()
 {
     srand(time(0)); // seed the pseudo random number generator
 
-    drozdekQuickSort(20);
-
+    randomPivotQuickSort(20);
+    // drozdekQuickSort(20);
     return 0;
 }
