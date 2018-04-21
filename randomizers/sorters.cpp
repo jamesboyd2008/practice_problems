@@ -59,50 +59,28 @@ void drozdekQuickSort(T data[], int n)
 template<class T>
 void randomPivotQuickSort(T data[], int first, int last)
 {
-    int pivotIndex = randInt(first, last + 1);
+    int pivotIndex = randInt(first, last - first + 1),
+        marker = first;
+    T pivot = data[pivotIndex];
     swap(data[last], data[pivotIndex]);
-    pivotIndex = last;
-    // T pivot = data[pivotIndex];
-    int marker = first;
-
-    // cout << "pivot: " << data[pivotIndex] << endl;
     for (int i = first; i <= last - 1; i++)
-    {
-        for (int j = first; j <= last; j++)
-            cout << data[j] << " ";
-        cout << endl;
-
-        cout << "pivot: " << data[pivotIndex] << endl;
-        cout << "data[i]: " << data[i] << endl;
-        cout << "marker: " << marker << endl;
-        if (marker == pivotIndex)
-            marker++;
-        else if (data[i] < data[pivotIndex])
+        if (data[i] < pivot)
         {
             swap(data[marker], data[i]);
             marker++;
         }
-        cout << endl;
-    }
-    swap(data[marker], data[pivotIndex]);
-    // cout << "interval complete: ";
-    // // if (first == 0 && first < last - 1)
-    // for (int j = first; j <= last; j++)
-    //     cout << data[j] << " ";
-    // cout << endl;
-
-    // if (first < marker - 1)
-    //     randomPivotQuickSort(data, first, marker - 1);
-    // if (first + 1 < last)
-    //     randomPivotQuickSort(data, marker + 1, last);
+    swap(data[marker], data[last]);
+    if (first < marker - 1)
+        randomPivotQuickSort(data, first, marker - 1);
+    if (marker + 1 < last)
+        randomPivotQuickSort(data, marker + 1, last);
 }
 
 void randomPivotQuickSort(int dataSetSize)
 {
     int nums[dataSetSize];
     for (int i = 0; i < dataSetSize; i++)
-        // nums[i] = randInt(0, 500001);
-        nums[i] = randInt(0, 100);
+        nums[i] = randInt(0, 500001);
     cout << "Unsorted array before randomly chosen pivot style quicksort:\n";
     for (int i = 0; i < dataSetSize; i++)
         cout << nums[i] << endl;
@@ -112,7 +90,6 @@ void randomPivotQuickSort(int dataSetSize)
     cout << "\nSorted array after randomly chosen pivot style quicksort:\n";
     for (int i = 0; i < dataSetSize; i++)
         cout << nums[i] << endl;
-
     cout << endl;
 }
 
@@ -738,7 +715,6 @@ int main()
     srand(time(0)); // seed the pseudo random number generator
 
     // randomPivotQuickSort(20);
-    randomPivotQuickSort(10);
     // drozdekQuickSort(20);
     return 0;
 }
