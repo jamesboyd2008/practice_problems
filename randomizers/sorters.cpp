@@ -56,6 +56,26 @@ void drozdekQuickSort(T data[], int n)
     drozdekQuickSort(data, 0, n - 2);
 }
 
+// implement the quicksort demo'd on page 514 figure 9.11
+void drozdekQuickSort(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    cout << "Unsorted array before Drozdek's quicksort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+
+    drozdekQuickSort(nums, dataSetSize);
+
+    cout << "\nSorted array after Drozdek's quicksort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+
+    cout << endl;
+}
+
+
 template<class T>
 void randomPivotQuickSort(T data[], int first, int last)
 {
@@ -93,30 +113,45 @@ void randomPivotQuickSort(int dataSetSize)
     cout << endl;
 }
 
+template<class T>
+void medianQuickSort(T data[], int first, int last)
+{
+    int lower = first + 1,
+        upper = last,
+        marker = first,
+        medianIndex = (first + last) / 2;
+    T median = data[medianIndex];
+    swap( data[last], data[medianIndex] );
 
-    // 2 - using a median element of the first, middle, and last el's of the
-    // portion of the array currently being sorted.
+    for (int i = first; i <= last - 1; i++)
+        if (data[i] < median)
+        {
+            swap(data[marker], data[i]);
+            marker++;
+        }
+    swap(data[marker], data[last]);
+    if (first < marker - 1)
+        medianQuickSort(data, first, marker - 1);
+    if (marker + 1 < last)
+        medianQuickSort(data, marker + 1, last);
+}
 
-        // generate another array of ~20 random ints [0, 500000]
-        // provide test code of array
 
-
-// implement the quicksort demo'd on page 514 figure 9.11
-void drozdekQuickSort(int dataSetSize)
+void medianQuickSort(int dataSetSize)
 {
     int nums[dataSetSize];
     for (int i = 0; i < dataSetSize; i++)
-        nums[i] = randInt(0, 500001);
-    cout << "Unsorted array before Drozdek's quicksort: \n";
+        // nums[i] = randInt(0, 500001);
+        nums[i] = randInt(0, 100);
+    cout << "Unsorted array before median element as pivot style quicksort:\n";
     for (int i = 0; i < dataSetSize; i++)
         cout << nums[i] << endl;
 
-    drozdekQuickSort(nums, dataSetSize);
+    medianQuickSort(nums, 0, dataSetSize - 1);
 
-    cout << "\nSorted array after Drozdek's quicksort: \n";
+    cout << "\nSorted array after median element as pivot style quicksort:\n";
     for (int i = 0; i < dataSetSize; i++)
         cout << nums[i] << endl;
-
     cout << endl;
 }
 
@@ -715,6 +750,7 @@ int main()
     srand(time(0)); // seed the pseudo random number generator
 
     // randomPivotQuickSort(20);
+    medianQuickSort(10);
     // drozdekQuickSort(20);
     return 0;
 }
