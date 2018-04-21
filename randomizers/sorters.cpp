@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <chrono>
 #include <ctime>
 
 using namespace std;
@@ -57,7 +58,7 @@ void drozdekQuickSort(T data[], int n)
 }
 
 // implement the quicksort demo'd on page 514 figure 9.11
-void drozdekQuickSort(int dataSetSize)
+void drozdekQuickSortTester(int dataSetSize)
 {
     int nums[dataSetSize];
     for (int i = 0; i < dataSetSize; i++)
@@ -71,8 +72,15 @@ void drozdekQuickSort(int dataSetSize)
     cout << "\nSorted array after Drozdek's quicksort: \n";
     for (int i = 0; i < dataSetSize; i++)
         cout << nums[i] << endl;
-
     cout << endl;
+}
+
+void drozdekQuickSort(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    drozdekQuickSort(nums, dataSetSize);
 }
 
 
@@ -96,7 +104,7 @@ void randomPivotQuickSort(T data[], int first, int last)
         randomPivotQuickSort(data, marker + 1, last);
 }
 
-void randomPivotQuickSort(int dataSetSize)
+void randomPivotQuickSortTester(int dataSetSize)
 {
     int nums[dataSetSize];
     for (int i = 0; i < dataSetSize; i++)
@@ -111,6 +119,14 @@ void randomPivotQuickSort(int dataSetSize)
     for (int i = 0; i < dataSetSize; i++)
         cout << nums[i] << endl;
     cout << endl;
+}
+
+void randomPivotQuickSort(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    randomPivotQuickSort(nums, 0, dataSetSize - 1);
 }
 
 template<class T>
@@ -137,12 +153,11 @@ void medianQuickSort(T data[], int first, int last)
 }
 
 
-void medianQuickSort(int dataSetSize)
+void medianQuickSortTester(int dataSetSize)
 {
     int nums[dataSetSize];
     for (int i = 0; i < dataSetSize; i++)
-        // nums[i] = randInt(0, 500001);
-        nums[i] = randInt(0, 100);
+        nums[i] = randInt(0, 500001);
     cout << "Unsorted array before median element as pivot style quicksort:\n";
     for (int i = 0; i < dataSetSize; i++)
         cout << nums[i] << endl;
@@ -155,122 +170,72 @@ void medianQuickSort(int dataSetSize)
     cout << endl;
 }
 
-// run each of the 3 above algos on randomly generated data of these 6 sizes:
+void medianQuickSort(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    medianQuickSort(nums, 0, dataSetSize - 1);
+}
 
-    // algo 1
-        // 5000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 10000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 50000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 100000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 150000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 200000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
+// not DRY, must iterate over container of functions?
+void quicksortExecutionTimes()
+{
+    int sizes[6] = { 5000, 10000, 50000, 100000, 150000, 200000 };
+    cout << "Median execution time of random pivot element quicksort with \n";
+    for (int i = 0; i < 6; i++)
+    {
+        using namespace std::chrono;
+        int times[5];
+        for (int j = 0; j < 5; j++)
+        {
+            auto begin = high_resolution_clock::now();
+            randomPivotQuickSort(sizes[i]);
+            auto end = high_resolution_clock::now();
+            auto length = duration_cast<microseconds>(end - begin);
+            times[j] = length.count();
+        }
+        sort(times, times + (5 / times[0]));
+        cout << "\t" << sizes[i]
+             << " elements was " << times[3] << " microseconds.\n";
+    }
 
-    // algo 2
-        // 5000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 10000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 50000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 100000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 150000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 200000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
+    cout << "Median execution time of median element pivot quicksort with \n";
+    for (int i = 0; i < 6; i++)
+    {
+        using namespace std::chrono;
+        int times[5];
+        for (int j = 0; j < 5; j++)
+        {
+            auto begin = high_resolution_clock::now();
+            medianQuickSort(sizes[i]);
+            auto end = high_resolution_clock::now();
+            auto length = duration_cast<microseconds>(end - begin);
+            times[j] = length.count();
+        }
+        sort(times, times + (5 / times[0]));
+        cout << "\t" << sizes[i]
+             << " elements was " << times[3] << " microseconds.\n";
+    }
 
-    // algo 3
-        // 5000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 10000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 50000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 100000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 150000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-        // 200000
-            // run 1, report MEDIAN execution time
-            // run 2, report MEDIAN execution time
-            // run 3, report MEDIAN execution time
-            // run 4, report MEDIAN execution time
-            // run 5, report MEDIAN execution time
-
+    cout << "Median execution time of Drozdek's quicksort with \n";
+    for (int i = 0; i < 6; i++)
+    {
+        using namespace std::chrono;
+        int times[5];
+        for (int j = 0; j < 5; j++)
+        {
+            auto begin = high_resolution_clock::now();
+            drozdekQuickSort(sizes[i]);
+            auto end = high_resolution_clock::now();
+            auto length = duration_cast<microseconds>(end - begin);
+            times[j] = length.count();
+        }
+        sort(times, times + (5 / times[0]));
+        cout << "\t" << sizes[i]
+             << " elements was " << times[3] << " microseconds.\n";
+    }
+}
 // Plot all this data on an Excel spreadsheet
     // x-axis is data size
     // y-axis is the median execution time
@@ -749,8 +714,10 @@ int main()
 {
     srand(time(0)); // seed the pseudo random number generator
 
-    // randomPivotQuickSort(20);
-    medianQuickSort(10);
-    // drozdekQuickSort(20);
+    randomPivotQuickSortTester(20);
+    medianQuickSortTester(20);
+    drozdekQuickSortTester(20);
+
+    quicksortExecutionTimes();
     return 0;
 }
