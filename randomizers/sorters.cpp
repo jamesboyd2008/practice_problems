@@ -247,7 +247,7 @@ void quicksortExecutionTimes()
 // part - 2 - shellsort
 
 template<class T>
-void Shellsort(T data[], int n)
+void shellSortInsertionSort(T data[], int n)
 {
     int i, j, hCnt, h;
     int increments[20], k;
@@ -279,6 +279,93 @@ void Shellsort(T data[], int n)
             }
         }
     }
+}
+
+void shellSortInsertionSortTester(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    cout << "Unsorted array before shellsort with internal insertion sort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+
+    shellSortInsertionSort(nums, dataSetSize);
+
+    cout << "\nSorted array after shellsort with internal insertion sort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+    cout << endl;
+}
+
+void shellSortInsertionSort(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    shellSortInsertionSort(nums, dataSetSize);
+}
+
+template<class T>
+void shellSortSelectionSort(T data[], int n)
+{
+    int i, j, hCnt, h;
+    int increments[20], k;
+    // create an appropriate number of increments h
+    for (h = 1, i = 0; h < n; i++)
+    {
+        increments[i] = h;
+        h = 3 * h + 1;
+    }
+    // loop on the number of different increments h
+    for (i--; i >= 0; i--)
+    {
+        h = increments[i];
+        // loop on the number of subarrays h-sorted in the ith pass
+        for (hCnt = h; hCnt < 2 * h; hCnt++)
+        {
+            for (j = hCnt; j <= n; j += h)
+            {
+                int smallestIndex = j - h;
+                k = j;
+                while (k <= n - 1)
+                {
+                    if (data[k] < data[smallestIndex])
+                    {
+                        smallestIndex = k;
+                    }
+                    k += h;
+                }
+                swap(data[j - h], data[smallestIndex]);
+            }
+
+        }
+    }
+}
+
+void shellSortSelectionSortTester(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    cout << "Unsorted array before shellsort with internal selection sort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+
+    shellSortSelectionSort(nums, dataSetSize);
+
+    cout << "\nSorted array after shellsort with internal selection sort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+    cout << endl;
+}
+
+void shellSortSelectionSort(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    shellSortSelectionSort(nums, dataSetSize);
 }
 
 /*
@@ -330,394 +417,67 @@ use	them	in	a	descending	sequence.		In	all	cases,	the	final	iteration	increment	
 
 // run each of the 10 above algos on randomly generated data of these 6 sizes:
 
-        // algo 1
-            // 5000
-                // run 1, report MEDIAN execution time
-                // run 2, report MEDIAN execution time
-                // run 3, report MEDIAN execution time
-                // run 4, report MEDIAN execution time
-                // run 5, report MEDIAN execution time
-            // 10000
-                // run 1, report MEDIAN execution time
-                // run 2, report MEDIAN execution time
-                // run 3, report MEDIAN execution time
-                // run 4, report MEDIAN execution time
-                // run 5, report MEDIAN execution time
-            // 50000
-                // run 1, report MEDIAN execution time
-                // run 2, report MEDIAN execution time
-                // run 3, report MEDIAN execution time
-                // run 4, report MEDIAN execution time
-                // run 5, report MEDIAN execution time
-            // 100000
-                // run 1, report MEDIAN execution time
-                // run 2, report MEDIAN execution time
-                // run 3, report MEDIAN execution time
-                // run 4, report MEDIAN execution time
-                // run 5, report MEDIAN execution time
-            // 150000
-                // run 1, report MEDIAN execution time
-                // run 2, report MEDIAN execution time
-                // run 3, report MEDIAN execution time
-                // run 4, report MEDIAN execution time
-                // run 5, report MEDIAN execution time
-            // 200000
-                // run 1, report MEDIAN execution time
-                // run 2, report MEDIAN execution time
-                // run 3, report MEDIAN execution time
-                // run 4, report MEDIAN execution time
-                // run 5, report MEDIAN execution time
+// not DRY, must iterate over container of functions?
+void shellsortExecutionTimes()
+{
+    int sizes[6] = { 5000, 10000, 50000, 100000, 150000, 200000 };
+    cout << "Median execution time of shellsort with insertion sort:\n";
+    for (int i = 0; i < 6; i++)
+    {
+        using namespace std::chrono;
+        int times[5];
+        for (int j = 0; j < 5; j++)
+        {
+            auto begin = high_resolution_clock::now();
+            shellSortInsertionSort(sizes[i]);
+            auto end = high_resolution_clock::now();
+            auto length = duration_cast<microseconds>(end - begin);
+            times[j] = length.count();
+        }
+        sort(times, times + (5 / times[0]));
+        cout << "\t" << sizes[i]
+             << " elements was " << times[3] << " microseconds.\n";
+    }
 
-    // algo 2
-    // 5000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 10000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 50000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 100000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 150000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 200000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
+    cout << "Median execution time of shellsort with selection sort \n";
+    for (int i = 0; i < 6; i++)
+    {
+        using namespace std::chrono;
+        int times[5];
+        for (int j = 0; j < 5; j++)
+        {
+            auto begin = high_resolution_clock::now();
+            shellSortSelectionSort(sizes[i]);
+            auto end = high_resolution_clock::now();
+            auto length = duration_cast<microseconds>(end - begin);
+            times[j] = length.count();
+        }
+        sort(times, times + (5 / times[0]));
+        cout << "\t" << sizes[i]
+             << " elements was " << times[3] << " microseconds.\n";
+    }
+}
+// Plot all this data on an Excel spreadsheet
+    // x-axis is data size
+    // y-axis is the median execution time
+    // draw plot lines - each one on the same figure - include a legend
+    // you may include more data sizes, if you so choose
+    // export the plot chart to a word document and discuss the relative
+    // runtime performance of each of the three variants. Which is your fav?
 
-    // algo 3
-    // 5000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 10000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 50000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 100000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 150000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 200000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-
-    // algo 4
-    // 5000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 10000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 50000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 100000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 150000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 200000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-
-    // algo 5
-    // 5000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 10000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 50000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 100000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 150000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 200000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-
-    // algo 6
-    // 5000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 10000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 50000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 100000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 150000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 200000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-
-    // algo 7
-    // 5000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 10000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 50000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 100000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 150000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 200000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-
-    // algo 8
-    // 5000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 10000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 50000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 100000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 150000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 200000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-
-    // algo 9
-    // 5000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 10000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 50000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 100000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 150000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 200000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-
-    // algo 10
-    // 5000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 10000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 50000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 100000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 150000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
-    // 200000
-        // run 1, report MEDIAN execution time
-        // run 2, report MEDIAN execution time
-        // run 3, report MEDIAN execution time
-        // run 4, report MEDIAN execution time
-        // run 5, report MEDIAN execution time
 
 int main()
 {
     srand(time(0)); // seed the pseudo random number generator
 
-    randomPivotQuickSortTester(20);
-    medianQuickSortTester(20);
-    drozdekQuickSortTester(20);
-
-    quicksortExecutionTimes();
+    // randomPivotQuickSortTester(20);
+    // medianQuickSortTester(20);
+    // drozdekQuickSortTester(20);
+    // shellSortInsertionSortTester(20);
+    // cout << "This one is broken:\n";
+    // shellSortSelectionSortTester(20);
+    shellSortSelectionSortTester(20);
+    // quicksortExecutionTimes();
+    // shellsortExecutionTimes();
     return 0;
 }
