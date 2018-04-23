@@ -1,0 +1,10 @@
+Louisville 38 85
+Washington 38 77
+Chicago 41 87
+New York 40 74
+Pittsburgh 40 79
+Dayton 39 84
+Nashville 36.17 86.78
+Montreal 45 73
+Cleveland 41 81
+Atlanta 33.75 84.39
