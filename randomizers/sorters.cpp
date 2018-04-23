@@ -470,14 +470,13 @@ int main()
 {
     srand(time(0)); // seed the pseudo random number generator
 
-    // randomPivotQuickSortTester(20);
-    // medianQuickSortTester(20);
-    // drozdekQuickSortTester(20);
-    // shellSortInsertionSortTester(20);
-    // cout << "This one is broken:\n";
-    // shellSortSelectionSortTester(20);
+    randomPivotQuickSortTester(20);
+    medianQuickSortTester(20);
+    drozdekQuickSortTester(20);
+    shellSortInsertionSortTester(20);
     shellSortSelectionSortTester(20);
-    // quicksortExecutionTimes();
-    // shellsortExecutionTimes();
+    shellSortSelectionSortTester(20);
+    quicksortExecutionTimes();
+    shellsortExecutionTimes();
     return 0;
 }
