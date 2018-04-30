@@ -19,14 +19,9 @@ do
 done
 
 # slowly sort words alphabetically and remove duplicates
-# TODO: question the necessity of alphabetization for speed's sake.
 words=($(echo "${words[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '))
 
-# print the sorted, normalized, no-duplicates dictionary
-# for i in "${words[@]}"
-# do
-#     echo "$i"
-# done
+words_length=${#words[@]}
 
 line_count=1
 while read line; do # iterate over every line in document (argument $2)
@@ -38,15 +33,33 @@ while read line; do # iterate over every line in document (argument $2)
         if [[ ! " ${words[@]} " =~ " ${a_word} " ]];
         then
             # print it and its location
-            a_word="$(tr -d '[:punct:]' <<< "$word")" # keep original case
             echo "$a_word was misspelled on line $line_count"
+
+            # suggest alternative spellings for mispelled words based on the
+            # two most similar word(s) in the dictionary.
+            # Loop through dictionary.
+            for (( word_count=0; word_count<${words_length}; word_count++ ));
+            do
+                # Stop once you pass where the typo would be.
+                if [[ " ${words[word_count]} " > " ${a_word} " ]];
+                then
+                    if [[ $word_count > 0 ]]; # avoid program crash
+                    then
+                        # suggest the word before it
+                        echo -e "Perhaps \"${words[word_count - 1]}\" or \c"
+                        # suggest the word after it
+                        echo -e "\"${words[word_count]}\" might work.\n"
+                    else # in case "a" ain't in the dictionary
+                        echo -e "Perhaps \"${words[word_count]}\" might work.\n"
+                    fi
+                    break;
+                fi
+            done
         fi
     done
     let line_count+=1
 done < $2 # the document to be checked for spelling errors
 
 # Opportunities for improvement:
-# suggest alternative spellings for mispelled words based on the most similar
-#     word in the dictionary.
 # give the user the opportunity to use a built in dictionary ... ispell?
 # optimize for speed? This program is SLOW.
