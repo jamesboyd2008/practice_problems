@@ -1,10 +1,11 @@
-#include <cmath>
-#include <fstream>
-#include <iostream>
+#include <cmath> // pow, round
+#include <fstream> // ofstream, ifstream
+#include <iostream> // cin
 #include <string>
 
 using namespace std;
 
+// This class exists for ease of association of planet names and x,y,z coords.
 class Planet
 {
 public:
@@ -19,12 +20,13 @@ private:
     string name;
     int x, y, z;
 };
-
+// default constructor
 Planet::Planet()
 {
     name = "Planet";
     x = y = z = 0;
 }
+// make a planet
 Planet::Planet(string newName, int newX, int newY, int newZ)
 {
     name = newName;
@@ -32,22 +34,29 @@ Planet::Planet(string newName, int newX, int newY, int newZ)
     y = newY;
     z = newZ;
 }
+// private member accessor function
 string Planet::getName()
 {
     return name;
 }
+// private member accessor function
 int Planet::getX()
 {
     return x;
 }
+// private member accessor function
 int Planet::getY()
 {
     return y;
 }
+// private member accessor function
 int Planet::getZ()
 {
     return z;
 }
+// This function calculates the Euclidian distance between two planets.
+// input: a Planet
+// output: an int, rounded from a double, the distance between the two planets.
 int Planet::distanceFrom(Planet destination)
 {
     // d(P_1, P_2) = sqrt( (x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2 )
@@ -59,19 +68,31 @@ int Planet::distanceFrom(Planet destination)
     return round(distance);
 }
 
+// driver function
 int main()
 {
-    string in, out, results = "", name, enterPortal, exitPortal, start, end;
-    int cases, planetCount, portalCount, x, y, z, queryCount;
-    double distance = 11.7;
-    int roundedDistance = round(distance);
+    string in, // the relative path to the input file
+           out, // the relative path to the output file
+           results = "", // string to hold all the answers
+           name, // used to construct every planet.
+           enterPortal, // used to identify every planet with an entry portal
+           exitPortal, // used to identify every planet with an exit portal
+           start, // used in all queries
+           end; // used in all queries
+    int cases, // the number of test cases
+        planetCount, // used for every test case
+        portalCount, // used for every test case
+        x, // used to construct every planet
+        y, // used to construct every planet
+        z, // used to construct every planet
+        queryCount; // used once per test case
     cout << "\nEnter the name of the input file: ";
-    cin >> in;
+    cin >> in; // receive input file
     cout << "\nEnter the name of the output file: ";
-    cin >> out;
+    cin >> out; // receive output file
     cout << endl;
     ifstream infile;
-    infile.open(in);
+    infile.open(in); // opening input file
 
     infile >> cases; // quantity of test cases
     for (int i = 1; i <= cases; i++) // iterate over test cases
@@ -113,7 +134,7 @@ int main()
         }
 
         infile >> queryCount;
-        for (int j = 0; j < queryCount; j++)
+        for (int j = 0; j < queryCount; j++) // do this for every single query
         {
             infile >> start >> end;
             int startIndex, endIndex;
@@ -126,7 +147,11 @@ int main()
             }
 
 /*
-djikstra's algo ***************************************************************
+Djikstra's shortest path algorithm was chosen because it's faster than some,
+easier to implement than some, and it's popular.
+The code between the ****** finds the minimal distance, accounting for worm
+holes, between the query planets.
+***************************** begin djikstra's algo ****************************
 */
         // container for calculated shortest distances, accounting for portals
             int portalDiscounts[planetCount];
@@ -171,12 +196,12 @@ djikstra's algo ***************************************************************
                     if (
                         // if this planet is not part of the route, yet
                         !visited[planet] &&
-                        // portalDiscounts[shortestIndex] != tooFar &&
-                            portalDiscounts[shortestIndex] +
-                            distances[shortestIndex][planet] <
-                            portalDiscounts[planet]
+                        portalDiscounts[shortestIndex] +
+                        distances[shortestIndex][planet] <
+                        portalDiscounts[planet] // if this is a shortcut
                     )
                     {
+                        // we have a new shortest route
                         portalDiscounts[planet] =
                             portalDiscounts[shortestIndex] +
                             distances[shortestIndex][planet];
