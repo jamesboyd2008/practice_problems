@@ -1,7 +1,4 @@
-#include <algorithm>
 #include <cmath>
-#include <climits>
-#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -62,39 +59,19 @@ int Planet::distanceFrom(Planet destination)
     return round(distance);
 }
 
-// maybe include an index finder here and convert everything to pointers :)
-// note: arrays pass by reference by default
-
-
 int main()
 {
-    // dynamic arrays
-    int *dArray;
-    // int sizey;
-
-    // construct adjacency matrix from input using distance formula a bunch
-    // then run dijkstra's algo
-
-    int sizey = 10;
-    // cout << "Input size: ";
-    // cin >> sizey;
-    // dArray = new int[12];
-    dArray = new int[sizey];
-
-
-
-    delete [] dArray;
-    dArray = NULL;
-
-    string results = "", name, enterPortal, exitPortal, start, end;
+    string in, out, results = "", name, enterPortal, exitPortal, start, end;
     int cases, planetCount, portalCount, x, y, z, queryCount;
     double distance = 11.7;
     int roundedDistance = round(distance);
-    cout << "\n\n\nEnter the name of the input file: \n\n\n";
-    // cin >> inputFileName;
+    cout << "\nEnter the name of the input file: ";
+    cin >> in;
+    cout << "\nEnter the name of the output file: ";
+    cin >> out;
+    cout << endl;
     ifstream infile;
-    // infile.open(inputFileName);
-    infile.open("sample_input.txt");
+    infile.open(in);
 
     infile >> cases; // quantity of test cases
     for (int i = 1; i <= cases; i++) // iterate over test cases
@@ -120,21 +97,6 @@ int main()
             }
         }
 
-        // // print distances[][] for troubleshooting
-        // cout << "[\n";
-        // for (int j = 0; j < planetCount; j++)
-        // {
-        //     cout << "\t";
-        //     for (int k = 0; k < planetCount; k++)
-        //     {
-        //         cout << distances[j][k] << ", ";
-        //     }
-        //     cout << "\n";
-        // }
-        // cout << "]\n\n";
-
-
-
         infile >> portalCount; // receive quantity of worm holes
         for (int j = 0; j < portalCount; j++) // receive all the portals
         {
@@ -150,20 +112,6 @@ int main()
             distances[entryIndex][exitIndex] = 0; // account for the portal
         }
 
-        // // print distances[][] for troubleshooting
-        // cout << "[\n";
-        // for (int j = 0; j < planetCount; j++)
-        // {
-        //     cout << "\t";
-        //     for (int k = 0; k < planetCount; k++)
-        //     {
-        //         cout << distances[j][k] << ", ";
-        //     }
-        //     cout << "\n";
-        // }
-        // cout << "]\n\n";
-
-
         infile >> queryCount;
         for (int j = 0; j < queryCount; j++)
         {
@@ -171,18 +119,15 @@ int main()
             int startIndex, endIndex;
             for (int k = 0; k < planetCount; k++) // iterate over planets
             {
-                if (planets[k].getName() == enterPortal) // is this the entry?
+                if (planets[k].getName() == start) // is this the entry?
                     startIndex = k;
-                else if (planets[k].getName() == exitPortal) // is this exit?
+                else if (planets[k].getName() == end) // is this exit?
                     endIndex = k;
             }
 
-            // do the assignment, here
-            int result;
 /*
-djikstra's algo
+djikstra's algo ***************************************************************
 */
-
         // container for calculated shortest distances, accounting for portals
             int portalDiscounts[planetCount];
          // for tracking previously visited planets
@@ -200,13 +145,14 @@ djikstra's algo
             portalDiscounts[startIndex] = 0; // distance from start to start
 
             // find the shortest distance from/to every planet
-            for (int k = 0; k < planetCount; k++)
+            for (int k = 0; k < planetCount - 1; k++)
             {
                 // if a route exists, it's smaller than this
                 int currentShortest = tooFar;
                 // to help track the standing best route
                 int shortestIndex;
                 // iterate over every planet
+                // cout << "shortest index before: " << shortestIndex << endl;
                 for (int l = 0; l < planetCount; l++)
                 {
                     if (        visited[l] == false && // not in route, yet
@@ -216,15 +162,19 @@ djikstra's algo
                         shortestIndex = l;
                     }
                 }
+
                 visited[shortestIndex] = true; // it's now part of the route
-                // account for new route piece
+
+                // account for new route piece in relation to all planets
                 for (int planet = 0; planet < planetCount; planet++)
                 {
-                    if ( !visited[planet] &&
-                         distances[shortestIndex][planet] &&
-                         portalDiscounts[shortestIndex] != tooFar &&
+                    if (
+                        // if this planet is not part of the route, yet
+                        !visited[planet] &&
+                        // portalDiscounts[shortestIndex] != tooFar &&
                             portalDiscounts[shortestIndex] +
-                            distances[shortestIndex][planet] < portalDiscounts[planet]
+                            distances[shortestIndex][planet] <
+                            portalDiscounts[planet]
                     )
                     {
                         portalDiscounts[planet] =
@@ -233,35 +183,17 @@ djikstra's algo
                     }
                 }
             }
-
-
 //*************************** end djikstra's algo ******************************
-            // results += "The distance from " + start + " to " + end + " is "
-            //         +  to_string(roundedDistance) + " parsecs.\n";
+
             results += "The distance from " + start + " to " + end + " is " +
                        to_string(portalDiscounts[endIndex]) + " parsecs.\n";
         }
     }
-    infile.close();
-
-    cout << results;
-
-    // make a [planetCount x planetCount] array of distances
-    // planets[thisOne][thatOne] = distance(thisOne, thatOne)
-    // account for worm holes
-    // now you can nearly plug n play a distance algo
-
-    // planets[index][index] to planets[index][index]
-
-    // if there are no black holes, it's a straight shot
-    // else (there are black holes)
-        // if the distance to one or more black holes,
-        // followed by the destination is shorter,
-            // go that way
-        // else
-            // it's a straight shot
-
-
+    infile.close(); // close the input file
+    ofstream outfile; // to record the results
+    outfile.open(out); // open the output file
+    outfile << results; // write the shortest paths to the output file
+    outfile.close(); // close the output file
 
     return 0;
 }
