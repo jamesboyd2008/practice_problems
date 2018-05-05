@@ -5,11 +5,11 @@
 #include <cstdlib>
 #include <chrono>
 #include <ctime>
+#include <cmath>
 
 using namespace std;
 
-// This random number generating function is very similar to one found online:
-// http://www.cplusplus.com/forum/beginner/183358/
+// Pseudo Random Number Generator
 int randInt(int bottom, int plusUp)
 {
     // random int in range [bottom, (bottom + plusUp - 1)]
@@ -18,6 +18,10 @@ int randInt(int bottom, int plusUp)
 
 // part - 1 - quicksort
 
+// This function implements the quicksort sorting algorithm from the book.
+// input: an array to be sorted,
+//        an int, first, the index of the beginning of the segment to be sorted
+//        an int, last, the index of the end       of the segment to be sorted
 template<class T>
 void drozdekQuickSort(T data[], int first, int last)
 {
@@ -43,6 +47,8 @@ void drozdekQuickSort(T data[], int first, int last)
         drozdekQuickSort(data, upper + 1, last);
 }
 
+// This is a helper for the above. It has a different signature.
+// This function prepares the array for the above function.
 template<class T>
 void drozdekQuickSort(T data[], int n)
 {
@@ -57,7 +63,7 @@ void drozdekQuickSort(T data[], int n)
     drozdekQuickSort(data, 0, n - 2);
 }
 
-// implement the quicksort demo'd on page 514 figure 9.11
+// This function tests the quick sort algorithm from the book.
 void drozdekQuickSortTester(int dataSetSize)
 {
     int nums[dataSetSize];
@@ -75,6 +81,7 @@ void drozdekQuickSortTester(int dataSetSize)
     cout << endl;
 }
 
+// This function creates and array, to be quicksorted, of random ints 0- 500,000
 void drozdekQuickSort(int dataSetSize)
 {
     int nums[dataSetSize];
@@ -83,7 +90,11 @@ void drozdekQuickSort(int dataSetSize)
     drozdekQuickSort(nums, dataSetSize);
 }
 
-
+// This function implements a quicksort sorting algorithm with a random
+// pivot point.
+// input: an array to be sorted,
+//        an int, first, the index of the beginning of the segment to be sorted
+//        an int, last, the index of the end       of the segment to be sorted
 template<class T>
 void randomPivotQuickSort(T data[], int first, int last)
 {
@@ -104,6 +115,7 @@ void randomPivotQuickSort(T data[], int first, int last)
         randomPivotQuickSort(data, marker + 1, last);
 }
 
+// This function tests the randomPivotQuickSort function.
 void randomPivotQuickSortTester(int dataSetSize)
 {
     int nums[dataSetSize];
@@ -121,6 +133,8 @@ void randomPivotQuickSortTester(int dataSetSize)
     cout << endl;
 }
 
+// This function creates an array, to be sorted with the random pivot
+// quicksort, of random ints, 0 - 500,000
 void randomPivotQuickSort(int dataSetSize)
 {
     int nums[dataSetSize];
@@ -129,6 +143,11 @@ void randomPivotQuickSort(int dataSetSize)
     randomPivotQuickSort(nums, 0, dataSetSize - 1);
 }
 
+// This function implements a quicksort sorting algorithm using the median
+// element as a pivot.
+// input: an array to be sorted,
+//        an int, first, the index of the beginning of the segment to be sorted
+//        an int, last, the index of the end       of the segment to be sorted
 template<class T>
 void medianQuickSort(T data[], int first, int last)
 {
@@ -152,7 +171,7 @@ void medianQuickSort(T data[], int first, int last)
         medianQuickSort(data, marker + 1, last);
 }
 
-
+// This function tests the medianQuickSort function.
 void medianQuickSortTester(int dataSetSize)
 {
     int nums[dataSetSize];
@@ -170,6 +189,8 @@ void medianQuickSortTester(int dataSetSize)
     cout << endl;
 }
 
+// This function creates an array, to be quicksorted with the median pivot
+// element quicksort function, of random ints, 0 - 500,000
 void medianQuickSort(int dataSetSize)
 {
     int nums[dataSetSize];
@@ -178,7 +199,7 @@ void medianQuickSort(int dataSetSize)
     medianQuickSort(nums, 0, dataSetSize - 1);
 }
 
-// not DRY, must iterate over container of functions?
+// This function tests the execution times of the quicksort functions.
 void quicksortExecutionTimes()
 {
     int sizes[6] = { 5000, 10000, 50000, 100000, 150000, 200000 };
@@ -236,21 +257,25 @@ void quicksortExecutionTimes()
              << " elements was " << times[3] << " microseconds.\n";
     }
 }
-// Plot all this data on an Excel spreadsheet
-    // x-axis is data size
-    // y-axis is the median execution time
-    // draw plot lines - each one on the same figure - include a legend
-    // you may include more data sizes, if you so choose
-    // export the plot chart to a word document and discuss the relative
-    // runtime performance of each of the three variants. Which is your fav?
 
 // part - 2 - shellsort
 
+// This function implements a shellsort sorting algorithm using
+// an internal insertion sort.
+// input: an array to be sorted,
+//        an int, the size of the array to be sorted
+// output: nothing
 template<class T>
 void shellSortInsertionSort(T data[], int n)
 {
     int i, j, hCnt, h;
     int increments[20], k;
+
+    // variant 1:
+        // increment scheme: h_1 = 1, h_i+1 = 3h_i +1
+        // stop with h_t for which h_t+2 >= n
+        // (default version w/ diff. stopping condition)
+
     // create an appropriate number of increments h
     for (h = 1, i = 0; h < n; i++)
     {
@@ -281,6 +306,7 @@ void shellSortInsertionSort(T data[], int n)
     }
 }
 
+// This function tests the shellsort with internal insertion sort
 void shellSortInsertionSortTester(int dataSetSize)
 {
     int nums[dataSetSize];
@@ -298,6 +324,8 @@ void shellSortInsertionSortTester(int dataSetSize)
     cout << endl;
 }
 
+// This function creates an array, to be sorted with the shellsort with interal
+// insertion sort, of random ints, 0 - 500,000
 void shellSortInsertionSort(int dataSetSize)
 {
     int nums[dataSetSize];
@@ -306,11 +334,157 @@ void shellSortInsertionSort(int dataSetSize)
     shellSortInsertionSort(nums, dataSetSize);
 }
 
+// This function implements a shellsort sorting algorithm using
+// an internal insertion sort.
+// input: an array to be sorted,
+//        an int, the size of the array to be sorted
+template<class T>
+void shellSortInsertionSort2KMinus(T data[], int n)
+{
+    int i, j, hCnt, h;
+    int increments[20], k;
+    // variant 2:
+        // increment scheme: h = 2^k - 1 for k = 1 up
+        // to largest k for which (2^k - 1) < n
+    for (h = 1, i = 0; h < n; i++)
+    {
+        increments[i] = h;
+        h = pow(2, i + 2) - 1;
+    }
+    // loop on the number of different increments h
+    for (i--; i >= 0; i--)
+    {
+        h = increments[i];
+        // loop on the number of subarrays h-sorted in the ith pass
+        for (hCnt = h; hCnt < 2 * h; hCnt++)
+        {
+            // insertion sort for subarray containing every hth el of arr data
+            for (j = hCnt; j < n; )
+            {
+                T tmp = data[j];
+                k = j;
+                while (k - h >= 0 && tmp < data[k - h])
+                {
+                    data[k] = data[k - h];
+                    k -= h;
+                }
+                data[k] = tmp;
+                j += h;
+            }
+        }
+    }
+}
+
+// This function tests the shellSortInsertionSort2KMinus function.
+void shellSortInsertionSort2KMinusTester(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    cout << "Unsorted array before 1st alt. shellsort, insertion sort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+
+    shellSortInsertionSort2KMinus(nums, dataSetSize);
+
+    cout << "\nSorted array after 1st alt. shellsort, insertion sort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+    cout << endl;
+}
+
+// This function creates an array, to be sorted with
+// the shellSortInsertionSort2KMinus function, of random ints, 0 - 500,000
+void shellSortInsertionSort2KMinus(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    shellSortInsertionSort2KMinus(nums, dataSetSize);
+}
+
+// This function implements a shellsort sorting algorithm using
+// an internal insertion sort.
+// input: an array to be sorted,
+//        an int, the size of the array to be sorted
+template<class T>
+void shellSortInsertionSort2KPlus(T data[], int n)
+{
+    int i, j, hCnt, h;
+    int increments[20], k;
+    // variant 3:
+        // increment scheme: h = 2^k + 1 for k = 1 up
+        // to largest k for which (2^k + 1) < n
+    for (h = 3, i = 0; h < n; i++)
+    {
+        increments[i] = h;
+        h = pow(2, i + 2) + 1;
+    }
+    // loop on the number of different increments h
+    for (i--; i >= 0; i--)
+    {
+        h = increments[i];
+        // loop on the number of subarrays h-sorted in the ith pass
+        for (hCnt = h; hCnt < 2 * h; hCnt++)
+        {
+            // insertion sort for subarray containing every hth el of arr data
+            for (j = hCnt; j < n; )
+            {
+                T tmp = data[j];
+                k = j;
+                while (k - h >= 0 && tmp < data[k - h])
+                {
+                    data[k] = data[k - h];
+                    k -= h;
+                }
+                data[k] = tmp;
+                j += h;
+            }
+        }
+    }
+}
+
+// This function tests the shellSortInsertionSort2KPlus function.
+void shellSortInsertionSort2KPlusTester(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    cout << "Unsorted array before 2nd alt. shellsort, insertion sort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+
+    shellSortInsertionSort2KPlus(nums, dataSetSize);
+
+    cout << "\nSorted array after 2nd alt. shellsort, insertion sort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+    cout << endl;
+}
+
+// This function creates an array, to be sorted with the
+// shellSortInsertionSort2KPlus function, of random ints, 0 - 500,000
+void shellSortInsertionSort2KPlus(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    shellSortInsertionSort2KPlus(nums, dataSetSize);
+}
+
+// This function implements a shellsort sorting algorithm using
+// an internal selection sort.
+// input: an array to be sorted,
+//        an int, the size of the array to be sorted
 template<class T>
 void shellSortSelectionSort(T data[], int n)
 {
     int i, j, hCnt, h;
     int increments[20], k;
+
+    // variant 1:
+        // increment scheme: h_1 = 1, h_i+1 = 3h_i +1
+        // stop with h_t for which h_t+2 >= n
     // create an appropriate number of increments h
     for (h = 1, i = 0; h < n; i++)
     {
@@ -324,6 +498,7 @@ void shellSortSelectionSort(T data[], int n)
         // loop on the number of subarrays h-sorted in the ith pass
         for (hCnt = h; hCnt < 2 * h; hCnt++)
         {
+            // selection sort
             for (j = hCnt; j <= n; j += h)
             {
                 int smallestIndex = j - h;
@@ -343,6 +518,7 @@ void shellSortSelectionSort(T data[], int n)
     }
 }
 
+// This function tests the shellSortSelectionSort function.
 void shellSortSelectionSortTester(int dataSetSize)
 {
     int nums[dataSetSize];
@@ -360,6 +536,8 @@ void shellSortSelectionSortTester(int dataSetSize)
     cout << endl;
 }
 
+// This function creates an array, to be sorted with the
+// shellSortSelectionSort function, of random ints, 0 - 500,000
 void shellSortSelectionSort(int dataSetSize)
 {
     int nums[dataSetSize];
@@ -368,56 +546,162 @@ void shellSortSelectionSort(int dataSetSize)
     shellSortSelectionSort(nums, dataSetSize);
 }
 
-/*
-Be	careful;	some	of	these	algorithms	count	up	from	1,	some	generate	numbers	in	a
-descending	sequence.		Either	way,	once	you	have	generated	the	increments,	you	will
-use	them	in	a	descending	sequence.		In	all	cases,	the	final	iteration	increment	will	be
-1.
-*/
+// This function implements a shellsort sorting algorithm using
+// an internal selection sort.
+// input: an array to be sorted,
+//        an int, the size of the array to be sorted
+template<class T>
+void shellSortSelectionSort2KMinus(T data[], int n)
+{
+    int i, j, hCnt, h;
+    int increments[20], k;
+    // variant 2:
+        // increment scheme: h = 2^k - 1 for k = 1 up
+        // to largest k for which (2^k - 1) < n
+    // create an appropriate number of increments h
+    for (h = 1, i = 0; h < n; i++)
+    {
+        increments[i] = h;
+        h = pow(2, i + 2) - 1;
+    }
 
-// variant 1:
-    // increment scheme: h_1 = 1, h_i+1 = 3h_i +1
-    // stop with h_t for which h_t+2 >= n
-    // (default version w/ diff. stopping condition)
+    // loop on the number of different increments h
+    for (i--; i >= 0; i--)
+    {
+        h = increments[i];
+        // loop on the number of subarrays h-sorted in the ith pass
+        for (hCnt = h; hCnt < 2 * h; hCnt++)
+        {
+            // using internal selection sort
+            for (j = hCnt; j <= n; j += h)
+            {
+                int smallestIndex = j - h;
+                k = j;
+                while (k <= n - 1)
+                {
+                    if (data[k] < data[smallestIndex])
+                    {
+                        smallestIndex = k;
+                    }
+                    k += h;
+                }
+                swap(data[j - h], data[smallestIndex]);
+            }
 
-        // using internal insertion sort on ~30 elements
+        }
+    }
+}
 
-        // using internal selection sort on ~30 elements
+// This function tests the shellSortSelectionSort2KMinus function.
+void shellSortSelectionSort2KMinusTester(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    cout << "Unsorted array before 1st alt. shellsort, selection sort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
 
-// variant 2:
-    // increment scheme: h = 2^k - 1 for k = 1 up
-    // to largest k for which (2^k - 1) < n
+    shellSortSelectionSort2KMinus(nums, dataSetSize);
 
-    // using internal insertion sort on ~30 elements
+    cout << "\nSorted array after 1st alt. shellsort, selection sort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+    cout << endl;
+}
 
-    // using internal selection sort on ~30 elements
+// This function creates an array, to be sorted with the
+// shellSortSelectionSort2KMinus function, of random ints, 0 - 500,000
+void shellSortSelectionSort2KMinus(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    shellSortSelectionSort2KMinus(nums, dataSetSize);
+}
 
-// variant 3:
-    // increment scheme: h = 2^k + 1 for k = 1 up
-    // to largest k for which (2^k + 1) < n
+// This function implements a shellsort sorting algorithm using
+// an internal selection sort.
+// input: an array to be sorted,
+//        an int, the size of the array to be sorted
+template<class T>
+void shellSortSelectionSort2KPlus(T data[], int n)
+{
+    int i, j, hCnt, h;
+    int increments[20], k;
+    // variant 3:
+        // increment scheme: h = 2^k + 1 for k = 1 up
+        // to largest k for which (2^k + 1) < n
+    // create an appropriate number of increments h
+    for (h = 3, i = 0; h < n; i++)
+    {
+        increments[i] = h;
+        h = pow(2, i + 2) + 1;
+    }
 
-    // using internal insertion sort on ~30 elements
+    // loop on the number of different increments h
+    for (i--; i >= 0; i--)
+    {
+        h = increments[i];
+        // loop on the number of subarrays h-sorted in the ith pass
+        for (hCnt = h; hCnt < 2 * h; hCnt++)
+        {
+            // using internal selection sort
+            for (j = hCnt; j <= n; j += h)
+            {
+                int smallestIndex = j - h;
+                k = j;
+                while (k <= n - 1)
+                {
+                    if (data[k] < data[smallestIndex])
+                    {
+                        smallestIndex = k;
+                    }
+                    k += h;
+                }
+                swap(data[j - h], data[smallestIndex]);
+            }
 
-    // using internal selection sort on ~30 elements
+        }
+    }
+}
 
-// variant 4:
-    // Fibonacci numbers staring with F(2) = 1 up to largest F(k) < n
+// This function tests the shellSortSelectionSort2KPlus function.
+void shellSortSelectionSort2KPlusTester(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    cout << "Unsorted array before 2nd alt. shellsort, selection sort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
 
-    // using internal insertion sort on ~30 elements
+    shellSortSelectionSort2KPlus(nums, dataSetSize);
 
-    // using internal selection sort on ~30 elements
+    cout << "\nSorted array after 2nd alt. shellsort, selection sort: \n";
+    for (int i = 0; i < dataSetSize; i++)
+        cout << nums[i] << endl;
+    cout << endl;
+}
 
-// variant 5:
-    // n/2 is hte increment for the 1st iteration, then
-    // h_i = floor(0.75h_i+1) until you reah 1
+// This function creates an array, to be sorted with the
+// shellSortSelectionSort2KPlus function, of random ints, 0 - 500,000
+void shellSortSelectionSort2KPlus(int dataSetSize)
+{
+    int nums[dataSetSize];
+    for (int i = 0; i < dataSetSize; i++)
+        nums[i] = randInt(0, 500001);
+    shellSortSelectionSort2KPlus(nums, dataSetSize);
+}
 
-    // using internal insertion sort on ~30 elements
-
-    // using internal selection sort on ~30 elements
-
-// run each of the 10 above algos on randomly generated data of these 6 sizes:
-
-// not DRY, must iterate over container of functions?
+// This function outputs the median execution times of these 6 functions:
+// shellSortInsertionSort,
+// shellSortSelectionSort,
+// shellSortInsertionSort2KMinus,
+// shellSortSelectionSort2KMinus,
+// shellSortInsertionSort2KPlus, and
+// shellSortSelectionSort2KPlus
+// in microseconds.
 void shellsortExecutionTimes()
 {
     int sizes[6] = { 5000, 10000, 50000, 100000, 150000, 200000 };
@@ -456,26 +740,92 @@ void shellsortExecutionTimes()
         cout << "\t" << sizes[i]
              << " elements was " << times[3] << " microseconds.\n";
     }
-}
-// Plot all this data on an Excel spreadsheet
-    // x-axis is data size
-    // y-axis is the median execution time
-    // draw plot lines - each one on the same figure - include a legend
-    // you may include more data sizes, if you so choose
-    // export the plot chart to a word document and discuss the relative
-    // runtime performance of each of the three variants. Which is your fav?
 
+    cout << "Median execution time of 1st alt. shellsort, insertion sort:\n";
+    for (int i = 0; i < 6; i++)
+    {
+        using namespace std::chrono;
+        int times[5];
+        for (int j = 0; j < 5; j++)
+        {
+            auto begin = high_resolution_clock::now();
+            shellSortInsertionSort2KMinus(sizes[i]);
+            auto end = high_resolution_clock::now();
+            auto length = duration_cast<microseconds>(end - begin);
+            times[j] = length.count();
+        }
+        sort(times, times + (5 / times[0]));
+        cout << "\t" << sizes[i]
+             << " elements was " << times[3] << " microseconds.\n";
+    }
+
+    cout << "Median execution time of 1st alt. shellsort, selection sort \n";
+    for (int i = 0; i < 6; i++)
+    {
+        using namespace std::chrono;
+        int times[5];
+        for (int j = 0; j < 5; j++)
+        {
+            auto begin = high_resolution_clock::now();
+            shellSortSelectionSort2KMinus(sizes[i]);
+            auto end = high_resolution_clock::now();
+            auto length = duration_cast<microseconds>(end - begin);
+            times[j] = length.count();
+        }
+        sort(times, times + (5 / times[0]));
+        cout << "\t" << sizes[i]
+             << " elements was " << times[3] << " microseconds.\n";
+    }
+
+    cout << "Median execution time of 2nd alt. shellsort, insertion sort:\n";
+    for (int i = 0; i < 6; i++)
+    {
+        using namespace std::chrono;
+        int times[5];
+        for (int j = 0; j < 5; j++)
+        {
+            auto begin = high_resolution_clock::now();
+            shellSortInsertionSort2KPlus(sizes[i]);
+            auto end = high_resolution_clock::now();
+            auto length = duration_cast<microseconds>(end - begin);
+            times[j] = length.count();
+        }
+        sort(times, times + (5 / times[0]));
+        cout << "\t" << sizes[i]
+             << " elements was " << times[3] << " microseconds.\n";
+    }
+
+    cout << "Median execution time of 2nd alt. shellsort, selection sort \n";
+    for (int i = 0; i < 6; i++)
+    {
+        using namespace std::chrono;
+        int times[5];
+        for (int j = 0; j < 5; j++)
+        {
+            auto begin = high_resolution_clock::now();
+            shellSortSelectionSort2KPlus(sizes[i]);
+            auto end = high_resolution_clock::now();
+            auto length = duration_cast<microseconds>(end - begin);
+            times[j] = length.count();
+        }
+        sort(times, times + (5 / times[0]));
+        cout << "\t" << sizes[i]
+             << " elements was " << times[3] << " microseconds.\n";
+    }
+}
 
 int main()
 {
     srand(time(0)); // seed the pseudo random number generator
-
     randomPivotQuickSortTester(20);
     medianQuickSortTester(20);
     drozdekQuickSortTester(20);
-    shellSortInsertionSortTester(20);
-    shellSortSelectionSortTester(20);
-    shellSortSelectionSortTester(20);
+    shellSortInsertionSortTester(30);
+    shellSortSelectionSortTester(30);
+    shellSortInsertionSort2KMinusTester(30);
+    shellSortSelectionSort2KMinusTester(30);
+    shellSortInsertionSort2KPlusTester(30);
+    shellSortSelectionSort2KPlusTester(30);
     quicksortExecutionTimes();
     shellsortExecutionTimes();
     return 0;
