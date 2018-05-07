@@ -1,3 +1,8 @@
+/*
+This program calculates the distance between planets using wormholes.
+It is a shortest path finder for a graph with wormholes.
+*/
+
 #include <cmath> // pow, round
 #include <fstream> // ofstream, ifstream
 #include <iostream> // cin
@@ -99,7 +104,7 @@ int main()
     {
         results += "Case " + to_string(i) + ":\n";
         infile >> planetCount; // receive quantity of planets within test case i
-        Planet planets[planetCount];
+        Planet* planets = new Planet[planetCount]; // planet container
         for (int j = 0; j < planetCount; j++) // for each planet...
         {
             infile >> name >> x >> y >> z; // get name and coords
@@ -154,9 +159,9 @@ holes, between the query planets.
 ***************************** begin djikstra's algo ****************************
 */
         // container for calculated shortest distances, accounting for portals
-            int portalDiscounts[planetCount];
+            int* portalDiscounts = new int[planetCount];
          // for tracking previously visited planets
-            bool visited[planetCount];
+            bool* visited = new bool[planetCount];
 
             int tooFar = pow(10, 9); // or infinity
             // populate container for distances from origin
@@ -212,7 +217,11 @@ holes, between the query planets.
 
             results += "The distance from " + start + " to " + end + " is " +
                        to_string(portalDiscounts[endIndex]) + " parsecs.\n";
+
+            delete[] portalDiscounts; // free up memory
+            delete[] visited; // free up memory
         }
+        delete[] planets; // free up memory
     }
     infile.close(); // close the input file
     ofstream outfile; // to record the results
