@@ -262,6 +262,10 @@ void quicksortExecutionTimes()
 
 // This function implements a shellsort sorting algorithm using
 // an internal insertion sort.
+// variant 1:
+    // increment scheme: h_1 = 1, h_i+1 = 3h_i +1
+    // stop with h_t for which h_t+2 >= n
+    // (default version w/ different stopping condition)
 // input: an array to be sorted,
 //        an int, the size of the array to be sorted
 // output: nothing
@@ -275,7 +279,6 @@ void shellSortInsertionSort(T data[], int n)
         // increment scheme: h_1 = 1, h_i+1 = 3h_i +1
         // stop with h_t for which h_t+2 >= n
         // (default version w/ diff. stopping condition)
-
     // create an appropriate number of increments h
     for (h = 1, i = 0; h < n; i++)
     {
@@ -336,6 +339,9 @@ void shellSortInsertionSort(int dataSetSize)
 
 // This function implements a shellsort sorting algorithm using
 // an internal insertion sort.
+// variant 2:
+    // increment scheme: h = 2^k - 1 for k = 1 up
+    // to largest k for which (2^k - 1) < n
 // input: an array to be sorted,
 //        an int, the size of the array to be sorted
 template<class T>
@@ -405,6 +411,9 @@ void shellSortInsertionSort2KMinus(int dataSetSize)
 
 // This function implements a shellsort sorting algorithm using
 // an internal insertion sort.
+// variant 3:
+    // increment scheme: h = 2^k + 1 for k = 1 up
+    // to largest k for which (2^k + 1) < n
 // input: an array to be sorted,
 //        an int, the size of the array to be sorted
 template<class T>
@@ -474,6 +483,9 @@ void shellSortInsertionSort2KPlus(int dataSetSize)
 
 // This function implements a shellsort sorting algorithm using
 // an internal selection sort.
+// variant 1:
+    // increment scheme: h_1 = 1, h_i+1 = 3h_i +1
+    // stop with h_t for which h_t+2 >= n
 // input: an array to be sorted,
 //        an int, the size of the array to be sorted
 template<class T>
@@ -548,6 +560,9 @@ void shellSortSelectionSort(int dataSetSize)
 
 // This function implements a shellsort sorting algorithm using
 // an internal selection sort.
+// variant 2:
+    // increment scheme: h = 2^k - 1 for k = 1 up
+    // to largest k for which (2^k - 1) < n
 // input: an array to be sorted,
 //        an int, the size of the array to be sorted
 template<class T>
@@ -622,6 +637,9 @@ void shellSortSelectionSort2KMinus(int dataSetSize)
 
 // This function implements a shellsort sorting algorithm using
 // an internal selection sort.
+// variant 3:
+    // increment scheme: h = 2^k + 1 for k = 1 up
+    // to largest k for which (2^k + 1) < n
 // input: an array to be sorted,
 //        an int, the size of the array to be sorted
 template<class T>
