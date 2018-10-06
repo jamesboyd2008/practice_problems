@@ -61,11 +61,11 @@ def mineSweeper(grid, emplace = False):
     rows = len(grid)
     columns = len(grid[0])
 
+    seat = '.' if emplace is True else 'o'
     for row in range(rows):
         for column in range(columns):
             shakes = 0
-            if emplace is True or grid[row][column] == 'o':
-
+            if grid[row][column] == seat:
                 # determine shakes, counting clockwise
                 # If the grid is a horizontal line:
                 if len(grid) < 2:
@@ -235,7 +235,6 @@ columns = rowsNcolumns[1]
 grid = []
 for row in range(rows):
     grid.append(list(input()))
-
 # Accounting for a 1x1 grid
 if rows < 2 and columns < 2:
     print('0')
@@ -246,7 +245,4 @@ else:
     ((row, column), grid, totalShakes) = mineSweeper(grid)
     # totalShakes is divided by two because each shake is counted twice.
     print(int(totalShakes / 2))
-
-
-# pickup here: a wrong answer was gotten. Generate test cases and test!
 
