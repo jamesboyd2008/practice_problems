@@ -1,0 +1,9 @@
+2 4
+aaa
+aaA
+aAa
+aAA
+Aaa
+AaA
+AAa
+AAA
