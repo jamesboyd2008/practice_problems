@@ -44,21 +44,41 @@ class Animal:
 # eliminate known sounds
 def foxSays(case):
     """This function returns what the fox says."""
-    # pickup here
-    return()
+    line = case.line
+    animalQuantity = len(case.animals)
+    for i in range(animalQuantity):
+        # find the sounds
+        sound = case.animals[i].sound
+
+        # Delete sounds in the middle of the line.
+        location = line.find(f" {sound} ")
+        while location != -1:
+            line = line.replace(f" {sound} ", ' ')
+            location = line.find(f" {sound} ")
+
+        # Delete the sound at the beginning of the line.
+        if line[0:len(sound)] == sound:
+            line = line[len(sound):]
+
+        # Delete sounds at the end of the line.
+        if line[len(line) - len(sound):] == sound:
+            line = line[:len(line) - len(sound)]
+
+    return(line)
 
 # get input
 caseQuantity = int(input())
 cases = []
 
+# Collect test cases from input.
 for i in range(caseQuantity):
     animals = []
     line = input()
     nextLine = input()
-    while nextLine is not "what does the fox say?":
+    while nextLine != "what does the fox say?":
         words = nextLine.split()
         animal = words[0]
-        sound = words[2:]
+        sound = words[2:][0]
         newAnimal = Animal(animal, sound)
         animals.append(newAnimal)
         nextLine = input()
@@ -67,11 +87,11 @@ for i in range(caseQuantity):
 
 results = []
 
-# return the fox's sound
+# Process test cases.
 for case in cases:
     results.append(foxSays(case))
 
-# print results
+# print results.
 for result in results:
     print(result)
 
