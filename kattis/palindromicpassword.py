@@ -30,20 +30,69 @@ Sample Output 1
 
 caseQuantity = int(input())
 cases = []
+results = []
+
 for i in range(caseQuantity):
     cases.append(input())
 
 for i in range(caseQuantity):
     case = cases[i]
 
+    # it's all about the first three digits
+    # try the first three, reversed
+        # then go low, for the third reversed digit
+        # then go high for the third reversed digit
+    # then go low for the second reversed digit
+        # try middle, low, high for third reversed digit?
+    # then go high for the second reversed digit
+        # try middle, low, high for third reversed digit?
+    # then go low for first reversed digit
+        # then go middle, low, high for the second reversed digit
+            # try middle, low, high for third reversed digit?
+        # then go middle, low, high for the second reversed digit
+            # try middle, low, high for third reversed digit?
+    # then go high for first reversed digit
+        # then go middle, low, high for the second reversed digit
+            # try middle, low, high for third reversed digit?
+        # then go middle, low, high for the second reversed digit
+            # try middle, low, high for third reversed digit?
+
+    # the first three, reversed, will often yield the closest solution
+    # however, the might not always be the case, for example:
+        # input: 499 000
+            # try 499 994
+            # but, 498 894 is closer
+    # Therefore, an algo must be conceived to determine how to proceed.
+
+
     # establish the first three digits
-        # check whether that right there works, reversed for 2nd 3 digits
-    # up/down oscillation, looking for palindromes?
-        # maybe determine whether up or down is the best path?
+    firstThree = case[0:3]
 
+    # try straight
 
+    # try down (third digit)
+
+    # try up (third digit)
+
+    possibilities = list(map(int, [diff0, diff1, diff2]))
+    result = min(possibilities)
+    """
+    pickup here:
+    1. establish string representations of the
+       straight, down, and up scenarios.
+    2. Then, put then in a list.
+    3. Then, determine the index of the min diff solution.
+    4. Then, append the item at that index in the list from step to the 
+       results list.
+    """
 
     # NO LEADING ZEROES
+
+    # Will it ever be the second or first digits, to be manipulated?
+
+
+for result in results:
+    print(result)
 
 
 
