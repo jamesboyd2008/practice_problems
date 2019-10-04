@@ -21,7 +21,7 @@ David eggs spam
 Bill diet-coke
 0
 
-Sample Output 1
+Sample Output 1 
 bacon Alice
 eggs Alice David
 ham Sue
